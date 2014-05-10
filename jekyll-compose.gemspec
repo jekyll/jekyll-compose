@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Jekyll::Compose::VERSION
   spec.authors       = ["Parker Moore"]
   spec.email         = ["parkrmoore@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Streamline your writing in Jekyll with these commands.}
+  spec.description   = %q{Streamline your writing in Jekyll with these commands.}
+  spec.homepage      = "https://github.com/jekyll/jekyll-compose"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

@@ -1,6 +1,6 @@
 # Jekyll::Compose
 
-TODO: Write a gem description
+Streamline your writing in Jekyll with these commands.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Usage instructions go here.
 
 ## Contributing
 
