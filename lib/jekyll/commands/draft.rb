@@ -16,11 +16,11 @@ module Jekyll
         end
       end
 
-      def self.process(args, options = {})
+      def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
-        
-        type = options["type"].nil? ? "markdown" : options["type"]
-        layout = options["layout"].nil? ? "post" : options["layout"]
+
+        type = options["type"] || "markdown"
+        layout = options["layout"] || "post"
 
         title = args.shift
         name = title.gsub(' ', '-').downcase
@@ -34,7 +34,7 @@ module Jekyll
         end
 
         puts "New draft created at ./#{draft_path}.\n"
-      end 
+      end
       # Internal: Gets the filename of the draft to be created
       #
       # Returns the filename of the draft, as a String
@@ -43,10 +43,10 @@ module Jekyll
       end
 
       def self.front_matter(layout, title)
-        "---
-layout: #{layout}
-title: #{title}
----"
+        {
+          "layout" => layout,
+          "title"  => title,
+        }.to_yaml + "\n---\n"
       end
     end
   end

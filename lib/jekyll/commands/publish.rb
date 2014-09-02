@@ -14,7 +14,7 @@ module Jekyll
         end
       end
 
-      def self.process(args, options = {})
+      def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a draft path.') if args.empty?
 
         date = options["date"].nil? ? Date.today : Date.parse(options["date"])

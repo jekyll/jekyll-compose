@@ -17,9 +17,9 @@ module Jekyll
         end
       end
 
-      def self.process(args, options = {})
+      def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
-        
+
         type = options["type"].nil? ? "markdown" : options["type"]
         layout = options["layout"].nil? ? "post" : options["layout"]
 
@@ -37,7 +37,7 @@ module Jekyll
         end
 
         puts "New post created at ./#{post_path}.\n"
-      end 
+      end
       # Internal: Gets the filename of the draft to be created
       #
       # Returns the filename of the draft, as a String
