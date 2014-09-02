@@ -1,6 +1,8 @@
 # Jekyll::Compose
 
-Streamline your writing in Jekyll with these commands.
+Streamline your writing in Jekyll with some commands.
+
+[![Build Status](https://travis-ci.org/jekyll/jekyll-compose.svg?branch=master)](https://travis-ci.org/jekyll/jekyll-compose)
 
 ## Installation
 
@@ -18,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Usage instructions go here.
+Install `jekyll-compose` and run `jekyll help`.
 
 ## Contributing
 
