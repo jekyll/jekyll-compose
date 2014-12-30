@@ -1,4 +1,4 @@
-## HEAD
+## 0.1.0 / 2014-12-29
 
   * Initial iteration of the `draft`, `post`, and `publish` commands.
 
