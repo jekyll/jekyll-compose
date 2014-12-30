@@ -1,3 +1,7 @@
+## HEAD
+
+  * The `publish` command should receive a path. (#7)
+
 ## 0.1.1 / 2014-12-29
 
   * Require the command files so it can be used via `:jekyll_plugins` (#5)
