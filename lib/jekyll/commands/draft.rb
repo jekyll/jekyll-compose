@@ -19,7 +19,7 @@ module Jekyll
       def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
 
-        type = options["type"] || "markdown"
+        type = options["type"] || "md"
         layout = options["layout"] || "post"
 
         title = args.shift
@@ -38,7 +38,7 @@ module Jekyll
       # Internal: Gets the filename of the draft to be created
       #
       # Returns the filename of the draft, as a String
-      def self.draft_name(name, ext='markdown')
+      def self.draft_name(name, ext='md')
         "_drafts/#{name}.#{ext}"
       end
 
