@@ -1,6 +1,7 @@
 ## HEAD
 
   * The `publish` command should receive a path. (#7)
+  * Rewrite the tests. (#3)
 
 ## 0.1.1 / 2014-12-29
 
