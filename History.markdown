@@ -1,5 +1,6 @@
 ## HEAD
 
+  * Change the default file extension from `.markdown` to `.md` (#9)
   * The `publish` command should receive a path. (#7)
   * Rewrite the tests. (#3)
 
