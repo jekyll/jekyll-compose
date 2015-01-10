@@ -2,7 +2,7 @@ RSpec.describe(Jekyll::Commands::Post) do
   let(:name) { 'A test post' }
   let(:args) { [name] }
   let(:posts_dir) { Pathname.new source_dir('_posts') }
-  let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-a-test-post.markdown" }
+  let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-a-test-post.md" }
   let(:path) { posts_dir.join(filename) }
 
   before(:all) do
@@ -37,7 +37,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   context 'when the post already exists' do
     let(:name) { 'An existing post' }
-    let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-an-existing-post.markdown" }
+    let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-an-existing-post.md" }
 
     before(:each) do
       FileUtils.touch path

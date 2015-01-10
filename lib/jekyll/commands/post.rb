@@ -20,8 +20,8 @@ module Jekyll
       def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
 
-        type = options["type"].nil? ? "markdown" : options["type"]
-        layout = options["layout"].nil? ? "post" : options["layout"]
+        type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
+        layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
 
         date = options["date"].nil? ? Time.now : DateTime.parse(options["date"])
 

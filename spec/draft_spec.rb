@@ -2,7 +2,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
   let(:name) { 'A test post' }
   let(:args) { [name] }
   let(:drafts_dir) { Pathname.new source_dir('_drafts') }
-  let(:path) { drafts_dir.join('a-test-post.markdown') }
+  let(:path) { drafts_dir.join('a-test-post.md') }
 
   before(:all) do
     FileUtils.mkdir_p source_dir unless File.directory? source_dir
@@ -25,7 +25,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
 
   it 'writes a helpful success message' do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New draft created at ./_drafts/a-test-post.markdown.\n")
+    expect(output).to eql("New draft created at ./_drafts/a-test-post.md.\n")
   end
 
   it 'errors with no arguments' do
@@ -36,7 +36,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
 
   context 'when the draft already exists' do
     let(:name) { 'An existing draft' }
-    let(:path) { drafts_dir.join('an-existing-draft.markdown') }
+    let(:path) { drafts_dir.join('an-existing-draft.md') }
 
     before(:each) do
       FileUtils.touch path
@@ -45,7 +45,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
     it 'raises an error' do
       expect(-> {
         capture_stdout { described_class.process(args) }
-      }).to raise_error("A draft already exists at ./_drafts/an-existing-draft.markdown")
+      }).to raise_error("A draft already exists at ./_drafts/an-existing-draft.md")
     end
 
     it 'overwrites if --force is given' do
