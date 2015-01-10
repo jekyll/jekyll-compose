@@ -19,13 +19,8 @@ module Jekyll
       def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
 
-<<<<<<< HEAD
-        type = options["type"] || "md"
-        layout = options["layout"] || "post"
-=======
-        type = options["type"].nil? ? Jekyll::Compose::DEFAULT_TYPE : options["type"]
-        layout = options["layout"].nil? ? Jekyll::Compose::DEFAULT_LAYOUT : options["layout"]
->>>>>>> move type and layout values to contants
+        type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
+        layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
 
         title = args.shift
         name = title.gsub(' ', '-').downcase
