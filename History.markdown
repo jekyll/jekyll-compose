@@ -1,4 +1,4 @@
-## HEAD
+## 0.2.0 / 2015-01-10
 
   * Change the default file extension from `.markdown` to `.md` (#9)
   * The `publish` command should receive a path. (#7)
