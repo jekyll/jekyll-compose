@@ -1,3 +1,7 @@
+## HEAD
+
+  * Update docs with usage examples (#10)
+
 ## 0.2.0 / 2015-01-10
 
   * Change the default file extension from `.markdown` to `.md` (#9)
