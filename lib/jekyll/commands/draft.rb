@@ -19,8 +19,6 @@ module Jekyll
       def self.process(args = [], options = {})
         raise ArgumentError.new('You must specify a name.') if args.empty?
 
-        Dir.mkdir("_drafts") unless Dir.exist?("_drafts")
-
         type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
         layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
 
@@ -31,6 +29,7 @@ module Jekyll
 
         raise ArgumentError.new("A draft already exists at ./#{draft_path}") if File.exist?(draft_path) and !options["force"]
 
+        Dir.mkdir("_drafts") unless Dir.exist?("_drafts")
         File.open(draft_path, "w") do |f|
           f.puts(front_matter(layout, title))
         end
