@@ -1,4 +1,4 @@
-## HEAD
+## 0.2.1 / 2015-01-17
 
   * Create the `_drafts` dir if it's not already there (#11)
   * Update docs with usage examples (#10)
