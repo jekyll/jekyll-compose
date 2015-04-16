@@ -17,6 +17,15 @@ And then execute:
 Or install it yourself as:
 
     $ gem install jekyll-compose
+    
+    
+### Note:
+
+Jeykll Compose requires installation of the jekyll 3 beta, you can install it with:
+
+    $ gem install jekyll --pre
+    
+Read more about the latest jekyll release [here](http://jekyllrb.com/news/2015/01/24/jekyll-3-0-0-beta1-released/)
 
 ## Usage
 
