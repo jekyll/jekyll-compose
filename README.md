@@ -25,7 +25,7 @@ Jeykll Compose requires installation of the jekyll 3 beta, you can install it wi
 
     $ gem install jekyll --pre
     
-Read more about the latest jekyll release [here](http://jekyllrb.com/news/2015/01/24/jekyll-3-0-0-beta1-released/)
+Read more about the latest jekyll release [here](https://github.com/jekyll/jekyll/releases)
 
 ## Usage
 
