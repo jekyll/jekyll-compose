@@ -35,6 +35,12 @@ RSpec.describe(Jekyll::Commands::Post) do
     }).to raise_error('You must specify a name.')
   end
 
+  it 'creates the posts folder if necessary' do
+    FileUtils.rm_r posts_dir if File.directory? posts_dir
+    capture_stdout { described_class.process(args) }
+    expect(posts_dir).to exist
+  end
+
   context 'when the post already exists' do
     let(:name) { 'An existing post' }
     let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-an-existing-post.md" }

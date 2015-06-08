@@ -32,6 +32,7 @@ module Jekyll
 
         raise ArgumentError.new("A post already exists at ./#{post_path}") if File.exist?(post_path) and !options["force"]
 
+        Dir.mkdir("_posts") unless Dir.exist?("_posts")
         File.open(post_path, "w") do |f|
           f.puts(front_matter(layout, title))
         end
