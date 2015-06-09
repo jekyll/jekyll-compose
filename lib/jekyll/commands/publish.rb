@@ -22,6 +22,7 @@ module Jekyll
 
         raise ArgumentError.new("There was no draft found at '#{draft_path}'.") unless File.exist? draft_path
 
+        Dir.mkdir("_posts") unless Dir.exist?("_posts")
         post_path = post_name(date, draft_name(draft_path))
         FileUtils.mv(draft_path, post_path)
 

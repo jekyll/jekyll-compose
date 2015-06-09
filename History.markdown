@@ -1,3 +1,7 @@
+## 0.2.2 / 2015-06-08
+
+  * Create the `_posts` dir if it's not already there (#17)
+
 ## 0.2.1 / 2015-01-17
 
   * Create the `_drafts` dir if it's not already there (#11)

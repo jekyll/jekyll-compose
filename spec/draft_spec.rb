@@ -34,6 +34,12 @@ RSpec.describe(Jekyll::Commands::Draft) do
     }).to raise_error('You must specify a name.')
   end
 
+  it 'creates the drafts folder if necessary' do
+    FileUtils.rm_r drafts_dir if File.directory? drafts_dir
+    capture_stdout { described_class.process(args) }
+    expect(drafts_dir).to exist
+  end
+
   context 'when the draft already exists' do
     let(:name) { 'An existing draft' }
     let(:path) { drafts_dir.join('an-existing-draft.md') }

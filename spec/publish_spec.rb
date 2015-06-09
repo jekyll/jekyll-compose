@@ -39,6 +39,12 @@ RSpec.describe(Jekyll::Commands::Publish) do
     expect(output).to eql("Draft _drafts/#{draft_to_publish} was published to ./_posts/#{post_filename}\n")
   end
 
+  it 'creates the posts folder if necessary' do
+    FileUtils.rm_r posts_dir if File.directory? posts_dir
+    capture_stdout { described_class.process(args) }
+    expect(Pathname.new(posts_dir)).to exist
+  end
+
   it 'errors if there is no argument' do
     expect(-> {
       capture_stdout { described_class.process }
