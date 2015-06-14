@@ -1,26 +1,27 @@
 RSpec.describe(Jekyll::Commands::Page) do
   let(:name) { 'A test page' }
   let(:args) { [name] }
-  let(:posts_dir) { Pathname.new source_dir(Dir.pwd) }
   let(:filename) { "a-test-page.md" }
-  let(:path) { posts_dir.join(filename) }
+  let(:path) { Pathname.new(source_dir).join(filename) }
 
   before(:all) do
     FileUtils.mkdir_p source_dir unless File.directory? source_dir
     Dir.chdir source_dir
   end
 
-  before(:each) do
-    FileUtils.mkdir_p posts_dir unless File.directory? posts_dir
+  after(:each) do
+    FileUtils.rm path if File.exist? path
   end
 
-  after(:each) do
-    FileUtils.rm_r posts_dir if File.directory? posts_dir
+  it 'creates a new page' do
+    expect(path).not_to exist
+    capture_stdout { described_class.process(args) }
+    expect(path).to exist
   end
 
   it 'should write a helpful message when successful' do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New page created at  #{Dir.pwd}/#{filename}.\n")
+    expect(output).to eql("New page created at #{Dir.pwd}/#{filename}.\n")
   end
 
   it 'errors with no arguments' do
@@ -47,7 +48,7 @@ RSpec.describe(Jekyll::Commands::Page) do
       expect(-> {
         capture_stdout { described_class.process(args, 'force' => true) }
       }).not_to raise_error
-      expect(File.read(path)).to match(/layout: post/)
+      expect(File.read(path)).to match(/layout: page/)
     end
   end
 end
