@@ -24,6 +24,13 @@ RSpec.describe(Jekyll::Commands::Post) do
     expect(path).to exist
   end
 
+  it 'creates a post with a specified date' do
+    path = posts_dir.join '2012-03-04-a-test-post.md'
+    expect(path).not_to exist
+    capture_stdout { described_class.process(args, {"date" => '2012-3-4'}) }
+    expect(path).to exist
+  end
+
   it 'should write a helpful message when successful' do
     output = capture_stdout { described_class.process(args) }
     expect(output).to eql("New post created at ./_posts/#{filename}.\n")
