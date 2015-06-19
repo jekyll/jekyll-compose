@@ -39,7 +39,7 @@ module Jekyll
 
       # Returns the filename
       def self.file_name(name, ext)
-        "#{Dir.pwd}/#{name}.#{ext}"
+        "./#{name}.#{ext}"
       end
 
       def self.front_matter(layout, title)
