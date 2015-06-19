@@ -6,10 +6,9 @@ module Jekyll
           c.syntax 'post NAME'
           c.description 'Creates a new post with the given NAME'
 
-          c.option 'type', '-t TYPE', '--type TYPE', 'Specify the content type'
-          c.option 'layout', '-t LAYOUT', '--layout LAYOUT', 'Specify the post layout'
+          Compose::FileCreationOptions.new('post').create_options c
+
           c.option 'date', '-d DATE', '--date DATE', 'Specify the post date'
-          c.option 'force', '-f', '--force', 'Overwrite a post if it already exists'
 
           c.action do |args, options|
             Jekyll::Commands::Post.process(args, options)

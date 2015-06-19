@@ -1,4 +1,5 @@
 require "jekyll-compose/version"
+require "jekyll-compose/file_creation_options"
 
 module Jekyll
   module Compose
