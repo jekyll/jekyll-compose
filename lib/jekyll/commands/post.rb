@@ -52,11 +52,10 @@ module Jekyll
         end
       end
 
-      class PostCreator
-        attr_reader :path, :content, :force
-        def initialize(path, content, force=false)
-          @path = path
-          @content = content
+      class FileCreator
+        attr_reader :file, :force
+        def initialize(fileInfo, force=false)
+          @file = fileInfo
           @force = force
         end
 
@@ -69,7 +68,7 @@ module Jekyll
         private
 
         def validate_should_write!
-          raise ArgumentError.new("A post already exists at ./#{path}") if File.exist?(path) and !force
+          raise ArgumentError.new("A post already exists at ./#{file.path}") if File.exist?(file.path) and !force
         end
 
         def ensure_directory_exists
@@ -77,11 +76,35 @@ module Jekyll
         end
 
         def write_file
-          File.open(path, "w") do |f|
-            f.puts(content)
+          File.open(file.path, "w") do |f|
+            f.puts(file.content)
           end
 
-          puts "New post created at ./#{path}.\n"
+          puts "New post created at ./#{file.path}.\n"
+        end
+      end
+
+      class PostFileInfo
+        attr_reader :params
+        def initialize(params)
+          @params = params
+        end
+
+        def path
+          "_posts/#{date_stamp}-#{params.name}.#{params.type}"
+        end
+
+        def content
+        "---
+layout: #{params.layout}
+title: #{params.title}
+---"
+        end
+
+        private
+
+        def date_stamp
+          @params.date.strftime '%Y-%m-%d'
         end
       end
 
@@ -89,25 +112,10 @@ module Jekyll
         params = PostArgParser.new args, options
         params.validate!
 
-        post_path = file_name(params.name, params.type, params.date)
+        post = PostFileInfo.new params
 
-        content = front_matter(params.layout, params.title)
+        FileCreator.new(post, params.force?).create!
 
-        PostCreator.new(post_path, content, params.force?).create!
-
-      end
-      # Internal: Gets the filename of the draft to be created
-      #
-      # Returns the filename of the draft, as a String
-      def self.file_name(name, ext, date)
-        "_posts/#{date.strftime('%Y-%m-%d')}-#{name}.#{ext}"
-      end
-
-      def self.front_matter(layout, title)
-        "---
-layout: #{layout}
-title: #{title}
----"
       end
     end
   end
