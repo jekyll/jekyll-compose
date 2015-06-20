@@ -16,27 +16,85 @@ module Jekyll
         end
       end
 
-      def self.process(args = [], options = {})
-        raise ArgumentError.new('You must specify a name.') if args.empty?
-
-        type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
-        layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
-
-        date = options["date"].nil? ? Time.now : DateTime.parse(options["date"])
-
-        title = args.shift
-        name = title.gsub(' ', '-').downcase
-
-        post_path = file_name(name, type, date)
-
-        raise ArgumentError.new("A post already exists at ./#{post_path}") if File.exist?(post_path) and !options["force"]
-
-        Dir.mkdir("_posts") unless Dir.exist?("_posts")
-        File.open(post_path, "w") do |f|
-          f.puts(front_matter(layout, title))
+      class PostArgParser
+        attr_reader :args, :options
+        def initialize(args=[], options={})
+          @args = args
+          @options = options
         end
 
-        puts "New post created at ./#{post_path}.\n"
+        def validate!
+          raise ArgumentError.new('You must specify a name.') if args.empty?
+        end
+
+        def type
+          type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
+        end
+
+        def layout
+          layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
+        end
+
+        def date
+          date = options["date"].nil? ? Time.now : DateTime.parse(options["date"])
+        end
+
+        def title
+          args[0]
+        end
+
+        def name
+          title.gsub(' ', '-').downcase
+        end
+
+        def force?
+          options["force"]
+        end
+      end
+
+      class PostCreator
+        attr_reader :path, :content, :force
+        def initialize(path, content, force=false)
+          @path = path
+          @content = content
+          @force = force
+        end
+
+        def create!
+          validate_should_write!
+          ensure_directory_exists
+          write_file
+        end
+
+        private
+
+        def validate_should_write!
+          raise ArgumentError.new("A post already exists at ./#{path}") if File.exist?(path) and !force
+        end
+
+        def ensure_directory_exists
+          Dir.mkdir("_posts") unless Dir.exist?("_posts")
+        end
+
+        def write_file
+          File.open(path, "w") do |f|
+            f.puts(content)
+          end
+
+          puts "New post created at ./#{path}.\n"
+        end
+      end
+
+      def self.process(args = [], options = {})
+        params = PostArgParser.new args, options
+        params.validate!
+
+        post_path = file_name(params.name, params.type, params.date)
+
+        content = front_matter(params.layout, params.title)
+
+        PostCreator.new(post_path, content, params.force?).create!
+
       end
       # Internal: Gets the filename of the draft to be created
       #
