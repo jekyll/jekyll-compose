@@ -16,71 +16,9 @@ module Jekyll
         end
       end
 
-      class PostArgParser
-        attr_reader :args, :options
-        def initialize(args=[], options={})
-          @args = args
-          @options = options
-        end
-
-        def validate!
-          raise ArgumentError.new('You must specify a name.') if args.empty?
-        end
-
-        def type
-          type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
-        end
-
-        def layout
-          layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
-        end
-
+      class PostArgParser < Compose::ArgParser
         def date
           date = options["date"].nil? ? Time.now : DateTime.parse(options["date"])
-        end
-
-        def title
-          args[0]
-        end
-
-        def name
-          title.gsub(' ', '-').downcase
-        end
-
-        def force?
-          options["force"]
-        end
-      end
-
-      class FileCreator
-        attr_reader :file, :force
-        def initialize(fileInfo, force=false)
-          @file = fileInfo
-          @force = force
-        end
-
-        def create!
-          validate_should_write!
-          ensure_directory_exists
-          write_file
-        end
-
-        private
-
-        def validate_should_write!
-          raise ArgumentError.new("A post already exists at ./#{file.path}") if File.exist?(file.path) and !force
-        end
-
-        def ensure_directory_exists
-          Dir.mkdir("_posts") unless Dir.exist?("_posts")
-        end
-
-        def write_file
-          File.open(file.path, "w") do |f|
-            f.puts(file.content)
-          end
-
-          puts "New post created at ./#{file.path}.\n"
         end
       end
 
@@ -88,6 +26,10 @@ module Jekyll
         attr_reader :params
         def initialize(params)
           @params = params
+        end
+
+        def resource_type
+          'post'
         end
 
         def path
@@ -114,7 +56,7 @@ title: #{params.title}
 
         post = PostFileInfo.new params
 
-        FileCreator.new(post, params.force?).create!
+        Compose::FileCreator.new(post, params.force?).create!
 
       end
     end
