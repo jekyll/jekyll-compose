@@ -57,7 +57,7 @@ module Jekyll
 
         def path
           dashing_title = params.title.gsub(' ', '-').downcase
-          "_posts/#{date_stamp}-#{dashing_title}.#{params.type}"
+          "_posts/#{_date_stamp}-#{dashing_title}.#{params.type}"
         end
 
         def content
@@ -69,7 +69,7 @@ module Jekyll
           CONTENT
         end
 
-        def date_stamp
+        def _date_stamp
           @params.date.strftime '%Y-%m-%d'
         end
       end

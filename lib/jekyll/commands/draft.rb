@@ -3,51 +3,64 @@ module Jekyll
     class Draft < Command
       def self.init_with_program(prog)
         prog.command(:draft) do |c|
-          c.syntax 'draft NAME'
-          c.description 'Creates a new draft post with the given NAME'
+          c.syntax syntax
+          c.description description
 
-          c.option 'type', '-t TYPE', '--type TYPE', 'Specify the content type'
-          c.option 'layout', '-l LAYOUT', '--layout LAYOUT', 'Specify the post layout'
-          c.option 'force', '-f', '--force', 'Overwrite a draft if it already exists'
+          options.each {|opt| c.option *opt }
 
-          c.action do |args, options|
-            Jekyll::Commands::Draft.process(args, options)
-          end
+          c.action { |args, options| process args, options }
         end
       end
+
+      def self.syntax
+        'draft NAME'
+      end
+
+      def self.description
+        'Creates a new draft post with the given NAME'
+      end
+
+      def self.options
+        [
+          ['type', '-t TYPE', '--type TYPE', 'Specify the content type (file extension)'],
+          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the draft layout"],
+          ['force', '-f', '--force', 'Overwrite a draft if it already exists']
+        ]
+      end
+
 
       def self.process(args = [], options = {})
-        raise ArgumentError.new('You must specify a name.') if args.empty?
+        params = Compose::ArgParser.new args, options
+        params.validate!
 
-        type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
-        layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
+        draft = DraftFileInfo.new params
 
-        title = args.shift
-        name = title.gsub(' ', '-').downcase
+        Compose::FileCreator.new(draft, params.force?).create!
+      end
 
-        draft_path = draft_name(name, type)
-
-        raise ArgumentError.new("A draft already exists at ./#{draft_path}") if File.exist?(draft_path) and !options["force"]
-
-        Dir.mkdir("_drafts") unless Dir.exist?("_drafts")
-        File.open(draft_path, "w") do |f|
-          f.puts(front_matter(layout, title))
+      class DraftFileInfo
+        attr_reader :params
+        def initialize(params)
+          @params = params
         end
 
-        puts "New draft created at ./#{draft_path}.\n"
-      end
-      # Internal: Gets the filename of the draft to be created
-      #
-      # Returns the filename of the draft, as a String
-      def self.draft_name(name, ext=Jekyll::Compose::DEFAULT_TYPE)
-        "_drafts/#{name}.#{ext}"
-      end
+        def resource_type
+          'draft'
+        end
 
-      def self.front_matter(layout, title)
-        {
-          "layout" => layout,
-          "title"  => title,
-        }.to_yaml + "\n---\n"
+        def path
+          dashing_title = params.title.gsub(' ', '-').downcase
+          "_drafts/#{dashing_title}.#{params.type}"
+        end
+
+        def content
+          <<-CONTENT.gsub /^\s+/, ''
+            ---
+            layout: #{params.layout}
+            title: #{params.title}
+            ---
+          CONTENT
+        end
       end
     end
   end
