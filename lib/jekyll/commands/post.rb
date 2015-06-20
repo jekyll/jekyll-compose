@@ -3,18 +3,41 @@ module Jekyll
     class Post < Command
       def self.init_with_program(prog)
         prog.command(:post) do |c|
-          c.syntax 'post NAME'
-          c.description 'Creates a new post with the given NAME'
+          c.syntax syntax
+          c.description description
 
-          Compose::FileCreationOptions.new('post').create_options c
+          options.each {|opt| c.option *opt }
 
-          c.option 'date', '-d DATE', '--date DATE', 'Specify the post date'
-
-          c.action do |args, options|
-            Jekyll::Commands::Post.process(args, options)
-          end
+          c.action { |args, options| process args, options }
         end
       end
+
+      def self.syntax
+        'post NAME'
+      end
+
+      def self.description
+        'Creates a new post with the given NAME'
+      end
+
+      def self.options
+        [
+          ['type', '-t TYPE', '--type TYPE', 'Specify the content type (file extension)'],
+          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the post layout"],
+          ['force', '-f', '--force', 'Overwrite a post if it already exists'],
+          ['date', '-d DATE', '--date DATE', 'Specify the post date']
+        ]
+      end
+
+      def self.process(args = [], options = {})
+        params = PostArgParser.new args, options
+        params.validate!
+
+        post = PostFileInfo.new params
+
+        Compose::FileCreator.new(post, params.force?).create!
+      end
+
 
       class PostArgParser < Compose::ArgParser
         def date
@@ -33,31 +56,22 @@ module Jekyll
         end
 
         def path
-          "_posts/#{date_stamp}-#{params.name}.#{params.type}"
+          dashing_title = params.title.gsub(' ', '-').downcase
+          "_posts/#{date_stamp}-#{dashing_title}.#{params.type}"
         end
 
         def content
-        "---
-layout: #{params.layout}
-title: #{params.title}
----"
+          <<-CONTENT.gsub /^\s+/, ''
+            ---
+            layout: #{params.layout}
+            title: #{params.title}
+            ---
+          CONTENT
         end
-
-        private
 
         def date_stamp
           @params.date.strftime '%Y-%m-%d'
         end
-      end
-
-      def self.process(args = [], options = {})
-        params = PostArgParser.new args, options
-        params.validate!
-
-        post = PostFileInfo.new params
-
-        Compose::FileCreator.new(post, params.force?).create!
-
       end
     end
   end

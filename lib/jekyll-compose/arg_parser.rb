@@ -21,10 +21,6 @@ class Jekyll::Compose::ArgParser
     args[0]
   end
 
-  def name
-    title.gsub(' ', '-').downcase
-  end
-
   def force?
     options["force"]
   end
