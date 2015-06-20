@@ -45,28 +45,17 @@ module Jekyll
         end
       end
 
-      class PostFileInfo
-        attr_reader :params
-        def initialize(params)
-          @params = params
-        end
-
+      class PostFileInfo < Compose::FileInfo
         def resource_type
           'post'
         end
 
         def path
-          dashing_title = params.title.gsub(' ', '-').downcase
-          "_posts/#{_date_stamp}-#{dashing_title}.#{params.type}"
+          "_posts/#{file_name}"
         end
 
-        def content
-          <<-CONTENT.gsub /^\s+/, ''
-            ---
-            layout: #{params.layout}
-            title: #{params.title}
-            ---
-          CONTENT
+        def file_name
+          "#{_date_stamp}-#{super}"
         end
 
         def _date_stamp

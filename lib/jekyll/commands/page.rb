@@ -43,43 +43,15 @@ module Jekyll
         end
       end
 
-      class PageFileInfo
-        attr_reader :params
-        def initialize(params)
-          @params = params
-        end
-
+      class PageFileInfo < Compose::FileInfo
         def resource_type
           'page'
         end
 
         def path
-          name = params.title.gsub(' ', '-').downcase
-          "#{name}.#{params.type}"
+          file_name
         end
 
-        def content
-          <<-CONTENT.gsub /^\s+/, ''
-            ---
-            layout: #{params.layout}
-            title: #{params.title}
-            ---
-          CONTENT
-        end
-
-      end
-
-
-      # Returns the filename
-      def self.file_name(name, ext)
-        "./#{name}.#{ext}"
-      end
-
-      def self.front_matter(layout, title)
-        "---
-layout: #{layout}
-title: #{title}
----"
       end
     end
   end

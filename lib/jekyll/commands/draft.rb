@@ -38,28 +38,13 @@ module Jekyll
         Compose::FileCreator.new(draft, params.force?).create!
       end
 
-      class DraftFileInfo
-        attr_reader :params
-        def initialize(params)
-          @params = params
-        end
-
+      class DraftFileInfo < Compose::FileInfo
         def resource_type
           'draft'
         end
 
         def path
-          dashing_title = params.title.gsub(' ', '-').downcase
-          "_drafts/#{dashing_title}.#{params.type}"
-        end
-
-        def content
-          <<-CONTENT.gsub /^\s+/, ''
-            ---
-            layout: #{params.layout}
-            title: #{params.title}
-            ---
-          CONTENT
+          "_drafts/#{file_name}"
         end
       end
     end
