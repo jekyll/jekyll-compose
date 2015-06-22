@@ -26,7 +26,7 @@ module Jekyll
         post_path = post_name(date, draft_name(draft_path))
         FileUtils.mv(draft_path, post_path)
 
-        puts "Draft #{draft_path} was published to ./#{post_path}"
+        puts "Draft #{draft_path} was published to #{post_path}"
       end
 
       # Internal: Gets the filename of the post to be created

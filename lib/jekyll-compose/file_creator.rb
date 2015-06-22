@@ -16,7 +16,7 @@ module Jekyll
       private
 
       def validate_should_write!
-        raise ArgumentError.new("A #{file.resource_type} already exists at ./#{file.path}") if File.exist?(file.path) and !force
+        raise ArgumentError.new("A #{file.resource_type} already exists at #{file.path}") if File.exist?(file.path) and !force
       end
 
       def ensure_directory_exists
@@ -29,7 +29,7 @@ module Jekyll
           f.puts(file.content)
         end
 
-        puts "New #{file.resource_type} created at ./#{file.path}."
+        puts "New #{file.resource_type} created at #{file.path}."
       end
     end
   end

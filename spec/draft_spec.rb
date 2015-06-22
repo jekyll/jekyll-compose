@@ -25,7 +25,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
 
   it 'writes a helpful success message' do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New draft created at ./_drafts/a-test-post.md.\n")
+    expect(output).to eql("New draft created at _drafts/a-test-post.md.\n")
   end
 
   it 'errors with no arguments' do
@@ -51,7 +51,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
     it 'raises an error' do
       expect(-> {
         capture_stdout { described_class.process(args) }
-      }).to raise_error("A draft already exists at ./_drafts/an-existing-draft.md")
+      }).to raise_error("A draft already exists at _drafts/an-existing-draft.md")
     end
 
     it 'overwrites if --force is given' do

@@ -33,7 +33,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   it 'should write a helpful message when successful' do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New post created at ./_posts/#{filename}.\n")
+    expect(output).to eql("New post created at _posts/#{filename}.\n")
   end
 
   it 'errors with no arguments' do
@@ -59,7 +59,7 @@ RSpec.describe(Jekyll::Commands::Post) do
     it 'raises an error' do
       expect(-> {
         capture_stdout { described_class.process(args) }
-      }).to raise_error("A post already exists at ./_posts/#{filename}")
+      }).to raise_error("A post already exists at _posts/#{filename}")
     end
 
     it 'overwrites if --force is given' do
