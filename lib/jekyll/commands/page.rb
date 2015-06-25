@@ -15,8 +15,8 @@ module Jekyll
       def self.options
         [
           ['type', '-t TYPE', '--type TYPE', 'Specify the content type (file extension)'],
-          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the post layout"],
-          ['force', '-f', '--force', 'Overwrite a post if it already exists']
+          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the page layout"],
+          ['force', '-f', '--force', 'Overwrite a page if it already exists']
         ]
       end
 
