@@ -3,21 +3,13 @@ module Jekyll
     class Post < Command
       def self.init_with_program(prog)
         prog.command(:post) do |c|
-          c.syntax syntax
-          c.description description
+          c.syntax 'post NAME'
+          c.description 'Creates a new post with the given NAME'
 
           options.each {|opt| c.option *opt }
 
           c.action { |args, options| process args, options }
         end
-      end
-
-      def self.syntax
-        'post NAME'
-      end
-
-      def self.description
-        'Creates a new post with the given NAME'
       end
 
       def self.options

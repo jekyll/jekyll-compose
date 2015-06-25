@@ -3,21 +3,13 @@ module Jekyll
     class Draft < Command
       def self.init_with_program(prog)
         prog.command(:draft) do |c|
-          c.syntax syntax
-          c.description description
+          c.syntax 'draft NAME'
+          c.description 'Creates a new draft post with the given NAME'
 
           options.each {|opt| c.option *opt }
 
           c.action { |args, options| process args, options }
         end
-      end
-
-      def self.syntax
-        'draft NAME'
-      end
-
-      def self.description
-        'Creates a new draft post with the given NAME'
       end
 
       def self.options

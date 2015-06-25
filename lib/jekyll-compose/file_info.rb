@@ -5,7 +5,7 @@ class Jekyll::Compose::FileInfo
   end
 
   def file_name
-    name = params.title.gsub(' ', '-').downcase
+    name = Jekyll::Utils.slugify params.title
     "#{name}.#{params.type}"
   end
 

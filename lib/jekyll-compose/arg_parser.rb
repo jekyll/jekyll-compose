@@ -18,7 +18,7 @@ class Jekyll::Compose::ArgParser
   end
 
   def title
-    args[0]
+    args.join ' '
   end
 
   def force?
