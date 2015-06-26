@@ -22,6 +22,6 @@ class Jekyll::Compose::ArgParser
   end
 
   def force?
-    options["force"]
+    !!options["force"]
   end
 end
