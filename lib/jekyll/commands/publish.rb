@@ -15,31 +15,84 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
+        params = PublishArgParser.new args, options
+        params.validate!
+
+        movement = DraftMovementInfo.new params
+
+        mover = DraftMover.new movement
+        mover.move
+      end
+
+    end
+
+    class PublishArgParser
+      attr_reader :args, :options
+      def initialize(args, options)
+        @args = args
+        @options = options
+      end
+
+      def validate!
         raise ArgumentError.new('You must specify a draft path.') if args.empty?
+      end
 
-        date = options["date"].nil? ? Date.today : Date.parse(options["date"])
-        draft_path = args.shift
+      def date
+        options["date"].nil? ? Date.today : Date.parse(options["date"])
+      end
 
-        raise ArgumentError.new("There was no draft found at '#{draft_path}'.") unless File.exist? draft_path
+      def draft_path
+        args.join ' '
+      end
 
+      def draft_name
+        File.basename draft_path
+      end
+    end
+
+    class DraftMovementInfo
+      attr_reader :params
+      def initialize(params)
+        @params = params
+      end
+
+      def from
+        params.draft_path
+      end
+
+      def to
+        "_posts/#{_date_stamp}-#{params.draft_name}"
+      end
+
+      def _date_stamp
+        params.date.strftime '%Y-%m-%d'
+      end
+    end
+
+    class DraftMover
+      attr_reader :movement
+      def initialize(movement)
+        @movement = movement
+      end
+
+      def move
+        validate_source
+        ensure_directory_exists
+        move_file
+      end
+
+      def validate_source
+        raise ArgumentError.new("There was no draft found at '#{movement.from}'.") unless File.exist? movement.from
+      end
+
+      def ensure_directory_exists
         Dir.mkdir("_posts") unless Dir.exist?("_posts")
-        post_path = post_name(date, draft_name(draft_path))
-        FileUtils.mv(draft_path, post_path)
-
-        puts "Draft #{draft_path} was published to #{post_path}"
       end
 
-      # Internal: Gets the filename of the post to be created
-      #
-      # Returns the filename of the post, as a String
-      def self.post_name(date, name)
-        "_posts/#{date.strftime('%Y-%m-%d')}-#{name}"
+      def move_file
+        FileUtils.mv(movement.from, movement.to)
+        puts "Draft #{movement.from} was published to #{movement.to}"
       end
-
-      def self.draft_name(path)
-        File.basename(path)
-      end
-
     end
   end
 end

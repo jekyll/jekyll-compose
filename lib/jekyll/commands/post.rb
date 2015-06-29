@@ -33,7 +33,7 @@ module Jekyll
 
       class PostArgParser < Compose::ArgParser
         def date
-          date = options["date"].nil? ? Time.now : DateTime.parse(options["date"])
+          options["date"].nil? ? Time.now : DateTime.parse(options["date"])
         end
       end
 
