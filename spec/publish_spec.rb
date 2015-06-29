@@ -1,13 +1,13 @@
 RSpec.describe(Jekyll::Commands::Publish) do
-  let(:drafts_dir) { source_dir('_drafts') }
-  let(:posts_dir)  { source_dir('_posts') }
+  let(:drafts_dir) { Pathname.new source_dir('_drafts') }
+  let(:posts_dir)  { Pathname.new source_dir('_posts') }
   let(:draft_to_publish) { 'a-test-post.md' }
   let(:datestamp) { Time.now.strftime('%Y-%m-%d') }
   let(:post_filename) { "#{datestamp}-#{draft_to_publish}" }
   let(:args) { ["_drafts/#{draft_to_publish}"] }
 
-  let(:draft_path) { Pathname.new(File.join(drafts_dir, draft_to_publish)) }
-  let(:post_path)  { Pathname.new(File.join(posts_dir, post_filename))}
+  let(:draft_path) { drafts_dir.join draft_to_publish }
+  let(:post_path)  { posts_dir.join post_filename }
 
   before(:all) do
     FileUtils.mkdir_p source_dir unless File.directory? source_dir
@@ -28,20 +28,27 @@ RSpec.describe(Jekyll::Commands::Publish) do
   end
 
   it 'publishes a draft post' do
-    expect(Pathname.new(post_path)).not_to exist
-    expect(Pathname.new(draft_path)).to exist
+    expect(post_path).not_to exist
+    expect(draft_path).to exist
     capture_stdout { described_class.process(args) }
-    expect(Pathname.new(post_path)).to exist
+    expect(post_path).to exist
+  end
+
+  it 'publishes with a specified date' do
+    path = posts_dir.join "2012-03-04-#{draft_to_publish}"
+    expect(path).not_to exist
+    capture_stdout { described_class.process(args, {'date'=>'2012-3-4'}) }
+    expect(path).to exist
   end
 
   it 'writes a helpful message on success' do
-    expect(Pathname.new(draft_path)).to exist
+    expect(draft_path).to exist
     output = capture_stdout { described_class.process(args) }
     expect(output).to eql("Draft _drafts/#{draft_to_publish} was published to _posts/#{post_filename}\n")
   end
   
   it 'publishes a draft on the specified date' do
-    path = Pathname.new(posts_dir).join "2012-03-04-a-test-post.md"
+    path = posts_dir.join "2012-03-04-a-test-post.md"
     capture_stdout { described_class.process(args, {"date" => '2012-3-4'}) }
     expect(path).to exist
   end
@@ -49,7 +56,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   it 'creates the posts folder if necessary' do
     FileUtils.rm_r posts_dir if File.directory? posts_dir
     capture_stdout { described_class.process(args) }
-    expect(Pathname.new(posts_dir)).to exist
+    expect(posts_dir).to exist
   end
 
   it 'errors if there is no argument' do
