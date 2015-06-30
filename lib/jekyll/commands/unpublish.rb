@@ -24,23 +24,13 @@ module Jekyll
 
     end
 
-    class UnpublishArgParser
-      attr_reader :args, :options
-      def initialize(args, options)
-        @args = args
-        @options = options
+    class UnpublishArgParser < Compose::MovementArgParser
+      def resource_type
+        'post'
       end
 
-      def validate!
-        raise ArgumentError.new('You must specify a post path.') if args.empty?
-      end
-
-      def post_path
-        args.join ' '
-      end
-
-      def post_name
-        File.basename(post_path).sub /\d{4}-\d{2}-\d{2}-/, ''
+      def name
+        File.basename(path).sub /\d{4}-\d{2}-\d{2}-/, ''
       end
     end
 
@@ -51,37 +41,17 @@ module Jekyll
       end
 
       def from
-        params.post_path
+        params.path
       end
 
       def to
-        "_drafts/#{params.post_name}"
+        "_drafts/#{params.name}"
       end
     end
 
-    class PostMover
-      attr_reader :movement
-      def initialize(movement)
-        @movement = movement
-      end
-
-      def move
-        validate_source
-        ensure_directory_exists
-        move_file
-      end
-
-      def validate_source
-        raise ArgumentError.new("There was no post found at '#{movement.from}'.") unless File.exist? movement.from
-      end
-
-      def ensure_directory_exists
-        Dir.mkdir("_drafts") unless Dir.exist?("_drafts")
-      end
-
-      def move_file
-        FileUtils.mv(movement.from, movement.to)
-        puts "Post #{movement.from} was moved to #{movement.to}"
+    class PostMover < Compose::FileMover
+      def resource_type
+        'post'
       end
     end
   end

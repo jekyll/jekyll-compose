@@ -26,27 +26,17 @@ module Jekyll
 
     end
 
-    class PublishArgParser
-      attr_reader :args, :options
-      def initialize(args, options)
-        @args = args
-        @options = options
-      end
-
-      def validate!
-        raise ArgumentError.new('You must specify a draft path.') if args.empty?
+    class PublishArgParser < Compose::MovementArgParser
+      def resource_type
+        "draft"
       end
 
       def date
         options["date"].nil? ? Date.today : Date.parse(options["date"])
       end
 
-      def draft_path
-        args.join ' '
-      end
-
-      def draft_name
-        File.basename draft_path
+      def name
+        File.basename path
       end
     end
 
@@ -57,41 +47,18 @@ module Jekyll
       end
 
       def from
-        params.draft_path
+        params.path
       end
 
       def to
-        "_posts/#{_date_stamp}-#{params.draft_name}"
-      end
-
-      def _date_stamp
-        params.date.strftime '%Y-%m-%d'
+        date_stamp = params.date.strftime '%Y-%m-%d'
+        "_posts/#{date_stamp}-#{params.name}"
       end
     end
 
-    class DraftMover
-      attr_reader :movement
-      def initialize(movement)
-        @movement = movement
-      end
-
-      def move
-        validate_source
-        ensure_directory_exists
-        move_file
-      end
-
-      def validate_source
-        raise ArgumentError.new("There was no draft found at '#{movement.from}'.") unless File.exist? movement.from
-      end
-
-      def ensure_directory_exists
-        Dir.mkdir("_posts") unless Dir.exist?("_posts")
-      end
-
-      def move_file
-        FileUtils.mv(movement.from, movement.to)
-        puts "Draft #{movement.from} was published to #{movement.to}"
+    class DraftMover < Compose::FileMover
+      def resource_type
+        'draft'
       end
     end
   end

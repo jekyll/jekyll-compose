@@ -1,6 +1,8 @@
 require "jekyll-compose/version"
 require "jekyll-compose/arg_parser"
+require "jekyll-compose/movement_arg_parser"
 require "jekyll-compose/file_creator"
+require "jekyll-compose/file_mover"
 require "jekyll-compose/file_info"
 
 module Jekyll
