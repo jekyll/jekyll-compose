@@ -43,7 +43,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
   it 'creates the draft with a specified extension' do
     html_path = drafts_dir.join 'a-test-post.html'
     expect(html_path).not_to exist
-    capture_stdout { described_class.process(args, 'type' => 'html') }
+    capture_stdout { described_class.process(args, 'extension' => 'html') }
     expect(html_path).to exist
   end
 

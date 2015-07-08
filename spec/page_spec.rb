@@ -19,10 +19,10 @@ RSpec.describe(Jekyll::Commands::Page) do
     expect(path).to exist
   end
 
-  it 'creates a new page with the specified type' do
+  it 'creates a new page with the specified extension' do
     html_path = Pathname.new(source_dir).join 'a-test-page.html'
     FileUtils.rm html_path if File.exist? html_path
-    capture_stdout { described_class.process(args, 'type' => 'html') }
+    capture_stdout { described_class.process(args, 'extension' => 'html') }
     expect(html_path).to exist
   end
 

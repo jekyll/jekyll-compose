@@ -10,7 +10,7 @@ class Jekyll::Compose::ArgParser
   end
 
   def type
-    type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
+    type = options["extension"] || Jekyll::Compose::DEFAULT_TYPE
   end
 
   def layout

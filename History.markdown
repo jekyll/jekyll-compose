@@ -3,6 +3,7 @@
   * Commands will create directories if necessary (#17, #23)
   * Add the `page` command (#15)
   * Display relative directories without ./ (#22)
+  * Change `-t`, `--type` options to `-x`, `--extension` (#25)
 
 ## 0.2.1 / 2015-01-17
 

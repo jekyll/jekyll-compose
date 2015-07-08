@@ -14,7 +14,7 @@ module Jekyll
 
       def self.options
         [
-          ['type', '-t TYPE', '--type TYPE', 'Specify the content type (file extension)'],
+          ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
           ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the draft layout"],
           ['force', '-f', '--force', 'Overwrite a draft if it already exists']
         ]

@@ -35,7 +35,7 @@ RSpec.describe(Jekyll::Commands::Post) do
   it 'creates the post with a specified extension' do
     html_path = posts_dir.join "#{datestamp}-a-test-post.html"
     expect(html_path).not_to exist
-    capture_stdout { described_class.process(args, 'type' => 'html') }
+    capture_stdout { described_class.process(args, 'extension' => 'html') }
     expect(html_path).to exist
   end
 
