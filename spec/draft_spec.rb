@@ -40,6 +40,18 @@ RSpec.describe(Jekyll::Commands::Draft) do
     expect(drafts_dir).to exist
   end
 
+  it 'creates the draft with a specified extension' do
+    html_path = drafts_dir.join 'a-test-post.html'
+    expect(html_path).not_to exist
+    capture_stdout { described_class.process(args, 'type' => 'html') }
+    expect(html_path).to exist
+  end
+
+  it 'creates a new draft with the specified layout' do
+    capture_stdout { described_class.process(args, 'layout' => 'other-layout') }
+    expect(File.read(path)).to match(/layout: other-layout/)
+  end
+
   context 'when the draft already exists' do
     let(:name) { 'An existing draft' }
     let(:path) { drafts_dir.join('an-existing-draft.md') }

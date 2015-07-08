@@ -1,8 +1,9 @@
 RSpec.describe(Jekyll::Commands::Publish) do
   let(:drafts_dir) { source_dir('_drafts') }
   let(:posts_dir)  { source_dir('_posts') }
-  let(:draft_to_publish) { 'a-test-post.markdown' }
-  let(:post_filename) { "#{Time.now.strftime('%Y-%m-%d')}-#{draft_to_publish}" }
+  let(:draft_to_publish) { 'a-test-post.md' }
+  let(:datestamp) { Time.now.strftime('%Y-%m-%d') }
+  let(:post_filename) { "#{datestamp}-#{draft_to_publish}" }
   let(:args) { ["_drafts/#{draft_to_publish}"] }
 
   let(:draft_path) { Pathname.new(File.join(drafts_dir, draft_to_publish)) }
@@ -37,6 +38,12 @@ RSpec.describe(Jekyll::Commands::Publish) do
     expect(Pathname.new(draft_path)).to exist
     output = capture_stdout { described_class.process(args) }
     expect(output).to eql("Draft _drafts/#{draft_to_publish} was published to _posts/#{post_filename}\n")
+  end
+  
+  it 'publishes a draft on the specified date' do
+    path = Pathname.new(posts_dir).join "2012-03-04-a-test-post.md"
+    capture_stdout { described_class.process(args, {"date" => '2012-3-4'}) }
+    expect(path).to exist
   end
 
   it 'creates the posts folder if necessary' do

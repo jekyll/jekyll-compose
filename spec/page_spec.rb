@@ -19,6 +19,18 @@ RSpec.describe(Jekyll::Commands::Page) do
     expect(path).to exist
   end
 
+  it 'creates a new page with the specified type' do
+    html_path = Pathname.new(source_dir).join 'a-test-page.html'
+    FileUtils.rm html_path if File.exist? html_path
+    capture_stdout { described_class.process(args, 'type' => 'html') }
+    expect(html_path).to exist
+  end
+
+  it 'creates a new page with the specified layout' do
+    capture_stdout { described_class.process(args, 'layout' => 'other-layout') }
+    expect(File.read(path)).to match(/layout: other-layout/)
+  end
+
   it 'should write a helpful message when successful' do
     output = capture_stdout { described_class.process(args) }
     expect(output).to eql("New page created at #{filename}.\n")

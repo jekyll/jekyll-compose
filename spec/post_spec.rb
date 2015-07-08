@@ -2,7 +2,8 @@ RSpec.describe(Jekyll::Commands::Post) do
   let(:name) { 'A test post' }
   let(:args) { [name] }
   let(:posts_dir) { Pathname.new source_dir('_posts') }
-  let(:filename) { "#{Time.now.strftime('%Y-%m-%d')}-a-test-post.md" }
+  let(:datestamp) { Time.now.strftime('%Y-%m-%d') }
+  let(:filename) { "#{datestamp}-a-test-post.md" }
   let(:path) { posts_dir.join(filename) }
 
   before(:all) do
@@ -29,6 +30,18 @@ RSpec.describe(Jekyll::Commands::Post) do
     expect(path).not_to exist
     capture_stdout { described_class.process(args, {"date" => '2012-3-4'}) }
     expect(path).to exist
+  end
+
+  it 'creates the post with a specified extension' do
+    html_path = posts_dir.join "#{datestamp}-a-test-post.html"
+    expect(html_path).not_to exist
+    capture_stdout { described_class.process(args, 'type' => 'html') }
+    expect(html_path).to exist
+  end
+
+  it 'creates a new post with the specified layout' do
+    capture_stdout { described_class.process(args, 'layout' => 'other-layout') }
+    expect(File.read(path)).to match(/layout: other-layout/)
   end
 
   it 'should write a helpful message when successful' do
