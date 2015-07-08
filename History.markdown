@@ -1,6 +1,8 @@
-## 0.2.2 / 2015-06-08
+## HEAD
 
-  * Create the `_posts` dir if it's not already there (#17)
+  * Commands will create directories if necessary (#17, #23)
+  * Add the `page` command (#15)
+  * Display relative directories without ./ (#22)
 
 ## 0.2.1 / 2015-01-17
 
