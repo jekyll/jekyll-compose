@@ -6,47 +6,42 @@ module Jekyll
           c.syntax 'page NAME'
           c.description 'Creates a new page with the given NAME'
 
-          c.option 'type', '-t TYPE', '--type TYPE', 'Specify the content type'
-          c.option 'layout', '-t LAYOUT', '--layout LAYOUT', 'Specify the post layout'
-          c.option 'force', '-f', '--force', 'Overwrite a post if it already exists'
+          options.each {|opt| c.option *opt }
 
-          c.action do |args, options|
-            Jekyll::Commands::Page.process(args, options)
-          end
+          c.action { |args, options| process args, options }
         end
+      end
+
+      def self.options
+        [
+          ['type', '-t TYPE', '--type TYPE', 'Specify the content type (file extension)'],
+          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the page layout"],
+          ['force', '-f', '--force', 'Overwrite a page if it already exists']
+        ]
       end
 
       def self.process(args = [], options = {})
-        raise ArgumentError.new('You must specify a name.') if args.empty?
+        params = PageArgParser.new args, options
+        params.validate!
 
-        type = options["type"] || Jekyll::Compose::DEFAULT_TYPE
-        layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT_PAGE
+        page = PageFileInfo.new params
 
-        title = args.shift
-        name = title.gsub(' ', '-').downcase
+        Compose::FileCreator.new(page, params.force?).create!
+      end
 
-        path = file_name(name, type)
+      class PageArgParser < Compose::ArgParser
+        def layout
+          layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT_PAGE
+        end
+      end
 
-        raise ArgumentError.new("A page already exists at #{path}") if File.exist?(path) and !options["force"]
-
-        File.open(path, "w") do |f|
-          f.puts(front_matter(layout, title))
+      class PageFileInfo < Compose::FileInfo
+        def resource_type
+          'page'
         end
 
-        puts "New page created at #{path}.\n"
-      end
+        alias_method :path, :file_name
 
-
-      # Returns the filename
-      def self.file_name(name, ext)
-        "#{Dir.pwd}/#{name}.#{ext}"
-      end
-
-      def self.front_matter(layout, title)
-        "---
-layout: #{layout}
-title: #{title}
----"
       end
     end
   end

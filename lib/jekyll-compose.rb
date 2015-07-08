@@ -1,4 +1,7 @@
 require "jekyll-compose/version"
+require "jekyll-compose/arg_parser"
+require "jekyll-compose/file_creator"
+require "jekyll-compose/file_info"
 
 module Jekyll
   module Compose
