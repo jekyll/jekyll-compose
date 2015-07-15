@@ -1,6 +1,8 @@
 require "jekyll-compose/version"
 require "jekyll-compose/arg_parser"
+require "jekyll-compose/movement_arg_parser"
 require "jekyll-compose/file_creator"
+require "jekyll-compose/file_mover"
 require "jekyll-compose/file_info"
 
 module Jekyll
@@ -11,6 +13,6 @@ module Jekyll
   end
 end
 
-%w{draft post publish page}.each do |file|
+%w{draft post publish unpublish page}.each do |file|
   require File.expand_path("jekyll/commands/#{file}.rb", File.dirname(__FILE__))
 end

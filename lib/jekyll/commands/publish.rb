@@ -15,31 +15,51 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        raise ArgumentError.new('You must specify a draft path.') if args.empty?
+        params = PublishArgParser.new args, options
+        params.validate!
 
-        date = options["date"].nil? ? Date.today : Date.parse(options["date"])
-        draft_path = args.shift
+        movement = DraftMovementInfo.new params
 
-        raise ArgumentError.new("There was no draft found at '#{draft_path}'.") unless File.exist? draft_path
-
-        Dir.mkdir("_posts") unless Dir.exist?("_posts")
-        post_path = post_name(date, draft_name(draft_path))
-        FileUtils.mv(draft_path, post_path)
-
-        puts "Draft #{draft_path} was published to #{post_path}"
+        mover = DraftMover.new movement
+        mover.move
       end
 
-      # Internal: Gets the filename of the post to be created
-      #
-      # Returns the filename of the post, as a String
-      def self.post_name(date, name)
-        "_posts/#{date.strftime('%Y-%m-%d')}-#{name}"
+    end
+
+    class PublishArgParser < Compose::MovementArgParser
+      def resource_type
+        "draft"
       end
 
-      def self.draft_name(path)
-        File.basename(path)
+      def date
+        options["date"].nil? ? Date.today : Date.parse(options["date"])
       end
 
+      def name
+        File.basename path
+      end
+    end
+
+    class DraftMovementInfo
+      attr_reader :params
+      def initialize(params)
+        @params = params
+      end
+
+      def from
+        params.path
+      end
+
+      def to
+        date_stamp = params.date.strftime '%Y-%m-%d'
+        "_posts/#{date_stamp}-#{params.name}"
+      end
+    end
+
+    class DraftMover < Compose::FileMover
+      def resource_type
+        'draft'
+      end
     end
   end
 end
