@@ -28,7 +28,13 @@ Listed in help you will see new commands available to you:
   draft      # Creates a new draft post with the given NAME
   post       # Creates a new post with the given NAME
   publish    # Moves a draft into the _posts directory and sets the date
+  unpublish  # Moves a post back into the _drafts directory
+  page       # Creates a new page with the given NAME
 ```
+
+Create your new page using:
+
+    $ jekyll page "My New Page"
 
 Create your new post using:
 
@@ -43,6 +49,10 @@ Publish your draft using:
     $ jekyll publish _drafts/my-new-draft.md
     # or specify a specific date on which to publish it
     $ jekyll publish _drafts/my-new-draft.md --date 2014-01-24
+
+Unpublish your post using:
+
+    $ jekyll unpublish _posts/2014-01-24-my-new-draft.md
 
 ## Helpful Note
 
