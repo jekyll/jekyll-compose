@@ -1,3 +1,7 @@
+## HEAD
+
+  * Depend on jekyll at least of version 2.5.0 (#33)
+
 ## 0.3.0 / 2015-08-31
 
   * Add the `page` command (#15)
