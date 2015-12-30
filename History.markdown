@@ -1,4 +1,4 @@
-## HEAD
+## 0.4.0 / 2015-12-30
 
   * Depend on jekyll at least of version 2.5.0 (#33)
 
