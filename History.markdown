@@ -1,3 +1,7 @@
+## 0.4.1 / 2015-12-30
+
+  * Change Jekyll dependency to a runtime dependency to enforce v2.5.0 or greater
+
 ## 0.4.0 / 2015-12-30
 
   * Depend on jekyll at least of version 2.5.0 (#33)
