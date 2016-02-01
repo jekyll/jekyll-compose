@@ -8,19 +8,15 @@ Streamline your writing in Jekyll with some commands.
 
 Add this line to your application's Gemfile:
 
-    gem 'jekyll-compose'
+    gem 'jekyll-compose', group: [:jekyll_plugins]
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install jekyll-compose
-
 ## Usage
 
-Install `jekyll-compose` and run `jekyll help`.
+After you have installed (see above), run `bundle exec jekyll help` and you should see:
 
 Listed in help you will see new commands available to you:
 
@@ -34,37 +30,25 @@ Listed in help you will see new commands available to you:
 
 Create your new page using:
 
-    $ jekyll page "My New Page"
+    $ bundle exec jekyll page "My New Page"
 
 Create your new post using:
 
-    $ jekyll post "My New Post"
+    $ bundle exec jekyll post "My New Post"
 
 Create your new draft using:
 
-    $ jekyll draft "My new draft"
+    $ bundle exec jekyll draft "My new draft"
 
 Publish your draft using:
 
-    $ jekyll publish _drafts/my-new-draft.md
+    $ bundle exec jekyll publish _drafts/my-new-draft.md
     # or specify a specific date on which to publish it
-    $ jekyll publish _drafts/my-new-draft.md --date 2014-01-24
+    $ bundle exec jekyll publish _drafts/my-new-draft.md --date 2014-01-24
 
 Unpublish your post using:
 
-    $ jekyll unpublish _posts/2014-01-24-my-new-draft.md
-
-## Helpful Note
-
-If after installing the jekyll-compose gem you still do not see the above
-commands available to you, try including the gem in the `jekyll_plugins`
-group of your `Gemfile` like so:
-
-```ruby
-group :jekyll_plugins do
-  gem 'jekyll-compose'
-end
-```
+    $ bundle exec jekyll unpublish _posts/2014-01-24-my-new-draft.md
 
 ## Contributing
 
