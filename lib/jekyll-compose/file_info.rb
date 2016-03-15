@@ -10,21 +10,11 @@ class Jekyll::Compose::FileInfo
   end
 
   def content
-    <<-CONTENT.gsub /^\s+/, ''
-      ---
-      layout: #{params.layout}
-      title: #{yaml_clean_title}
-      ---
-    CONTENT
-  end
+    front_matter = YAML.dump({
+      'layout' => params.layout,
+      'title' => params.title,
+    })
 
-  private
-
-  def yaml_clean_title
-    if params.title.include? ':'
-      '"' + params.title + '"'
-    else
-      params.title
-    end
+    front_matter + "---\n"
   end
 end

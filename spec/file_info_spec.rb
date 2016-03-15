@@ -25,7 +25,7 @@ RSpec.describe(Jekyll::Compose::FileInfo) do
       let(:expected_result) {<<-CONTENT.gsub(/^\s+/, '')
           ---
           layout: post
-          title: "A test: arg parser"
+          title: 'A test: arg parser'
           ---
         CONTENT
       }
