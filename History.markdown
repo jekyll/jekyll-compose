@@ -1,6 +1,7 @@
 ## HEAD
 
   * Ensure colons do not break titles (#39)
+  * Require Jekyll 3 or higher (#40)
 
 ## 0.4.1 / 2015-12-30
 
