@@ -10,12 +10,4 @@ notifications:
   email: false
 
 matrix:
-  include:
-    -
-      rvm: 1.9
-      env: JEKYLL_VERSION=2.5
   fast_finish: true
-env:
-  - ""
-  - JEKYLL_VERSION=3.0
-  - JEKYLL_VERSION=2.5
