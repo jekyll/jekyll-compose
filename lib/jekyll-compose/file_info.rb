@@ -10,11 +10,11 @@ class Jekyll::Compose::FileInfo
   end
 
   def content
-    <<-CONTENT.gsub /^\s+/, ''
-      ---
-      layout: #{params.layout}
-      title: #{params.title}
-      ---
-    CONTENT
+    front_matter = YAML.dump({
+      'layout' => params.layout,
+      'title' => params.title,
+    })
+
+    front_matter + "---\n"
   end
 end
