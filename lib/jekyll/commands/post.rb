@@ -69,7 +69,7 @@ module Jekyll
 
         def content
           post_front_matter = Jekyll.configuration["post_front_matter"]
-          super post_front_matter
+          post_front_matter ? super(post_front_matter) : super
         end
       end
     end
