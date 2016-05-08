@@ -66,6 +66,11 @@ module Jekyll
         def content(custom_front_matter = {})
           super({ "date" => _time_stamp }.merge(custom_front_matter))
         end
+
+        def content
+          post_front_matter = Jekyll.configuration["post_front_matter"]
+          super post_front_matter
+        end
       end
     end
   end
