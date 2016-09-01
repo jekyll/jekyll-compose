@@ -33,7 +33,7 @@ module Jekyll
 
       private
       def from
-        file_path(movement.from)
+        movement.from
       end
 
       def to

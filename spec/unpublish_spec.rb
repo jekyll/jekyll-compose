@@ -62,6 +62,8 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     let(:drafts_dir) { Pathname.new(source_dir('site', '_drafts')) }
     let(:posts_dir)  { Pathname.new(source_dir('site', '_posts')) }
 
+    let(:args) { ["site/_posts/#{post_filename}"] }
+
     before(:each) do
       File.open(config, 'w') do |f|
         f.write(%{
@@ -86,6 +88,8 @@ source: site
   context 'when source option is set' do
     let(:drafts_dir) { Pathname.new(source_dir('site', '_drafts')) }
     let(:posts_dir)  { Pathname.new(source_dir('site', '_posts')) }
+
+    let(:args) { ["site/_posts/#{post_filename}"] }
 
     it 'should use source directory set by command line option' do
       expect(post_path).to exist
