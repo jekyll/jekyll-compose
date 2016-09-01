@@ -63,4 +63,37 @@ RSpec.describe(Jekyll::Commands::Page) do
       expect(File.read(path)).to match(/layout: page/)
     end
   end
+
+  context 'when a configuration file exists' do
+    let(:config) { source_dir('_config.yml') }
+    let(:path) { Pathname.new(source_dir).join('site', filename) }
+
+    before(:each) do
+      File.open(config, 'w') do |f|
+        f.write(%{
+source: site
+})
+      end
+    end
+
+    after(:each) do
+      FileUtils.rm(config)
+    end
+
+    it 'should use source directory set by config' do
+      expect(path).not_to exist
+      capture_stdout { described_class.process(args) }
+      expect(path).to exist
+    end
+  end
+
+  context 'when source option is set' do
+    let(:path) { Pathname.new(source_dir).join('site', filename) }
+
+    it 'should use source directory set by command line option' do
+      expect(path).not_to exist
+      capture_stdout { described_class.process(args, 'source' => 'site') }
+      expect(path).to exist
+    end
+  end
 end

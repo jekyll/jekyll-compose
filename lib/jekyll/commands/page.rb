@@ -16,7 +16,9 @@ module Jekyll
         [
           ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
           ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the page layout"],
-          ['force', '-f', '--force', 'Overwrite a page if it already exists']
+          ['force', '-f', '--force', 'Overwrite a page if it already exists'],
+          ['config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'],
+          ['source', '-s', '--source SOURCE', 'Custom source directory'],
         ]
       end
 
@@ -26,7 +28,7 @@ module Jekyll
 
         page = PageFileInfo.new params
 
-        Compose::FileCreator.new(page, params.force?).create!
+        Compose::FileCreator.new(page, params.force?, params.source).create!
       end
 
       class PageArgParser < Compose::ArgParser
