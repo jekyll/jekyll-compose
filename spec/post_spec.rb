@@ -82,4 +82,37 @@ RSpec.describe(Jekyll::Commands::Post) do
       expect(File.read(path)).to match(/layout: post/)
     end
   end
+
+  context 'when a configuration file exists' do
+    let(:config) { source_dir('_config.yml') }
+    let(:posts_dir) { Pathname.new source_dir('site', '_posts') }
+
+    before(:each) do
+      File.open(config, 'w') do |f|
+        f.write(%{
+source: site
+})
+      end
+    end
+
+    after(:each) do
+      FileUtils.rm(config)
+    end
+
+    it 'should use source directory set by config' do
+      expect(path).not_to exist
+      capture_stdout { described_class.process(args) }
+      expect(path).to exist
+    end
+  end
+
+  context 'when source option is set' do
+    let(:posts_dir) { Pathname.new source_dir('site', '_posts') }
+
+    it 'should use source directory set by command line option' do
+      expect(path).not_to exist
+      capture_stdout { described_class.process(args, 'source' => 'site') }
+      expect(path).to exist
+    end
+  end
 end
