@@ -1,8 +1,9 @@
 class Jekyll::Compose::ArgParser
-  attr_reader :args, :options
+  attr_reader :args, :options, :config
   def initialize(args, options)
     @args = args
     @options = options
+    @config = Jekyll.configuration(options)
   end
 
   def validate!
@@ -23,5 +24,9 @@ class Jekyll::Compose::ArgParser
 
   def force?
     !!options["force"]
+  end
+
+  def source
+    source = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
   end
 end

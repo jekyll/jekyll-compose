@@ -24,16 +24,12 @@ module Jekyll
 
 
       def self.process(args = [], options = {})
-        config = configuration_from_options(options)
-
         params = Compose::ArgParser.new args, options
         params.validate!
 
         draft = DraftFileInfo.new params
 
-        root = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
-
-        Compose::FileCreator.new(draft, params.force?, root).create!
+        Compose::FileCreator.new(draft, params.force?, params.source).create!
       end
 
       class DraftFileInfo < Compose::FileInfo
