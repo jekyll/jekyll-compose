@@ -26,6 +26,8 @@ RSpec.configure do |config|
 
   Kernel.srand config.seed
 
+  Jekyll.logger.log_level = :error
+
   ###
   ### Helper methods
   ###

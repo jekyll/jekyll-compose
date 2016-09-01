@@ -16,18 +16,24 @@ module Jekyll
         [
           ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
           ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the draft layout"],
-          ['force', '-f', '--force', 'Overwrite a draft if it already exists']
+          ['force', '-f', '--force', 'Overwrite a draft if it already exists'],
+          ['config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'],
+          ['source', '-s', '--source SOURCE', 'Custom source directory'],
         ]
       end
 
 
       def self.process(args = [], options = {})
+        config = configuration_from_options(options)
+
         params = Compose::ArgParser.new args, options
         params.validate!
 
         draft = DraftFileInfo.new params
 
-        Compose::FileCreator.new(draft, params.force?).create!
+        root = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
+
+        Compose::FileCreator.new(draft, params.force?, root).create!
       end
 
       class DraftFileInfo < Compose::FileInfo
