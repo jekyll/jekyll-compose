@@ -55,8 +55,7 @@ module Jekyll
         end
 
         def content
-          front_matter = super
-          "date: #{@params.date}\n" + front_matter
+          super({'date' => @params.date})
         end
 
       end
