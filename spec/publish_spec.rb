@@ -46,7 +46,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
     output = capture_stdout { described_class.process(args) }
     expect(output).to eql("Draft _drafts/#{draft_to_publish} was moved to _posts/#{post_filename}\n")
   end
-  
+
   it 'publishes a draft on the specified date' do
     path = posts_dir.join "2012-03-04-a-test-post.md"
     capture_stdout { described_class.process(args, {"date" => '2012-3-4'}) }
@@ -72,4 +72,44 @@ RSpec.describe(Jekyll::Commands::Publish) do
     }).to raise_error("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
   end
 
+  context 'when a configuration file exists' do
+    let(:config) { source_dir('_config.yml') }
+    let(:drafts_dir) { Pathname.new source_dir('site', '_drafts') }
+    let(:posts_dir)  { Pathname.new source_dir('site', '_posts') }
+
+    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
+
+    before(:each) do
+      File.open(config, 'w') do |f|
+        f.write(%{
+source: site
+})
+      end
+    end
+
+    after(:each) do
+      FileUtils.rm(config)
+    end
+
+    it 'should use source directory set by config' do
+      expect(post_path).not_to exist
+      expect(draft_path).to exist
+      capture_stdout { described_class.process(args) }
+      expect(post_path).to exist
+    end
+  end
+
+  context 'when source option is set' do
+    let(:drafts_dir) { Pathname.new source_dir('site', '_drafts') }
+    let(:posts_dir)  { Pathname.new source_dir('site', '_posts') }
+
+    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
+
+    it 'should use source directory set by command line option' do
+      expect(post_path).not_to exist
+      expect(draft_path).to exist
+      capture_stdout { described_class.process(args, 'source' => 'site') }
+      expect(post_path).to exist
+    end
+  end
 end

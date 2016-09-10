@@ -57,4 +57,46 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     }).to raise_error("There was no post found at '#{weird_path}'.")
   end
 
+  context 'when a configuration file exists' do
+    let(:config) { source_dir('_config.yml') }
+    let(:drafts_dir) { Pathname.new(source_dir('site', '_drafts')) }
+    let(:posts_dir)  { Pathname.new(source_dir('site', '_posts')) }
+
+    let(:args) { ["site/_posts/#{post_filename}"] }
+
+    before(:each) do
+      File.open(config, 'w') do |f|
+        f.write(%{
+source: site
+})
+      end
+    end
+
+    after(:each) do
+      FileUtils.rm(config)
+    end
+
+    it 'should use source directory set by config' do
+      expect(post_path).to exist
+      expect(draft_path).not_to exist
+      capture_stdout { described_class.process(args) }
+      expect(post_path).not_to exist
+      expect(draft_path).to exist
+    end
+  end
+
+  context 'when source option is set' do
+    let(:drafts_dir) { Pathname.new(source_dir('site', '_drafts')) }
+    let(:posts_dir)  { Pathname.new(source_dir('site', '_posts')) }
+
+    let(:args) { ["site/_posts/#{post_filename}"] }
+
+    it 'should use source directory set by command line option' do
+      expect(post_path).to exist
+      expect(draft_path).not_to exist
+      capture_stdout { described_class.process(args, 'source' => 'site') }
+      expect(post_path).not_to exist
+      expect(draft_path).to exist
+    end
+  end
 end

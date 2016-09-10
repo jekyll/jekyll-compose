@@ -17,7 +17,9 @@ module Jekyll
           ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
           ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the post layout"],
           ['force', '-f', '--force', 'Overwrite a post if it already exists'],
-          ['date', '-d DATE', '--date DATE', 'Specify the post date']
+          ['date', '-d DATE', '--date DATE', 'Specify the post date'],
+          ['config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'],
+          ['source', '-s', '--source SOURCE', 'Custom source directory'],
         ]
       end
 
@@ -27,7 +29,7 @@ module Jekyll
 
         post = PostFileInfo.new params
 
-        Compose::FileCreator.new(post, params.force?).create!
+        Compose::FileCreator.new(post, params.force?, params.source).create!
       end
 
 

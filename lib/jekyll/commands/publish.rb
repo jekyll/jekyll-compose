@@ -7,6 +7,8 @@ module Jekyll
           c.description 'Moves a draft into the _posts directory and sets the date'
 
           c.option 'date', '-d DATE', '--date DATE', 'Specify the post date'
+          c.option 'config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'
+          c.option 'source', '-s', '--source SOURCE', 'Custom source directory'
 
           c.action do |args, options|
             Jekyll::Commands::Publish.process(args, options)
@@ -20,7 +22,7 @@ module Jekyll
 
         movement = DraftMovementInfo.new params
 
-        mover = DraftMover.new movement
+        mover = DraftMover.new movement, params.source
         mover.move
       end
 

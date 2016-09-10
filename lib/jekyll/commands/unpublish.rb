@@ -6,6 +6,9 @@ module Jekyll
           c.syntax 'unpublish POST_PATH'
           c.description 'Moves a post back into the _drafts directory'
 
+          c.option 'config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'
+          c.option 'source', '-s', '--source SOURCE', 'Custom source directory'
+
           c.action do |args, options|
             process(args, options)
           end
@@ -18,7 +21,7 @@ module Jekyll
 
         movement = PostMovementInfo.new params
 
-        mover = PostMover.new movement
+        mover = PostMover.new movement, params.source
         mover.move
       end
 

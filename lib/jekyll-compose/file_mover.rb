@@ -1,9 +1,10 @@
 module Jekyll
   module Compose
     class FileMover
-      attr_reader :movement
-      def initialize(movement)
+      attr_reader :movement, :root
+      def initialize(movement, root = nil)
         @movement = movement
+        @root = root
       end
 
       def resource_type
@@ -17,17 +18,31 @@ module Jekyll
       end
 
       def validate_source
-        raise ArgumentError.new("There was no #{resource_type} found at '#{movement.from}'.") unless File.exist? movement.from
+        raise ArgumentError.new("There was no #{resource_type} found at '#{from}'.") unless File.exist? from
       end
 
       def ensure_directory_exists
-        dir = File.dirname movement.to
+        dir = File.dirname to
         Dir.mkdir(dir) unless Dir.exist?(dir)
       end
 
       def move_file
-        FileUtils.mv(movement.from, movement.to)
-        puts "#{resource_type.capitalize} #{movement.from} was moved to #{movement.to}"
+        FileUtils.mv(from, to)
+        puts "#{resource_type.capitalize} #{from} was moved to #{to}"
+      end
+
+      private
+      def from
+        movement.from
+      end
+
+      def to
+        file_path(movement.to)
+      end
+
+      def file_path(path)
+        return path if root.nil? or root.empty?
+        return File.join(root, path)
       end
     end
   end

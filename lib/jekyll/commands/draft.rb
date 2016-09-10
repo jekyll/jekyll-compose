@@ -16,7 +16,9 @@ module Jekyll
         [
           ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
           ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the draft layout"],
-          ['force', '-f', '--force', 'Overwrite a draft if it already exists']
+          ['force', '-f', '--force', 'Overwrite a draft if it already exists'],
+          ['config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'],
+          ['source', '-s', '--source SOURCE', 'Custom source directory'],
         ]
       end
 
@@ -27,7 +29,7 @@ module Jekyll
 
         draft = DraftFileInfo.new params
 
-        Compose::FileCreator.new(draft, params.force?).create!
+        Compose::FileCreator.new(draft, params.force?, params.source).create!
       end
 
       class DraftFileInfo < Compose::FileInfo

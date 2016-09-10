@@ -1,10 +1,11 @@
 module Jekyll
   module Compose
     class MovementArgParser
-      attr_reader :args, :options
+      attr_reader :args, :options, :config
       def initialize(args, options)
         @args = args
         @options = options
+        @config = Jekyll.configuration(options)
       end
 
       def validate!
@@ -13,6 +14,10 @@ module Jekyll
 
       def path
         args.join ' '
+      end
+
+      def source
+        source = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
       end
     end
   end
