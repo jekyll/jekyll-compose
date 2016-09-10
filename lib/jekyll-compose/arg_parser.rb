@@ -11,11 +11,11 @@ class Jekyll::Compose::ArgParser
   end
 
   def type
-    type = options["extension"] || Jekyll::Compose::DEFAULT_TYPE
+    options["extension"] || Jekyll::Compose::DEFAULT_TYPE
   end
 
   def layout
-    layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
+    options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
   end
 
   def title
@@ -27,6 +27,6 @@ class Jekyll::Compose::ArgParser
   end
 
   def source
-    source = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
+    config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
   end
 end
