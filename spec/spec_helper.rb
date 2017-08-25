@@ -1,5 +1,5 @@
 require 'jekyll'
-require File.expand_path('../../lib/jekyll-compose.rb', __FILE__)
+require File.expand_path('../lib/jekyll-compose.rb', __dir__)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -31,7 +31,7 @@ RSpec.configure do |config|
   ###
   ### Helper methods
   ###
-  TEST_DIR = File.expand_path('../', __FILE__)
+  TEST_DIR = __dir__
   def test_dir(*files)
     File.expand_path(File.join(TEST_DIR, *files))
   end
