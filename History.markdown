@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Modernize Travis config (#53)
+
 ## 0.5.0 / 2016-10-11
 
   * Allow Jekyll Source Directory (#42)
