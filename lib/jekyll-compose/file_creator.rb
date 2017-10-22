@@ -17,7 +17,7 @@ module Jekyll
       private
 
       def validate_should_write!
-        raise ArgumentError.new("A #{file.resource_type} already exists at #{file_path}") if File.exist?(file_path) and !force
+        raise ArgumentError, "A #{file.resource_type} already exists at #{file_path}" if File.exist?(file_path) && !force
       end
 
       def ensure_directory_exists
@@ -34,7 +34,7 @@ module Jekyll
       end
 
       def file_path
-        return file.path if root.nil? or root.empty?
+        return file.path if root.nil? || root.empty?
         return File.join(root, file.path)
       end
     end

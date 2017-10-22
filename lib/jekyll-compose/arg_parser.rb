@@ -7,7 +7,7 @@ class Jekyll::Compose::ArgParser
   end
 
   def validate!
-    raise ArgumentError.new('You must specify a name.') if args.empty?
+    raise ArgumentError, "You must specify a name." if args.empty?
   end
 
   def type
@@ -19,7 +19,7 @@ class Jekyll::Compose::ArgParser
   end
 
   def title
-    args.join ' '
+    args.join " "
   end
 
   def force?
@@ -27,6 +27,6 @@ class Jekyll::Compose::ArgParser
   end
 
   def source
-    config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
+    config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
   end
 end

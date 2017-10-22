@@ -17,7 +17,7 @@ RSpec.configure do |config|
   config.warnings = true
 
   if config.files_to_run.one?
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   end
 
   config.profile_examples = 3
@@ -37,13 +37,13 @@ RSpec.configure do |config|
   end
 
   def source_dir(*files)
-    test_dir('source', *files)
+    test_dir("source", *files)
   end
 
   def fixture_site
     Jekyll::Site.new(Jekyll::Utils.deep_merge_hashes(
       Jekyll::Configuration::DEFAULTS,
-      { 'source' => source_dir, 'destination' => test_dir('dest') }
+      { "source" => source_dir, "destination" => test_dir("dest") }
     ))
   end
 

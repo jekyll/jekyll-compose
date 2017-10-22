@@ -8,7 +8,7 @@ module Jekyll
       end
 
       def resource_type
-        'file'
+        "file"
       end
 
       def move
@@ -18,7 +18,7 @@ module Jekyll
       end
 
       def validate_source
-        raise ArgumentError.new("There was no #{resource_type} found at '#{from}'.") unless File.exist? from
+        raise ArgumentError, "There was no #{resource_type} found at '#{from}'." unless File.exist? from
       end
 
       def ensure_directory_exists
@@ -41,7 +41,7 @@ module Jekyll
       end
 
       def file_path(path)
-        return path if root.nil? or root.empty?
+        return path if root.nil? || root.empty?
         return File.join(root, path)
       end
     end
