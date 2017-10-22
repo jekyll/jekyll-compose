@@ -11,8 +11,8 @@ class Jekyll::Compose::FileInfo
 
   def content
     front_matter = YAML.dump({
-      'layout' => params.layout,
-      'title' => params.title,
+      "layout" => params.layout,
+      "title"  => params.title,
     })
 
     front_matter + "---\n"
