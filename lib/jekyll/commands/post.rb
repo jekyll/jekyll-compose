@@ -55,6 +55,11 @@ module Jekyll
         def _date_stamp
           @params.date.strftime '%Y-%m-%d'
         end
+
+        def content
+          super({'date' => @params.date})
+        end
+
       end
     end
   end

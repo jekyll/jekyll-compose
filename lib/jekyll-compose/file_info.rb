@@ -9,11 +9,11 @@ class Jekyll::Compose::FileInfo
     "#{name}.#{params.type}"
   end
 
-  def content
+  def content(front_matter = {})
     front_matter = YAML.dump({
       'layout' => params.layout,
       'title' => params.title,
-    })
+    }.merge(front_matter))
 
     front_matter + "---\n"
   end
