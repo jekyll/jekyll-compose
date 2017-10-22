@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Modernize Travis config (#53)
+  * Define path with __dir__ (#51)
 
 ## 0.5.0 / 2016-10-11
 
