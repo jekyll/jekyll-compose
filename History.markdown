@@ -5,6 +5,7 @@
   * Modernize Travis config (#53)
   * Define path with __dir__ (#51)
   * Inherit Jekyll&#39;s rubocop config for consistency (#52)
+  * Execute FileInfo tests in source_dir, Fix tests (#46)
 
 ### Minor Enhancements
 
