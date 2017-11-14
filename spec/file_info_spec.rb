@@ -45,5 +45,29 @@ RSpec.describe(Jekyll::Compose::FileInfo) do
         expect(file_info.content).to eq(expected_result)
       end
     end
+
+    context "with custom values" do
+      let(:expected_result) do
+        <<-CONTENT.gsub(%r!^\s+!, "")
+          ---
+          layout: post
+          title: A test
+          foo: bar
+          ---
+        CONTENT
+      end
+
+      let(:parsed_args) do
+        Jekyll::Compose::ArgParser.new(
+          ["A test arg parser"],
+          {}
+        )
+      end
+
+      it "does not wrap the title in quotes" do
+        file_info = described_class.new parsed_args
+        expect(file_info.content("title" => "A test", "foo" => "bar")).to eq(expected_result)
+      end
+    end
   end
 end

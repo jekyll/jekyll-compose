@@ -54,6 +54,14 @@ module Jekyll
         def _date_stamp
           @params.date.strftime "%Y-%m-%d"
         end
+
+        def _time_stamp
+          @params.date.strftime("%Y-%m-%d %H:%M %z")
+        end
+
+        def content(custom_front_matter = {})
+          super({ "date" => _time_stamp }.merge(custom_front_matter))
+        end
       end
     end
   end
