@@ -6,6 +6,10 @@
   * Define path with __dir__ (#51)
   * Inherit Jekyll&#39;s rubocop config for consistency (#52)
 
+### Minor Enhancements
+
+  * Add date to front matter when publish (#54)
+
 ## 0.5.0 / 2016-10-11
 
   * Allow Jekyll Source Directory (#42)
