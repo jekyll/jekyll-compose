@@ -3,10 +3,10 @@ module Jekyll
     class Post < Command
       def self.init_with_program(prog)
         prog.command(:post) do |c|
-          c.syntax 'post NAME'
-          c.description 'Creates a new post with the given NAME'
+          c.syntax "post NAME"
+          c.description "Creates a new post with the given NAME"
 
-          options.each {|opt| c.option *opt }
+          options.each { |opt| c.option *opt }
 
           c.action { |args, options| process args, options }
         end
@@ -14,12 +14,12 @@ module Jekyll
 
       def self.options
         [
-          ['extension', '-x EXTENSION', '--extension EXTENSION', 'Specify the file extension'],
-          ['layout', '-l LAYOUT', '--layout LAYOUT', "Specify the post layout"],
-          ['force', '-f', '--force', 'Overwrite a post if it already exists'],
-          ['date', '-d DATE', '--date DATE', 'Specify the post date'],
-          ['config', '--config CONFIG_FILE[,CONFIG_FILE2,...]', Array, 'Custom configuration file'],
-          ['source', '-s', '--source SOURCE', 'Custom source directory'],
+          ["extension", "-x EXTENSION", "--extension EXTENSION", "Specify the file extension"],
+          ["layout", "-l LAYOUT", "--layout LAYOUT", "Specify the post layout"],
+          ["force", "-f", "--force", "Overwrite a post if it already exists"],
+          ["date", "-d DATE", "--date DATE", "Specify the post date"],
+          ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
+          ["source", "-s", "--source SOURCE", "Custom source directory"],
         ]
       end
 
@@ -32,7 +32,6 @@ module Jekyll
         Compose::FileCreator.new(post, params.force?, params.source).create!
       end
 
-
       class PostArgParser < Compose::ArgParser
         def date
           options["date"].nil? ? Time.now : DateTime.parse(options["date"])
@@ -41,7 +40,7 @@ module Jekyll
 
       class PostFileInfo < Compose::FileInfo
         def resource_type
-          'post'
+          "post"
         end
 
         def path
@@ -53,7 +52,15 @@ module Jekyll
         end
 
         def _date_stamp
-          @params.date.strftime '%Y-%m-%d'
+          @params.date.strftime "%Y-%m-%d"
+        end
+
+        def _time_stamp
+          @params.date.strftime("%Y-%m-%d %H:%M %z")
+        end
+
+        def content(custom_front_matter = {})
+          super({ "date" => _time_stamp }.merge(custom_front_matter))
         end
       end
     end

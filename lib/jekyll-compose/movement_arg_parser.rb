@@ -9,15 +9,15 @@ module Jekyll
       end
 
       def validate!
-        raise ArgumentError.new("You must specify a #{resource_type} path.") if args.empty?
+        raise ArgumentError, "You must specify a #{resource_type} path." if args.empty?
       end
 
       def path
-        args.join ' '
+        args.join " "
       end
 
       def source
-        source = config['source'].gsub(/^#{Regexp.quote(Dir.pwd)}/, '')
+        source = config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
       end
     end
   end
