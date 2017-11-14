@@ -3,6 +3,7 @@ RSpec.describe(Jekyll::Commands::Post) do
   let(:args) { [name] }
   let(:posts_dir) { Pathname.new source_dir("_posts") }
   let(:datestamp) { Time.now.strftime("%Y-%m-%d") }
+  let(:timestamp) { Time.now.strftime("%Y-%m-%d %H:%M %z") }
   let(:filename) { "#{datestamp}-a-test-post.md" }
   let(:path) { posts_dir.join(filename) }
 
@@ -30,6 +31,7 @@ RSpec.describe(Jekyll::Commands::Post) do
     expect(path).not_to exist
     capture_stdout { described_class.process(args, { "date" => "2012-3-4" }) }
     expect(path).to exist
+    expect(File.read(path)).to match(%r!date: 2012-03-04 00:00 \+0000!)
   end
 
   it "creates the post with a specified extension" do
