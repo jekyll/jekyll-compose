@@ -1,4 +1,9 @@
 RSpec.describe(Jekyll::Compose::FileInfo) do
+  before(:all) do
+    FileUtils.mkdir_p source_dir unless File.directory? source_dir
+    Dir.chdir source_dir
+  end
+
   describe "#content" do
     context "with a title of only words" do
       let(:expected_result) do
