@@ -1,3 +1,10 @@
+## HEAD
+
+### Development Fixes
+
+  * Add Rubocop
+autorrect offenses (#57)
+
 ## 0.6.0 / 2017-11-14
 
 ### Development Fixes
