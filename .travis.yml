@@ -1,14 +1,17 @@
 language: ruby
-rvm:
-  - 2.4
-  - 2.3
-  - 2.2
-  - 2.1
-script: script/cibuild
-sudo: false
 cache: bundler
+sudo: false
+rvm:
+- 2.5
+- 2.4
+- 2.3
+- 2.2
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+before_install:
+- gem update --system
+before_script: bundle update
+script: script/cibuild
 notifications:
   email: false
-
-matrix:
-  fast_finish: true
