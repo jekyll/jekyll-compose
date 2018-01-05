@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe(Jekyll::Commands::Page) do
   let(:name) { "A test page" }
   let(:args) { [name] }

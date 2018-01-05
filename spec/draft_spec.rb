@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe(Jekyll::Commands::Draft) do
   let(:name) { "A test post" }
   let(:args) { [name] }

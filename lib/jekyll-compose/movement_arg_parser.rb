@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jekyll
   module Compose
     class MovementArgParser
@@ -17,7 +19,7 @@ module Jekyll
       end
 
       def source
-        source = config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
+        config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
       end
     end
   end

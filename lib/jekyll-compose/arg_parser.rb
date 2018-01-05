@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Jekyll::Compose::ArgParser
   attr_reader :args, :options, :config
   def initialize(args, options)

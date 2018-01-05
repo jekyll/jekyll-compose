@@ -1,10 +1,27 @@
 inherit_gem:
   jekyll: .rubocop.yml
+AllCops:
+  TargetRubyVersion: 2.2
+  Exclude:
+    - vendor/**/*
+
+Lint/AmbiguousOperator:
+  Exclude:
+    - lib/jekyll/commands/draft.rb
+    - lib/jekyll/commands/page.rb
+    - lib/jekyll/commands/post.rb
 
 Metrics/LineLength:
   Exclude:
-    - spec/**/*
     - jekyll-compose.gemspec
+    - lib/jekyll-compose/file_creator.rb
+    - lib/jekyll-compose/file_mover.rb
+    - lib/jekyll/commands/draft.rb
+    - lib/jekyll/commands/page.rb
+    - lib/jekyll/commands/post.rb
+    - lib/jekyll/commands/publish.rb
+    - lib/jekyll/commands/unpublish.rb
+    - spec/**/*
 
 Metrics/BlockLength:
   Exclude:
@@ -13,3 +30,7 @@ Metrics/BlockLength:
 Style/IndentHeredoc:
   Exclude:
     - spec/**/*
+
+Style/GlobalVars:
+  Exclude:
+    - spec/spec_helper.rb

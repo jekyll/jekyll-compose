@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Jekyll::Compose::FileInfo
   attr_reader :params
   def initialize(params)
