@@ -35,7 +35,7 @@ module Jekyll
 
       class PageArgParser < Compose::ArgParser
         def layout
-          layout = options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT_PAGE
+          options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT_PAGE
         end
       end
 

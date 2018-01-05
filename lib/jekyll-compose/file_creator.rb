@@ -4,8 +4,8 @@ module Jekyll
   module Compose
     class FileCreator
       attr_reader :file, :force, :root
-      def initialize(fileInfo, force = false, root = nil)
-        @file = fileInfo
+      def initialize(file_info, force = false, root = nil)
+        @file = file_info
         @force = force
         @root = root
       end
