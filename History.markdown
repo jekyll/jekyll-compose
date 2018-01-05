@@ -2,8 +2,8 @@
 
 ### Development Fixes
 
-  * Add Rubocop
-autorrect offenses (#57)
+  * Add Rubocop autorrect offenses (#57)
+  * Test against Ruby 2.5 (#56)
 
 ## 0.6.0 / 2017-11-14
 
