@@ -1,15 +1,13 @@
 language: ruby
+sudo: false
+cache: bundler
 rvm:
   - 2.5
   - 2.4
   - 2.3
   - 2.2
-  - 2.1
 script: script/cibuild
-sudo: false
-cache: bundler
 notifications:
   email: false
-
 matrix:
   fast_finish: true
