@@ -1,5 +1,9 @@
 inherit_gem:
   jekyll: .rubocop.yml
+AllCops:
+  TargetRubyVersion: 2.2
+  Exclude:
+    - vendor/**/*
 
 Metrics/LineLength:
   Exclude:

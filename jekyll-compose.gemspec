@@ -19,9 +19,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r!^bin/!) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "jekyll", ">= 3.0.0"
+  spec.add_dependency "jekyll", "~> 3.0"
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "rubocop", "~> 0.51"
 end

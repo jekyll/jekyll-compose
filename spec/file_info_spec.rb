@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe(Jekyll::Compose::FileInfo) do
   before(:all) do
     FileUtils.mkdir_p source_dir unless File.directory? source_dir

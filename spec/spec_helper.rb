@@ -1,5 +1,7 @@
-require 'jekyll'
-require File.expand_path('../lib/jekyll-compose.rb', __dir__)
+# frozen_string_literal: true
+
+require "jekyll"
+require File.expand_path("../lib/jekyll-compose.rb", __dir__)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

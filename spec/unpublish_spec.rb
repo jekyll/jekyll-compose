@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe(Jekyll::Commands::Unpublish) do
   let(:drafts_dir) { Pathname.new(source_dir("_drafts")) }
   let(:posts_dir)  { Pathname.new(source_dir("_posts")) }
