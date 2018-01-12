@@ -54,11 +54,11 @@ module Jekyll
         end
 
         def _date_stamp
-          @params.date.strftime "%Y-%m-%d"
+          @params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
         end
 
         def _time_stamp
-          @params.date.strftime("%Y-%m-%d %H:%M %z")
+          @params.date.strftime Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
         end
 
         def content(custom_front_matter = {})

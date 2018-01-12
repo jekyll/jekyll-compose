@@ -12,6 +12,8 @@ module Jekyll
     DEFAULT_TYPE = "md".freeze
     DEFAULT_LAYOUT = "post".freeze
     DEFAULT_LAYOUT_PAGE = "page".freeze
+    DEFAULT_DATESTAMP_FORMAT = "%Y-%m-%d".freeze
+    DEFAULT_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M %z".freeze
   end
 end
 

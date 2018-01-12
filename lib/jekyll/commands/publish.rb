@@ -54,7 +54,7 @@ module Jekyll
       end
 
       def to
-        date_stamp = params.date.strftime "%Y-%m-%d"
+        date_stamp = params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
         "_posts/#{date_stamp}-#{params.name}"
       end
     end

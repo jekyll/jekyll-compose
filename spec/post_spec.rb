@@ -4,8 +4,8 @@ RSpec.describe(Jekyll::Commands::Post) do
   let(:name) { "A test post" }
   let(:args) { [name] }
   let(:posts_dir) { Pathname.new source_dir("_posts") }
-  let(:datestamp) { Time.now.strftime("%Y-%m-%d") }
-  let(:timestamp) { Time.now.strftime("%Y-%m-%d %H:%M %z") }
+  let(:datestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
+  let(:timestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT) }
   let(:filename) { "#{datestamp}-a-test-post.md" }
   let(:path) { posts_dir.join(filename) }
 
@@ -67,7 +67,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   context "when the post already exists" do
     let(:name) { "An existing post" }
-    let(:filename) { "#{Time.now.strftime("%Y-%m-%d")}-an-existing-post.md" }
+    let(:filename) { "#{Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT)}-an-existing-post.md" }
 
     before(:each) do
       FileUtils.touch path
