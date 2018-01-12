@@ -10,6 +10,7 @@ module Jekyll
 
           c.option "date", "-d DATE", "--date DATE", "Specify the post date"
           c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
+          c.option "force", "-f", "--force", "Overwrite a post if it already exists"
           c.option "source", "-s", "--source SOURCE", "Custom source directory"
 
           c.action do |args, options|
@@ -24,7 +25,7 @@ module Jekyll
 
         movement = DraftMovementInfo.new params
 
-        mover = DraftMover.new movement, params.source
+        mover = DraftMover.new movement, params.force?, params.source
         mover.move
       end
     end
@@ -60,8 +61,11 @@ module Jekyll
     end
 
     class DraftMover < Compose::FileMover
-      def resource_type
+      def resource_type_from
         "draft"
+      end
+      def resource_type_to
+        "post"
       end
     end
   end

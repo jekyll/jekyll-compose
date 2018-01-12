@@ -74,6 +74,30 @@ RSpec.describe(Jekyll::Commands::Publish) do
     }).to raise_error("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
   end
 
+  context "when the post already exists" do
+    let(:args) { ["_drafts/#{draft_to_publish}"] }
+
+    before(:each) do
+      FileUtils.touch post_path
+    end
+
+    it "raises an error" do
+      expect(lambda {
+        capture_stdout { described_class.process(args) }
+      }).to raise_error("A post already exists at _posts/#{post_filename}")
+      expect(draft_path).to exist
+      expect(post_path).to exist
+    end
+
+    it "overwrites if --force is given" do
+      expect(lambda {
+        capture_stdout { described_class.process(args, "force" => true) }
+      }).not_to raise_error
+      expect(draft_path).not_to exist
+      expect(post_path).to exist
+    end
+  end
+
   context "when a configuration file exists" do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new source_dir("site", "_drafts") }
