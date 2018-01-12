@@ -36,7 +36,7 @@ module Jekyll
       end
 
       def date
-        options["date"].nil? ? Date.today : Date.parse(options["date"])
+        options["date"].nil? ? Time.now : Date.parse(options["date"])
       end
 
       def name
@@ -57,6 +57,10 @@ module Jekyll
       def to
         date_stamp = params.date.strftime "%Y-%m-%d"
         "_posts/#{date_stamp}-#{params.name}"
+      end
+
+      def front_matter
+        { "date" => params.date.strftime("%Y-%m-%d %H:%M %z") }
       end
     end
 

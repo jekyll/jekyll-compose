@@ -22,6 +22,7 @@ module Jekyll
         validate_source
         validate_should_write!
         ensure_directory_exists
+        update_front_matter
         move_file
       end
 
@@ -41,6 +42,24 @@ module Jekyll
       def move_file
         FileUtils.mv(from, to)
         puts "#{resource_type_from.capitalize} #{from} was moved to #{to}"
+      end
+
+      def update_front_matter
+        # from Jekyll::Convertible.read_yaml
+        begin
+          content = File.read(from)
+          data = SafeYAML.load(content)
+          if content =~ /\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)/m
+            content = $POSTMATCH
+            data = Psych.safe_load($1)
+            data = data.merge(movement.front_matter)
+            File.write(from, "#{Psych.dump(data)}---\n#{content}")
+          end
+        rescue SyntaxError => e
+          puts e
+        rescue Exception => e
+          puts e
+        end
       end
 
       private
