@@ -5,6 +5,10 @@
   * Add Rubocop autorrect offenses (#57)
   * Test against Ruby 2.5 (#56)
 
+### Minor Enhancements
+
+  * Check if a file should be overwritten when publishing or unpublishing a post (#59)
+
 ## 0.6.0 / 2017-11-14
 
 ### Development Fixes
