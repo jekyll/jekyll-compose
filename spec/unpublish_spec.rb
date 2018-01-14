@@ -59,6 +59,30 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     }).to raise_error("There was no post found at '#{weird_path}'.")
   end
 
+  context "when the draft already exists" do
+    let(:args) { ["_posts/#{post_filename}"] }
+
+    before(:each) do
+      FileUtils.touch draft_path
+    end
+
+    it "raises an error" do
+      expect(lambda {
+        capture_stdout { described_class.process(args) }
+      }).to raise_error("A draft already exists at _drafts/#{post_name}")
+      expect(draft_path).to exist
+      expect(post_path).to exist
+    end
+
+    it "overwrites if --force is given" do
+      expect(lambda {
+        capture_stdout { described_class.process(args, "force" => true) }
+      }).not_to raise_error
+      expect(draft_path).to exist
+      expect(post_path).not_to exist
+    end
+  end
+
   context "when a configuration file exists" do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new(source_dir("site", "_drafts")) }

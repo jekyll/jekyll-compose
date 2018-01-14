@@ -9,6 +9,7 @@ module Jekyll
           c.description "Moves a post back into the _drafts directory"
 
           c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
+          c.option "force", "-f", "--force", "Overwrite a draft if it already exists"
           c.option "source", "-s", "--source SOURCE", "Custom source directory"
 
           c.action do |args, options|
@@ -23,7 +24,7 @@ module Jekyll
 
         movement = PostMovementInfo.new params
 
-        mover = PostMover.new movement, params.source
+        mover = PostMover.new movement, params.force?, params.source
         mover.move
       end
     end
@@ -54,8 +55,11 @@ module Jekyll
     end
 
     class PostMover < Compose::FileMover
-      def resource_type
+      def resource_type_from
         "post"
+      end
+      def resource_type_to
+        "draft"
       end
     end
   end
