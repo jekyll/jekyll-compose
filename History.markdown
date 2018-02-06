@@ -1,4 +1,4 @@
-## HEAD
+## 0.7.0 / 2018-02-06
 
 ### Development Fixes
 
