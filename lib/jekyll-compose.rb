@@ -6,6 +6,7 @@ require "jekyll-compose/movement_arg_parser"
 require "jekyll-compose/file_creator"
 require "jekyll-compose/file_mover"
 require "jekyll-compose/file_info"
+require "jekyll-compose/file_editor"
 
 module Jekyll
   module Compose
