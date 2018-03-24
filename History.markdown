@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Auto open newly generated files in selected editor (#64)
+
 ## 0.7.0 / 2018-02-06
 
 ### Development Fixes
