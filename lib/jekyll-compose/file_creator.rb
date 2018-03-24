@@ -16,6 +16,11 @@ module Jekyll
         write_file
       end
 
+      def file_path
+        return file.path if root.nil? || root.empty?
+        return File.join(root, file.path)
+      end
+
       private
 
       def validate_should_write!
@@ -33,11 +38,6 @@ module Jekyll
         end
 
         puts "New #{file.resource_type} created at #{file_path}."
-      end
-
-      def file_path
-        return file.path if root.nil? || root.empty?
-        return File.join(root, file.path)
       end
     end
   end

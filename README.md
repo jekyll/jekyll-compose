@@ -50,6 +50,21 @@ Unpublish your post using:
 
     $ bundle exec jekyll unpublish _posts/2014-01-24-my-new-draft.md
 
+## Configuration
+
+To customize the default plugin configuration edit the `jekyll_compose` section within your jekyll config file.
+
+```
+  jekyll_compose:
+    auto_open: true
+```
+
+and make sure that you have `EDITOR` or `JEKYLL_EDITOR` environment variable set.
+
+The latter one will override default `EDITOR` value.
+
+It will open a newly generated post in your selected editor.
+
 ## Contributing
 
 1. Fork it ( http://github.com/jekyll/jekyll-compose/fork )
