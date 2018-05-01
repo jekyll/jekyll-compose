@@ -49,13 +49,14 @@ RSpec.configure do |config|
     ))
   end
 
-  def capture_stdout
-    $old_stdout = $stdout
-    $stdout = StringIO.new
+  def capture_stdout(level = :debug)
+    buffer = StringIO.new
+    Jekyll.logger = Logger.new(buffer)
+    Jekyll.logger.log_level = level
     yield
-    $stdout.rewind
-    return $stdout.string
+    buffer.rewind
+    buffer.string.to_s
   ensure
-    $stdout = $old_stdout
+    Jekyll.logger = Logger.new(StringIO.new, :error)
   end
 end

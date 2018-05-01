@@ -46,7 +46,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   it "writes a helpful message on success" do
     expect(draft_path).to exist
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("Draft _drafts/#{draft_to_publish} was moved to _posts/#{post_filename}\n")
+    expect(output).to include("Draft _drafts/#{draft_to_publish} was moved to _posts/#{post_filename}")
   end
 
   it "publishes a draft on the specified date" do
