@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Replace `puts` calls with `Jekyll.logger.info` (#69)
+
 ## 0.8.0 / 2018-03-24
 
 ### Minor Enhancements
