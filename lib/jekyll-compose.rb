@@ -10,9 +10,9 @@ require "jekyll-compose/file_editor"
 
 module Jekyll
   module Compose
-    DEFAULT_TYPE = "md".freeze
-    DEFAULT_LAYOUT = "post".freeze
-    DEFAULT_LAYOUT_PAGE = "page".freeze
+    DEFAULT_TYPE = "md"
+    DEFAULT_LAYOUT = "post"
+    DEFAULT_LAYOUT_PAGE = "page"
   end
 end
 

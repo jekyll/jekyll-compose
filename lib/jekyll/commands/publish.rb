@@ -64,6 +64,7 @@ module Jekyll
       def resource_type_from
         "draft"
       end
+
       def resource_type_to
         "post"
       end
