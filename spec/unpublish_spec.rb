@@ -37,7 +37,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
   it "writes a helpful message on success" do
     expect(post_path).to exist
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("Post _posts/#{post_filename} was moved to _drafts/#{post_name}\n")
+    expect(output).to include("Post _posts/#{post_filename} was moved to _drafts/#{post_name}")
   end
 
   it "creates the drafts folder if necessary" do

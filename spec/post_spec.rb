@@ -51,7 +51,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   it "should write a helpful message when successful" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New post created at _posts/#{filename}.\n")
+    expect(output).to include("New post created at _posts/#{filename}.")
   end
 
   it "errors with no arguments" do

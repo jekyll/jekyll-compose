@@ -40,7 +40,7 @@ module Jekyll
 
       def move_file
         FileUtils.mv(from, to)
-        puts "#{resource_type_from.capitalize} #{from} was moved to #{to}"
+        Jekyll.logger.info "#{resource_type_from.capitalize} #{from} was moved to #{to}"
       end
 
       private
