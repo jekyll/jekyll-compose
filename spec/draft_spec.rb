@@ -27,7 +27,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
 
   it "writes a helpful success message" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New draft created at _drafts/a-test-post.md.\n")
+    expect(output).to include("New draft created at _drafts/a-test-post.md.")
   end
 
   it "errors with no arguments" do

@@ -31,7 +31,9 @@ module Jekyll
 
         post = PostFileInfo.new params
 
-        Compose::FileCreator.new(post, params.force?, params.source).create!
+        file_creator = Compose::FileCreator.new(post, params.force?, params.source)
+        file_creator.create!
+        Compose::FileEditor.open_editor(file_creator.file_path)
       end
 
       class PostArgParser < Compose::ArgParser

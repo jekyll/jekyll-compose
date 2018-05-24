@@ -16,6 +16,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   before(:each) do
     FileUtils.mkdir_p posts_dir unless File.directory? posts_dir
+    allow(Jekyll::Compose::FileEditor).to receive(:system)
   end
 
   after(:each) do
@@ -50,7 +51,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   it "should write a helpful message when successful" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New post created at _posts/#{filename}.\n")
+    expect(output).to include("New post created at _posts/#{filename}.")
   end
 
   it "errors with no arguments" do
@@ -90,12 +91,15 @@ RSpec.describe(Jekyll::Commands::Post) do
   context "when a configuration file exists" do
     let(:config) { source_dir("_config.yml") }
     let(:posts_dir) { Pathname.new source_dir("site", "_posts") }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -107,6 +111,34 @@ source: site
       expect(path).not_to exist
       capture_stdout { described_class.process(args) }
       expect(path).to exist
+    end
+
+    context "auto_open editor is set" do
+      let(:posts_dir) { Pathname.new source_dir("_posts") }
+      let(:config_data) do
+        %(
+      jekyll_compose:
+        auto_open: true
+      )
+      end
+
+      context "env variable EDITOR is set up" do
+        before { ENV["EDITOR"] = "vim" }
+
+        it "opens post in default editor" do
+          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("vim", path.to_s)
+          capture_stdout { described_class.process(args) }
+        end
+
+        context "env variable JEKYLL_EDITOR is set up" do
+          before { ENV["JEKYLL_EDITOR"] = "nano" }
+
+          it "opens post in jekyll editor" do
+            expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
+            capture_stdout { described_class.process(args) }
+          end
+        end
+      end
     end
   end
 

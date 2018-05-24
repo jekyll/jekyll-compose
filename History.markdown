@@ -2,8 +2,24 @@
 
 ### Development Fixes
 
+  * Replace `puts` calls with `Jekyll.logger.info` (#69)
+
+## 0.8.0 / 2018-03-24
+
+### Minor Enhancements
+
+  * Auto open newly generated files in selected editor (#64)
+
+## 0.7.0 / 2018-02-06
+
+### Development Fixes
+
   * Add Rubocop autorrect offenses (#57)
   * Test against Ruby 2.5 (#56)
+
+### Minor Enhancements
+
+  * Check if a file should be overwritten when publishing or unpublishing a post (#59)
 
 ## 0.6.0 / 2017-11-14
 

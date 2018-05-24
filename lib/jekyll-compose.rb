@@ -6,14 +6,15 @@ require "jekyll-compose/movement_arg_parser"
 require "jekyll-compose/file_creator"
 require "jekyll-compose/file_mover"
 require "jekyll-compose/file_info"
+require "jekyll-compose/file_editor"
 
 module Jekyll
   module Compose
-    DEFAULT_TYPE = "md".freeze
-    DEFAULT_LAYOUT = "post".freeze
-    DEFAULT_LAYOUT_PAGE = "page".freeze
-    DEFAULT_DATESTAMP_FORMAT = "%Y-%m-%d".freeze
-    DEFAULT_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M %z".freeze
+    DEFAULT_TYPE = "md"
+    DEFAULT_LAYOUT = "post"
+    DEFAULT_LAYOUT_PAGE = "page"
+    DEFAULT_DATESTAMP_FORMAT = "%Y-%m-%d"
+    DEFAULT_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M %z"
   end
 end
 
