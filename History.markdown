@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Replace `puts` calls with `Jekyll.logger.info` (#69)
+  * Formatting of dates and times in a DRY manner (#60)
 
 ## 0.8.0 / 2018-03-24
 
