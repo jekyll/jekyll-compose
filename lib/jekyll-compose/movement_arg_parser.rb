@@ -3,7 +3,6 @@
 module Jekyll
   module Compose
     class MovementArgParser < ArgParser
-
       def validate!
         raise ArgumentError, "You must specify a #{resource_type} path." if args.empty?
       end

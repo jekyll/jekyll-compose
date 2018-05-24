@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #
 # This class is aimed to open the created file in the selected editor.
 # To use this feature specify at Jekyll config:
@@ -25,18 +26,17 @@ module Jekyll
 
         def post_editor
           return unless auto_open?
-          ENV['JEKYLL_EDITOR'] || ENV['EDITOR']
+          ENV["JEKYLL_EDITOR"] || ENV["EDITOR"]
         end
 
         def auto_open?
-          jekyll_compose_config && jekyll_compose_config['auto_open']
+          jekyll_compose_config && jekyll_compose_config["auto_open"]
         end
 
         def jekyll_compose_config
-          @jekyll_compose_config ||= Jekyll.configuration['jekyll_compose']
+          @jekyll_compose_config ||= Jekyll.configuration["jekyll_compose"]
         end
       end
     end
   end
 end
-

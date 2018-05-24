@@ -91,9 +91,11 @@ RSpec.describe(Jekyll::Commands::Post) do
   context "when a configuration file exists" do
     let(:config) { source_dir("_config.yml") }
     let(:posts_dir) { Pathname.new source_dir("site", "_posts") }
-    let(:config_data) { %(
-source: site
-) }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
@@ -111,26 +113,28 @@ source: site
       expect(path).to exist
     end
 
-    context 'auto_open editor is set' do
+    context "auto_open editor is set" do
       let(:posts_dir) { Pathname.new source_dir("_posts") }
-      let(:config_data) { %(
-jekyll_compose:
-  auto_open: true
-)}
+      let(:config_data) do
+        %(
+      jekyll_compose:
+        auto_open: true
+      )
+      end
 
-      context 'env variable EDITOR is set up' do
-        before { ENV['EDITOR'] = 'vim' }
+      context "env variable EDITOR is set up" do
+        before { ENV["EDITOR"] = "vim" }
 
-        it 'opens post in default editor' do
-          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with('vim', path.to_s)
+        it "opens post in default editor" do
+          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("vim", path.to_s)
           capture_stdout { described_class.process(args) }
         end
 
-        context 'env variable JEKYLL_EDITOR is set up' do
-          before { ENV['JEKYLL_EDITOR'] = 'nano' }
+        context "env variable JEKYLL_EDITOR is set up" do
+          before { ENV["JEKYLL_EDITOR"] = "nano" }
 
-          it 'opens post in jekyll editor' do
-            expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with('nano', path.to_s)
+          it "opens post in jekyll editor" do
+            expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
             capture_stdout { described_class.process(args) }
           end
         end
