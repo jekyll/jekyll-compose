@@ -9,11 +9,11 @@ RSpec.describe(Jekyll::Compose::FileInfo) do
   describe "#content" do
     context "with a title of only words" do
       let(:expected_result) do
-        <<-CONTENT.gsub(%r!^\s+!, "")
-          ---
-          layout: post
-          title: A test arg parser
-          ---
+        <<~CONTENT
+        ---
+        layout: post
+        title: A test arg parser
+        ---
         CONTENT
       end
 
@@ -32,11 +32,11 @@ RSpec.describe(Jekyll::Compose::FileInfo) do
 
     context "with a title that includes a colon" do
       let(:expected_result) do
-        <<-CONTENT.gsub(%r!^\s+!, "")
-          ---
-          layout: post
-          title: 'A test: arg parser'
-          ---
+        <<~CONTENT
+        ---
+        layout: post
+        title: 'A test: arg parser'
+        ---
         CONTENT
       end
 
@@ -55,12 +55,12 @@ RSpec.describe(Jekyll::Compose::FileInfo) do
 
     context "with custom values" do
       let(:expected_result) do
-        <<-CONTENT.gsub(%r!^\s+!, "")
-          ---
-          layout: post
-          title: A test
-          foo: bar
-          ---
+        <<~CONTENT
+        ---
+        layout: post
+        title: A test
+        foo: bar
+        ---
         CONTENT
       end
 
