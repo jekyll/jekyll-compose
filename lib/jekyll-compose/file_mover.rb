@@ -44,6 +44,7 @@ module Jekyll
       end
 
       private
+
       def from
         movement.from
       end

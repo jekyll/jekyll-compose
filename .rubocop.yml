@@ -27,10 +27,6 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*
 
-Style/IndentHeredoc:
-  Exclude:
-    - spec/**/*
-
 Style/GlobalVars:
   Exclude:
     - spec/spec_helper.rb
