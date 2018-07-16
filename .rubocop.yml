@@ -1,9 +1,7 @@
+require: rubocop-jekyll
+
 inherit_gem:
-  jekyll: .rubocop.yml
-AllCops:
-  TargetRubyVersion: 2.3
-  Exclude:
-    - vendor/**/*
+  rubocop-jekyll: .rubocop.yml
 
 Lint/AmbiguousOperator:
   Exclude:
