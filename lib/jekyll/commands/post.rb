@@ -64,12 +64,17 @@ module Jekyll
         end
 
         def content(custom_front_matter = {})
+          if jekyll_compose_config && jekyll_compose_config["post_default_front_matter"]
+            custom_front_matter.merge!(jekyll_compose_config["post_default_front_matter"])
+          end
+
           super({ "date" => _time_stamp }.merge(custom_front_matter))
         end
 
-        def content
-          post_front_matter = Jekyll.configuration["post_front_matter"]
-          post_front_matter ? super(post_front_matter) : super
+        private
+
+        def jekyll_compose_config
+          @jekyll_compose_config ||= Jekyll.configuration["jekyll_compose"]
         end
       end
     end
