@@ -8,7 +8,6 @@ RSpec.describe(Jekyll::Commands::Post) do
   let(:timestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT) }
   let(:filename) { "#{datestamp}-a-test-post.md" }
   let(:path) { posts_dir.join(filename) }
-  let(:jekyll_config) { YAML.load_file('../fixtures/_config.yml') }
 
   before(:all) do
     FileUtils.mkdir_p source_dir unless File.directory? source_dir
@@ -48,13 +47,6 @@ RSpec.describe(Jekyll::Commands::Post) do
   it "creates a new post with the specified layout" do
     capture_stdout { described_class.process(args, "layout" => "other-layout") }
     expect(File.read(path)).to match(%r!layout: other-layout!)
-  end
-
-  it 'creates a new page with the specified config' do
-    expect(Jekyll).to receive(:configuration).and_return(jekyll_config)
-    capture_stdout { described_class.process(args) }
-    expect(File.read(path)).to match(/description: my description/)
-    expect(File.read(path)).to match(/category: /)
   end
 
   it "should write a helpful message when successful" do
@@ -121,13 +113,23 @@ RSpec.describe(Jekyll::Commands::Post) do
       expect(path).to exist
     end
 
-    context "auto_open editor is set" do
+    context "configuration is set" do
       let(:posts_dir) { Pathname.new source_dir("_posts") }
       let(:config_data) do
         %(
       jekyll_compose:
         auto_open: true
+        post_default_front_matter:
+          description: my description
+          category:
       )
+      end
+
+      it "creates post with the specified config" do
+        capture_stdout { described_class.process(args) }
+        post = File.read(path)
+        expect(post).to match(%r!description: my description!)
+        expect(post).to match(%r!category: !)
       end
 
       context "env variable EDITOR is set up" do
