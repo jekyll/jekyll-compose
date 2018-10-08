@@ -35,7 +35,7 @@ RSpec.describe(Jekyll::Commands::Page) do
 
   it "should write a helpful message when successful" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to include("New page created at #{filename}.")
+    expect(output).to include("New page created at #{filename.cyan}")
   end
 
   it "errors with no arguments" do
