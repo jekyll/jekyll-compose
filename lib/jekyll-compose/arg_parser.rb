@@ -31,7 +31,8 @@ module Jekyll
       end
 
       def source
-        config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
+        File.join(config["source"], config["collections_dir"])
+          .gsub(%r!^#{Regexp.quote(Dir.pwd)}/*!, "")
       end
     end
   end
