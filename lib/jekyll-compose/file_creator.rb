@@ -18,6 +18,7 @@ module Jekyll
 
       def file_path
         return file.path if root.nil? || root.empty?
+
         File.join(root, file.path)
       end
 
