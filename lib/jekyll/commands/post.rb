@@ -26,13 +26,16 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PostArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PostArgParser.new args, options, config
         params.validate!
 
         post = PostFileInfo.new params
 
         file_creator = Compose::FileCreator.new(post, params.force?, params.source)
         file_creator.create!
+
+        Compose::FileEditor.bootstrap(config)
         Compose::FileEditor.open_editor(file_creator.file_path)
       end
 

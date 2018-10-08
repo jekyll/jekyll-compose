@@ -20,7 +20,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PublishArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PublishArgParser.new args, options, config
         params.validate!
 
         movement = DraftMovementInfo.new params

@@ -4,10 +4,12 @@ module Jekyll
   module Compose
     class ArgParser
       attr_reader :args, :options, :config
-      def initialize(args, options)
+
+      # TODO: Remove `nil` parameter in v1.0
+      def initialize(args, options, config = nil)
         @args = args
         @options = options
-        @config = Jekyll.configuration(options)
+        @config = config || Jekyll.configuration(options)
       end
 
       def validate!
