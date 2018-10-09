@@ -9,6 +9,7 @@
 ### Minor Enhancements
 
   * Add some color to the success msg like jekyll new (#75)
+  * Allow additional front matter for Post (#41)
 
 ## 0.8.0 / 2018-03-24
 
