@@ -51,7 +51,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   it "should write a helpful message when successful" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to include("New post created at _posts/#{filename}.")
+    expect(output).to include("New post created at #{File.join("_posts", filename).cyan}")
   end
 
   it "errors with no arguments" do
@@ -113,13 +113,23 @@ RSpec.describe(Jekyll::Commands::Post) do
       expect(path).to exist
     end
 
-    context "auto_open editor is set" do
+    context "configuration is set" do
       let(:posts_dir) { Pathname.new source_dir("_posts") }
       let(:config_data) do
         %(
       jekyll_compose:
         auto_open: true
+        post_default_front_matter:
+          description: my description
+          category:
       )
+      end
+
+      it "creates post with the specified config" do
+        capture_stdout { described_class.process(args) }
+        post = File.read(path)
+        expect(post).to match(%r!description: my description!)
+        expect(post).to match(%r!category: !)
       end
 
       context "env variable EDITOR is set up" do

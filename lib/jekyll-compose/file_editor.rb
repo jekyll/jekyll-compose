@@ -33,6 +33,7 @@ module Jekyll
 
         def post_editor
           return unless auto_open?
+
           ENV["JEKYLL_EDITOR"] || ENV["EDITOR"]
         end
 

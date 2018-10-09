@@ -18,6 +18,7 @@ module Jekyll
 
       def file_path
         return file.path if root.nil? || root.empty?
+
         File.join(root, file.path)
       end
 
@@ -37,7 +38,7 @@ module Jekyll
           f.puts(file.content)
         end
 
-        Jekyll.logger.info "New #{file.resource_type} created at #{file_path}."
+        Jekyll.logger.info "New #{file.resource_type} created at #{file_path.cyan}"
       end
     end
   end
