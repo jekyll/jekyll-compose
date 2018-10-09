@@ -79,12 +79,15 @@ RSpec.describe(Jekyll::Commands::Draft) do
   context "when a configuration file exists" do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new source_dir(File.join("site", "_drafts")) }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -96,6 +99,29 @@ source: site
       expect(path).not_to exist
       capture_stdout { described_class.process(args) }
       expect(path).to exist
+    end
+
+    context "and collections_dir is set" do
+      let(:collections_dir) { "my_collections" }
+      let(:drafts_dir) { Pathname.new source_dir("site", collections_dir, "_drafts") }
+      let(:config_data) do
+        %(
+      source: site
+      collections_dir: #{collections_dir}
+      )
+      end
+
+      it "should create drafts at the correct location" do
+        expect(path).not_to exist
+        capture_stdout { described_class.process(args) }
+        expect(path).to exist
+      end
+
+      it "should write a helpful message when successful" do
+        output = capture_stdout { described_class.process(args) }
+        generated_path = File.join("site", collections_dir, "_drafts", "a-test-post.md").cyan
+        expect(output).to include("New draft created at #{generated_path}")
+      end
     end
   end
 
