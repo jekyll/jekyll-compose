@@ -2,7 +2,11 @@
 
 Streamline your writing in Jekyll with some commands.
 
-[![Build Status](https://travis-ci.org/jekyll/jekyll-compose.svg?branch=master)](https://travis-ci.org/jekyll/jekyll-compose)
+[![Linux Build Status](https://img.shields.io/travis/jekyll/jekyll-compose/master.svg?label=Linux%20build)][travis]
+[![Windows Build status](https://img.shields.io/appveyor/ci/jekyll/jekyll-compose/master.svg?label=Windows%20build)][appveyor]
+
+[travis]: https://travis-ci.org/jekyll/jekyll-compose
+[appveyor]: https://ci.appveyor.com/project/jekyll/jekyll-compose
 
 ## Installation
 
