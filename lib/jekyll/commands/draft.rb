@@ -30,7 +30,9 @@ module Jekyll
 
         draft = DraftFileInfo.new params
 
-        Compose::FileCreator.new(draft, params.force?, params.source).create!
+        file_creator = Compose::FileCreator.new(draft, params.force?, params.source)
+        file_creator.create!
+        Compose::FileEditor.open_editor(file_creator.file_path)
       end
 
       class DraftFileInfo < Compose::FileInfo
@@ -40,6 +42,19 @@ module Jekyll
 
         def path
           "_drafts/#{file_name}"
+        end
+
+        def content(custom_front_matter = {})
+          default_front_matter = compose_config["draft_default_front_matter"]
+          custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
+
+          super(custom_front_matter)
+        end
+
+        private
+
+        def compose_config
+          @compose_config ||= Jekyll.configuration["jekyll_compose"] || {}
         end
       end
     end
