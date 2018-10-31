@@ -13,6 +13,7 @@
   * Allow additional front matter for Post (#41)
   * Mirror `draft` command to current `post` command (#79)
   * Generate configuration from CLI options (#76)
+  * Add support for collections_dir configuration (#74)
 
 ## 0.8.0 / 2018-03-24
 
