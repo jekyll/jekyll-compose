@@ -87,14 +87,15 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new(source_dir("site", "_drafts")) }
     let(:posts_dir)  { Pathname.new(source_dir("site", "_posts")) }
-
-    let(:args) { ["site/_posts/#{post_filename}"] }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -109,13 +110,37 @@ source: site
       expect(post_path).not_to exist
       expect(draft_path).to exist
     end
+
+    context "and collections_dir is set" do
+      let(:collections_dir) { "my_collections" }
+      let(:drafts_dir) { Pathname.new(source_dir("site", collections_dir, "_drafts")) }
+      let(:posts_dir)  { Pathname.new(source_dir("site", collections_dir, "_posts")) }
+      let(:config_data) do
+        %(
+      source: site
+      collections_dir: #{collections_dir}
+      )
+      end
+
+      it "should move posts to the correct location" do
+        expect(post_path).to exist
+        expect(draft_path).not_to exist
+        capture_stdout { described_class.process(args) }
+        expect(draft_path).to exist
+      end
+
+      it "should write a helpful message when successful" do
+        output = capture_stdout { described_class.process(args) }
+        post_filepath  = File.join("site", collections_dir, "_posts", post_filename)
+        draft_filepath = File.join("site", collections_dir, "_drafts", post_name)
+        expect(output).to include("Post #{post_filepath} was moved to #{draft_filepath}")
+      end
+    end
   end
 
   context "when source option is set" do
     let(:drafts_dir) { Pathname.new(source_dir("site", "_drafts")) }
     let(:posts_dir)  { Pathname.new(source_dir("site", "_posts")) }
-
-    let(:args) { ["site/_posts/#{post_filename}"] }
 
     it "should use source directory set by command line option" do
       expect(post_path).to exist

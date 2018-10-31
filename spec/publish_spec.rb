@@ -102,14 +102,15 @@ RSpec.describe(Jekyll::Commands::Publish) do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new source_dir("site", "_drafts") }
     let(:posts_dir)  { Pathname.new source_dir("site", "_posts") }
-
-    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -128,8 +129,6 @@ source: site
   context "when source option is set" do
     let(:drafts_dir) { Pathname.new source_dir("site", "_drafts") }
     let(:posts_dir)  { Pathname.new source_dir("site", "_posts") }
-
-    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
 
     it "should use source directory set by command line option" do
       expect(post_path).not_to exist

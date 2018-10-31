@@ -150,6 +150,29 @@ RSpec.describe(Jekyll::Commands::Post) do
         end
       end
     end
+
+    context "and collections_dir is set" do
+      let(:collections_dir) { "my_collections" }
+      let(:posts_dir) { Pathname.new source_dir("site", collections_dir, "_posts") }
+      let(:config_data) do
+        %(
+      source: site
+      collections_dir: #{collections_dir}
+      )
+      end
+
+      it "should create posts at the correct location" do
+        expect(path).not_to exist
+        capture_stdout { described_class.process(args) }
+        expect(path).to exist
+      end
+
+      it "should write a helpful message when successful" do
+        output = capture_stdout { described_class.process(args) }
+        generated_path = File.join("site", collections_dir, "_posts", filename).cyan
+        expect(output).to include("New post created at #{generated_path}")
+      end
+    end
   end
 
   context "when source option is set" do

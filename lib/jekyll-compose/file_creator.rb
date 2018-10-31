@@ -30,7 +30,7 @@ module Jekyll
 
       def ensure_directory_exists
         dir = File.dirname file_path
-        Dir.mkdir(dir) unless Dir.exist?(dir)
+        FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
       end
 
       def write_file

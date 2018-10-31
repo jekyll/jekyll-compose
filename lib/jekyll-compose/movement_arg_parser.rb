@@ -8,7 +8,7 @@ module Jekyll
       end
 
       def path
-        args.join " "
+        File.join(source, args.join(" ")).sub(%r!\A/!, "")
       end
     end
   end
