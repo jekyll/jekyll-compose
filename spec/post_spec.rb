@@ -133,10 +133,10 @@ RSpec.describe(Jekyll::Commands::Post) do
       end
 
       context "env variable EDITOR is set up" do
-        before { ENV["EDITOR"] = "vim" }
+        before { ENV["EDITOR"] = "nano" }
 
         it "opens post in default editor" do
-          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("vim", path.to_s)
+          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
           capture_stdout { described_class.process(args) }
         end
 

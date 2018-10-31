@@ -16,6 +16,13 @@ module Jekyll
   module Compose
     class FileEditor
       class << self
+        attr_reader  :compose_config
+        alias_method :jekyll_compose_config, :compose_config
+
+        def bootstrap(config)
+          @compose_config = config["jekyll_compose"] || {}
+        end
+
         def open_editor(filepath)
           run_editor(post_editor, File.expand_path(filepath)) if post_editor
         end
@@ -31,11 +38,7 @@ module Jekyll
         end
 
         def auto_open?
-          jekyll_compose_config && jekyll_compose_config["auto_open"]
-        end
-
-        def jekyll_compose_config
-          @jekyll_compose_config ||= Jekyll.configuration["jekyll_compose"]
+          compose_config["auto_open"]
         end
       end
     end

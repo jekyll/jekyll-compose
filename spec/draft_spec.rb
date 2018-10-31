@@ -13,6 +13,7 @@ RSpec.describe(Jekyll::Commands::Draft) do
 
   before(:each) do
     FileUtils.mkdir_p drafts_dir unless File.directory? drafts_dir
+    allow(Jekyll::Compose::FileEditor).to receive(:system)
   end
 
   after(:each) do
@@ -99,6 +100,44 @@ RSpec.describe(Jekyll::Commands::Draft) do
       expect(path).not_to exist
       capture_stdout { described_class.process(args) }
       expect(path).to exist
+    end
+
+    context "configuration is set" do
+      let(:drafts_dir) { Pathname.new source_dir("_drafts") }
+      let(:config_data) do
+        %(
+      jekyll_compose:
+        auto_open: true
+        draft_default_front_matter:
+          description: my description
+          category:
+      )
+      end
+
+      it "creates post with the specified config" do
+        capture_stdout { described_class.process(args) }
+        post = File.read(path)
+        expect(post).to match(%r!description: my description!)
+        expect(post).to match(%r!category: !)
+      end
+
+      context "env variable EDITOR is set up" do
+        before { ENV["EDITOR"] = "nano" }
+
+        it "opens post in default editor" do
+          expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
+          capture_stdout { described_class.process(args) }
+        end
+
+        context "env variable JEKYLL_EDITOR is set up" do
+          before { ENV["JEKYLL_EDITOR"] = "nano" }
+
+          it "opens post in jekyll editor" do
+            expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
+            capture_stdout { described_class.process(args) }
+          end
+        end
+      end
     end
 
     context "and collections_dir is set" do
