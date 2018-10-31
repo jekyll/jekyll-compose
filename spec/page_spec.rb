@@ -52,9 +52,10 @@ RSpec.describe(Jekyll::Commands::Page) do
       FileUtils.touch path
     end
 
-    it "displays a warning" do
-      output = capture_stdout { described_class.process(args) }
-      expect(output).to include("A page already exists at #{filename}".yellow)
+    it "raises an error" do
+      expect(lambda {
+        capture_stdout { described_class.process(args) }
+      }).to raise_error("A page already exists at #{filename}")
     end
 
     it "overwrites if --force is given" do
