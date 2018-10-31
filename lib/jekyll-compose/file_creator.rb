@@ -25,7 +25,7 @@ module Jekyll
       private
 
       def validate_should_write!
-        raise ArgumentError, "A #{file.resource_type} already exists at #{file_path}" if File.exist?(file_path) && !force
+        return Jekyll.logger.warn "A #{file.resource_type} already exists at #{file_path}".yellow if File.exist?(file_path) && !force
       end
 
       def ensure_directory_exists
