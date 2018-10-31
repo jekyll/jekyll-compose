@@ -25,7 +25,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = Compose::ArgParser.new args, options
+        config = configuration_from_options(options)
+        params = Compose::ArgParser.new args, options, config
         params.validate!
 
         draft = DraftFileInfo.new params

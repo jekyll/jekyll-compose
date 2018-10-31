@@ -26,13 +26,16 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PostArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PostArgParser.new args, options, config
         params.validate!
 
         post = PostFileInfo.new params
 
         file_creator = Compose::FileCreator.new(post, params.force?, params.source)
         file_creator.create!
+
+        Compose::FileEditor.bootstrap(config)
         Compose::FileEditor.open_editor(file_creator.file_path)
       end
 
@@ -64,16 +67,10 @@ module Jekyll
         end
 
         def content(custom_front_matter = {})
-          default_front_matter = compose_config["post_default_front_matter"]
+          default_front_matter = params.config.dig("jekyll_compose", "post_default_front_matter")
           custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
 
           super({ "date" => _time_stamp }.merge(custom_front_matter))
-        end
-
-        private
-
-        def compose_config
-          @compose_config ||= Jekyll.configuration["jekyll_compose"] || {}
         end
       end
     end

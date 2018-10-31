@@ -19,7 +19,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = UnpublishArgParser.new args, options
+        config = configuration_from_options(options)
+        params = UnpublishArgParser.new args, options, config
         params.validate!
 
         movement = PostMovementInfo.new params

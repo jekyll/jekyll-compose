@@ -25,7 +25,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PageArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PageArgParser.new args, options, config
         params.validate!
 
         page = PageFileInfo.new params
