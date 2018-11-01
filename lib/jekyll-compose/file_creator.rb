@@ -11,7 +11,8 @@ module Jekyll
       end
 
       def create!
-        validate_should_write!
+        return unless create?
+
         ensure_directory_exists
         write_file
       end
@@ -24,8 +25,12 @@ module Jekyll
 
       private
 
-      def validate_should_write!
-        return Jekyll.logger.warn "A #{file.resource_type} already exists at #{file_path}".yellow if File.exist?(file_path) && !force
+      def create?
+        return true if force
+        return true unless File.exist?(file_path)
+
+        Jekyll.logger.warn "A #{file.resource_type} already exists at #{file_path}"
+        false
       end
 
       def ensure_directory_exists

@@ -63,16 +63,16 @@ RSpec.describe(Jekyll::Commands::Draft) do
       FileUtils.touch path
     end
 
-    it "displays a warning and abort" do
+    it "displays a warning and returns" do
       output = capture_stdout { described_class.process(args) }
-      expect(output).to include("A draft already exists at _drafts/an-existing-draft.md".yellow)
+      expect(output).to include("A draft already exists at _drafts/an-existing-draft.md")
+      expect(File.read(path)).to_not match("layout: post")
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
-      expect(File.read(path)).to match(%r!layout: post!)
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A draft already exists at _drafts/an-existing-draft.md")
+      expect(File.read(path)).to match("layout: post")
     end
   end
 
