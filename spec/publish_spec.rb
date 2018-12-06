@@ -39,7 +39,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   it "publishes with a specified date" do
     path = posts_dir.join "2012-03-04-#{draft_to_publish}"
     expect(path).not_to exist
-    capture_stdout { described_class.process(args, { "date"=>"2012-3-4" }) }
+    capture_stdout { described_class.process(args, "date"=>"2012-3-4") }
     expect(path).to exist
   end
 
@@ -51,7 +51,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
 
   it "publishes a draft on the specified date" do
     path = posts_dir.join "2012-03-04-a-test-post.md"
-    capture_stdout { described_class.process(args, { "date" => "2012-3-4" }) }
+    capture_stdout { described_class.process(args, "date" => "2012-3-4") }
     expect(path).to exist
   end
 
