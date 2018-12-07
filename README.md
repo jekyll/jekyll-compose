@@ -58,16 +58,40 @@ Unpublish your post using:
 
 To customize the default plugin configuration edit the `jekyll_compose` section within your jekyll config file.
 
-```
+### auto-open new drafts or posts in your editor
+
+```yaml
   jekyll_compose:
     auto_open: true
 ```
 
 and make sure that you have `EDITOR` or `JEKYLL_EDITOR` environment variable set.
+For instance if you wish to open newly created Jekyll posts and drafts in Atom editor you can add the following line in your shell configuration:
+```
+export JEKYLL_EDITOR=atom
+```
 
 The latter one will override default `EDITOR` value.
 
-It will open a newly generated post in your selected editor.
+### Set default front matter for drafts and posts
+
+If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `draft_default_front_matter` and `post_default_front_matter`config keys, for instance:
+
+```yaml
+  jekyll_compose:
+  draft_default_front_matter:
+    description:
+    image:
+    category:
+    tags:
+  post_default_front_matter:
+    description:
+    image:
+    category:
+    tags:
+    published: false
+    sitemap: false
+```
 
 ## Contributing
 
