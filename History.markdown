@@ -16,6 +16,10 @@
   * Add support for collections_dir configuration (#74)
   * fix: display a warning when file exists (#81)
 
+### Bug Fixes
+
+  * Warn on error and exit gracefully (#83)
+
 ## 0.8.0 / 2018-03-24
 
 ### Minor Enhancements
