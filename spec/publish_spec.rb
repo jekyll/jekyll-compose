@@ -67,11 +67,12 @@ RSpec.describe(Jekyll::Commands::Publish) do
     }).to raise_error("You must specify a draft path.")
   end
 
-  it "errors if no file exists at given path" do
+  it "outputs a warning and returns if no file exists at given path" do
     weird_path = "_drafts/i-do-not-exist.markdown"
-    expect(lambda {
-      capture_stdout { described_class.process [weird_path] }
-    }).to raise_error("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
+    output = capture_stdout { described_class.process [weird_path] }
+    expect(output).to include("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
+    expect(draft_path).to exist
+    expect(post_path).to_not exist
   end
 
   context "when the post already exists" do
@@ -81,18 +82,16 @@ RSpec.describe(Jekyll::Commands::Publish) do
       FileUtils.touch post_path
     end
 
-    it "raises an error" do
-      expect(lambda {
-        capture_stdout { described_class.process(args) }
-      }).to raise_error("A post already exists at _posts/#{post_filename}")
+    it "outputs a warning and returns" do
+      output = capture_stdout { described_class.process(args) }
+      expect(output).to include("A post already exists at _posts/#{post_filename}")
       expect(draft_path).to exist
       expect(post_path).to exist
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A post already exists at _posts/#{post_filename}")
       expect(draft_path).not_to exist
       expect(post_path).to exist
     end

@@ -19,8 +19,8 @@ module Jekyll
       end
 
       def move
-        validate_source
-        validate_should_write!
+        return unless valid_source? && valid_destination?
+
         ensure_directory_exists
         move_file
       end
@@ -44,6 +44,24 @@ module Jekyll
       end
 
       private
+
+      def valid_source?
+        return true if File.exist?(from)
+
+        invalidate_with "There was no #{resource_type_from} found at '#{from}'."
+      end
+
+      def valid_destination?
+        return true if force
+        return true unless File.exist?(to)
+
+        invalidate_with "A #{resource_type_to} already exists at #{to}"
+      end
+
+      def invalidate_with(msg)
+        Jekyll.logger.warn msg
+        false
+      end
 
       def from
         movement.from

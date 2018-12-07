@@ -74,16 +74,16 @@ RSpec.describe(Jekyll::Commands::Post) do
       FileUtils.touch path
     end
 
-    it "displays a warning" do
+    it "displays a warning and returns" do
       output = capture_stdout { described_class.process(args) }
-      expect(output).to include("A post already exists at _posts/#{filename}".yellow)
+      expect(output).to include("A post already exists at _posts/#{filename}")
+      expect(File.read(path)).to_not match("layout: post")
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
-      expect(File.read(path)).to match(%r!layout: post!)
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A post already exists at _posts/#{filename}")
+      expect(File.read(path)).to match("layout: post")
     end
   end
 
