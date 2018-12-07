@@ -1,24 +1,24 @@
-## HEAD
-
-### Development Fixes
-
-  * Replace `puts` calls with `Jekyll.logger.info` (#69)
-  * Formatting of dates and times in a DRY manner (#60)
-  * Appease newest Rubocop (#71)
-  * chore(deps): rubocop-jekyll 0.3 (#80)
+## 0.9.0 / 2018-12-07
 
 ### Minor Enhancements
 
-  * Add some color to the success msg like jekyll new (#75)
   * Allow additional front matter for Post (#41)
-  * Mirror `draft` command to current `post` command (#79)
-  * Generate configuration from CLI options (#76)
   * Add support for collections_dir configuration (#74)
-  * fix: display a warning when file exists (#81)
+  * Add some color to the success msg like jekyll new (#75)
+  * Generate configuration from CLI options (#76)
+  * Mirror `draft` command to current `post` command (#79)
 
 ### Bug Fixes
 
+  * Display a warning when file exists (#81)
   * Warn on error and exit gracefully (#83)
+
+### Development Fixes
+
+  * Formatting of dates and times in a DRY manner (#60)
+  * style: replace `puts` calls with `Jekyll.logger.info` (#69)
+  * style: appease Rubocop (#71)
+  * style: rubocop-jekyll 0.3 (#80)
 
 ## 0.8.0 / 2018-03-24
 
