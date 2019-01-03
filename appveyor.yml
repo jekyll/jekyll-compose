@@ -11,7 +11,6 @@ environment:
     - RUBY_FOLDER_VER: "25-x64"
     - RUBY_FOLDER_VER: "25"
     - RUBY_FOLDER_VER: "24"
-    - RUBY_FOLDER_VER: "23"
 
 install:
   - SET PATH=C:\Ruby%RUBY_FOLDER_VER%\bin;%PATH%
