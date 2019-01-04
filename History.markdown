@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Drop support for Ruby 2.3 (#86)
+
 ## 0.9.0 / 2018-12-07
 
 ### Minor Enhancements
