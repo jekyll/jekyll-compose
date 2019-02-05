@@ -93,6 +93,10 @@ If you wish to add default front matter to newly created posts or drafts, you ca
     sitemap: false
 ```
 
+This will also auto add:
+ - The creation timestamp under the `date` attribure.
+ - The title attribute under the `title` attribute
+
 ## Contributing
 
 1. Fork it ( http://github.com/jekyll/jekyll-compose/fork )
