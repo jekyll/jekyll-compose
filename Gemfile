@@ -3,4 +3,4 @@
 source "https://rubygems.org"
 gemspec
 
-gem "jekyll", ENV["JEKYLL_VERSION"] ? "~> #{ENV["JEKYLL_VERSION"]}" : ">= 3.0"
+gem "jekyll", ENV["JEKYLL_VERSION"] if ENV["JEKYLL_VERSION"]

@@ -1,7 +1,8 @@
-## HEAD
+## 0.10.0 / 2019-03-21
 
 ### Development Fixes
 
+  * Allow Jekyll v4 (still in alpha)
   * Drop support for Ruby 2.3 (#86)
 
 ## 0.9.0 / 2018-12-07
