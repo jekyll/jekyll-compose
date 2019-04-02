@@ -53,6 +53,10 @@ module Jekyll
       def to
         "_drafts/#{params.name}"
       end
+
+      def front_matter
+        { "date" => nil }
+      end
     end
 
     class PostMover < Compose::FileMover
