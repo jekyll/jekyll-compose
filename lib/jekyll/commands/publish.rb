@@ -60,8 +60,8 @@ module Jekyll
         "_posts/#{date_stamp}-#{params.name}"
       end
 
-      def front_matter
-        { "date" => params.date.strftime("%Y-%m-%d %H:%M %z") }
+      def front_matter(data)
+        data.merge({ "date" => params.date.strftime("%Y-%m-%d %H:%M %z") })
       end
     end
 

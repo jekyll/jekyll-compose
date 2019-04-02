@@ -54,8 +54,8 @@ module Jekyll
         "_drafts/#{params.name}"
       end
 
-      def front_matter
-        { "date" => nil }
+      def front_matter(data)
+        data.select{ |x| x != "date" }
       end
     end
 

@@ -48,11 +48,11 @@ module Jekyll
         # from Jekyll::Convertible.read_yaml
         begin
           content = File.read(from)
-          data = SafeYAML.load(content)
+          data = Psych.safe_load(content)
           if content =~ /\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)/m
             content = $POSTMATCH
             data = Psych.safe_load($1)
-            data = data.merge(movement.front_matter)
+            data = movement.front_matter(data)
             File.write(from, "#{Psych.dump(data)}---\n#{content}")
           end
         rescue SyntaxError => e
