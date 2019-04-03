@@ -25,7 +25,7 @@ test_script:
   - ruby --version
   - gem --version
   - bundler --version
-  - bash ./script/cibuild
+  - bash ./script/test
 
 cache:
   # If one of the files after the right arrow changes, cache will be invalidated
