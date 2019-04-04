@@ -61,7 +61,7 @@ module Jekyll
       end
 
       def front_matter(data)
-        data["date"] ||= params.date.strftime("%Y-%m-%d %H:%M %z"))
+        data["date"] ||= params.date.strftime("%Y-%m-%d %H:%M %z")
         data
       end
     end
