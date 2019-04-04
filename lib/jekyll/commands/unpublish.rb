@@ -53,6 +53,10 @@ module Jekyll
       def to
         "_drafts/#{params.name}"
       end
+
+      def front_matter(data)
+        data.reject { |key, _value| key == "date" }
+      end
     end
 
     class PostMover < Compose::FileMover

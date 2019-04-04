@@ -22,6 +22,7 @@ module Jekyll
         return unless valid_source? && valid_destination?
 
         ensure_directory_exists
+        update_front_matter
         move_file
       end
 
@@ -41,6 +42,20 @@ module Jekyll
       def move_file
         FileUtils.mv(from, to)
         Jekyll.logger.info "#{resource_type_from.capitalize} #{from} was moved to #{to}"
+      end
+
+      def update_front_matter
+        content = File.read(from)
+        if content =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
+          content = $POSTMATCH
+          match = Regexp.last_match[1] if Regexp.last_match
+          data = movement.front_matter(Psych.safe_load(match))
+          File.write(from, "#{Psych.dump(data)}---\n#{content}")
+        end
+      rescue Psych::SyntaxError => e
+        Jekyll.logger.warn e
+      rescue StandardError => e
+        Jekyll.logger.warn e
       end
 
       private
