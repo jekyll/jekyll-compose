@@ -2,6 +2,6 @@
 
 module Jekyll
   module Compose
-    VERSION = "0.6.0".freeze
+    VERSION = "0.10.1"
   end
 end

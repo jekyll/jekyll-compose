@@ -37,7 +37,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
   it "writes a helpful message on success" do
     expect(post_path).to exist
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("Post _posts/#{post_filename} was moved to _drafts/#{post_name}\n")
+    expect(output).to include("Post _posts/#{post_filename} was moved to _drafts/#{post_name}")
   end
 
   it "creates the drafts folder if necessary" do
@@ -52,11 +52,10 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     }).to raise_error("You must specify a post path.")
   end
 
-  it "errors if no file exists at given path" do
+  it "outputs a warning and returns if no file exists at given path" do
     weird_path = "_posts/i-forgot-the-date.md"
-    expect(lambda {
-      capture_stdout { described_class.process [weird_path] }
-    }).to raise_error("There was no post found at '#{weird_path}'.")
+    output = capture_stdout { described_class.process [weird_path] }
+    expect(output).to include("There was no post found at '#{weird_path}'.")
   end
 
   context "when the draft already exists" do
@@ -66,18 +65,16 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
       FileUtils.touch draft_path
     end
 
-    it "raises an error" do
-      expect(lambda {
-        capture_stdout { described_class.process(args) }
-      }).to raise_error("A draft already exists at _drafts/#{post_name}")
+    it "displays a warning and returns" do
+      output = capture_stdout { described_class.process(args) }
+      expect(output).to include("A draft already exists at _drafts/#{post_name}")
       expect(draft_path).to exist
       expect(post_path).to exist
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A draft already exists at _drafts/#{post_name}")
       expect(draft_path).to exist
       expect(post_path).not_to exist
     end
@@ -87,14 +84,15 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new(source_dir("site", "_drafts")) }
     let(:posts_dir)  { Pathname.new(source_dir("site", "_posts")) }
-
-    let(:args) { ["site/_posts/#{post_filename}"] }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -109,13 +107,37 @@ source: site
       expect(post_path).not_to exist
       expect(draft_path).to exist
     end
+
+    context "and collections_dir is set" do
+      let(:collections_dir) { "my_collections" }
+      let(:drafts_dir) { Pathname.new(source_dir("site", collections_dir, "_drafts")) }
+      let(:posts_dir)  { Pathname.new(source_dir("site", collections_dir, "_posts")) }
+      let(:config_data) do
+        %(
+      source: site
+      collections_dir: #{collections_dir}
+      )
+      end
+
+      it "should move posts to the correct location" do
+        expect(post_path).to exist
+        expect(draft_path).not_to exist
+        capture_stdout { described_class.process(args) }
+        expect(draft_path).to exist
+      end
+
+      it "should write a helpful message when successful" do
+        output = capture_stdout { described_class.process(args) }
+        post_filepath  = File.join("site", collections_dir, "_posts", post_filename)
+        draft_filepath = File.join("site", collections_dir, "_drafts", post_name)
+        expect(output).to include("Post #{post_filepath} was moved to #{draft_filepath}")
+      end
+    end
   end
 
   context "when source option is set" do
     let(:drafts_dir) { Pathname.new(source_dir("site", "_drafts")) }
     let(:posts_dir)  { Pathname.new(source_dir("site", "_posts")) }
-
-    let(:args) { ["site/_posts/#{post_filename}"] }
 
     it "should use source directory set by command line option" do
       expect(post_path).to exist

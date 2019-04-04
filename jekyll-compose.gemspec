@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 lib = File.expand_path("lib", __dir__)
@@ -15,14 +14,15 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/jekyll/jekyll-compose"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").grep(%r!(bin|lib)/!)
-  spec.executables   = spec.files.grep(%r!^bin/!) { |f| File.basename(f) }
+  spec.files         = `git ls-files -z`.split("\x0").grep(%r!^lib/!)
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "jekyll", "~> 3.0"
+  spec.required_ruby_version = ">= 2.3.0"
 
-  spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_dependency "jekyll", ">= 3.7", "< 5.0"
+
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop", "~> 0.51"
+  spec.add_development_dependency "rubocop-jekyll", "~> 0.5"
 end

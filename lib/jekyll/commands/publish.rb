@@ -20,7 +20,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PublishArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PublishArgParser.new args, options, config
         params.validate!
 
         movement = DraftMovementInfo.new params
@@ -55,7 +56,7 @@ module Jekyll
       end
 
       def to
-        date_stamp = params.date.strftime "%Y-%m-%d"
+        date_stamp = params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
         "_posts/#{date_stamp}-#{params.name}"
       end
 
@@ -68,6 +69,7 @@ module Jekyll
       def resource_type_from
         "draft"
       end
+
       def resource_type_to
         "post"
       end

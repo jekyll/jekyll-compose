@@ -19,8 +19,8 @@ module Jekyll
       end
 
       def move
-        validate_source
-        validate_should_write!
+        return unless valid_source? && valid_destination?
+
         ensure_directory_exists
         update_front_matter
         move_file
@@ -41,7 +41,7 @@ module Jekyll
 
       def move_file
         FileUtils.mv(from, to)
-        puts "#{resource_type_from.capitalize} #{from} was moved to #{to}"
+        Jekyll.logger.info "#{resource_type_from.capitalize} #{from} was moved to #{to}"
       end
 
       def update_front_matter
@@ -63,6 +63,25 @@ module Jekyll
       end
 
       private
+
+      def valid_source?
+        return true if File.exist?(from)
+
+        invalidate_with "There was no #{resource_type_from} found at '#{from}'."
+      end
+
+      def valid_destination?
+        return true if force
+        return true unless File.exist?(to)
+
+        invalidate_with "A #{resource_type_to} already exists at #{to}"
+      end
+
+      def invalidate_with(msg)
+        Jekyll.logger.warn msg
+        false
+      end
+
       def from
         movement.from
       end
@@ -73,7 +92,8 @@ module Jekyll
 
       def file_path(path)
         return path if root.nil? || root.empty?
-        return File.join(root, path)
+
+        File.join(root, path)
       end
     end
   end

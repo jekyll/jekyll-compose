@@ -1,34 +1,41 @@
 # frozen_string_literal: true
 
-class Jekyll::Compose::ArgParser
-  attr_reader :args, :options, :config
-  def initialize(args, options)
-    @args = args
-    @options = options
-    @config = Jekyll.configuration(options)
-  end
+module Jekyll
+  module Compose
+    class ArgParser
+      attr_reader :args, :options, :config
 
-  def validate!
-    raise ArgumentError, "You must specify a name." if args.empty?
-  end
+      # TODO: Remove `nil` parameter in v1.0
+      def initialize(args, options, config = nil)
+        @args = args
+        @options = options
+        @config = config || Jekyll.configuration(options)
+      end
 
-  def type
-    options["extension"] || Jekyll::Compose::DEFAULT_TYPE
-  end
+      def validate!
+        raise ArgumentError, "You must specify a name." if args.empty?
+      end
 
-  def layout
-    options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
-  end
+      def type
+        options["extension"] || Jekyll::Compose::DEFAULT_TYPE
+      end
 
-  def title
-    args.join " "
-  end
+      def layout
+        options["layout"] || Jekyll::Compose::DEFAULT_LAYOUT
+      end
 
-  def force?
-    !!options["force"]
-  end
+      def title
+        args.join " "
+      end
 
-  def source
-    config["source"].gsub(%r!^#{Regexp.quote(Dir.pwd)}!, "")
+      def force?
+        !!options["force"]
+      end
+
+      def source
+        File.join(config["source"], config["collections_dir"])
+          .gsub(%r!^#{Regexp.quote(Dir.pwd)}/*!, "")
+      end
+    end
   end
 end

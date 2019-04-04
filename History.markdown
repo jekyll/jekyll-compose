@@ -1,4 +1,45 @@
-## HEAD
+## 0.10.1 / 2019-03-23
+
+### Bug Fixes
+
+  * Re-introduce Ruby 2.3 support and test Jekyll 3.7+ (#90)
+
+## 0.10.0 / 2019-03-21
+
+### Development Fixes
+
+  * Allow Jekyll v4 (still in alpha)
+  * Drop support for Ruby 2.3 (#86)
+
+## 0.9.0 / 2018-12-07
+
+### Minor Enhancements
+
+  * Allow additional front matter for Post (#41)
+  * Add support for collections_dir configuration (#74)
+  * Add some color to the success msg like jekyll new (#75)
+  * Generate configuration from CLI options (#76)
+  * Mirror `draft` command to current `post` command (#79)
+
+### Bug Fixes
+
+  * Display a warning when file exists (#81)
+  * Warn on error and exit gracefully (#83)
+
+### Development Fixes
+
+  * Formatting of dates and times in a DRY manner (#60)
+  * style: replace `puts` calls with `Jekyll.logger.info` (#69)
+  * style: appease Rubocop (#71)
+  * style: rubocop-jekyll 0.3 (#80)
+
+## 0.8.0 / 2018-03-24
+
+### Minor Enhancements
+
+  * Auto open newly generated files in selected editor (#64)
+
+## 0.7.0 / 2018-02-06
 
 ### Development Fixes
 

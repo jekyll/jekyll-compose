@@ -18,9 +18,7 @@ RSpec.configure do |config|
 
   config.warnings = true
 
-  if config.files_to_run.one?
-    config.default_formatter = "doc"
-  end
+  config.default_formatter = "doc" if config.files_to_run.one?
 
   config.profile_examples = 3
 
@@ -44,18 +42,19 @@ RSpec.configure do |config|
 
   def fixture_site
     Jekyll::Site.new(Jekyll::Utils.deep_merge_hashes(
-      Jekyll::Configuration::DEFAULTS,
-      { "source" => source_dir, "destination" => test_dir("dest") }
-    ))
+                       Jekyll::Configuration::DEFAULTS,
+                       "source" => source_dir, "destination" => test_dir("dest")
+                     ))
   end
 
-  def capture_stdout
-    $old_stdout = $stdout
-    $stdout = StringIO.new
+  def capture_stdout(level = :debug)
+    buffer = StringIO.new
+    Jekyll.logger = Logger.new(buffer)
+    Jekyll.logger.log_level = level
     yield
-    $stdout.rewind
-    return $stdout.string
+    buffer.rewind
+    buffer.string.to_s
   ensure
-    $stdout = $old_stdout
+    Jekyll.logger = Logger.new(StringIO.new, :error)
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe(Jekyll::Commands::Page) do
 
   it "should write a helpful message when successful" do
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("New page created at #{filename}.\n")
+    expect(output).to include("New page created at #{filename.cyan}")
   end
 
   it "errors with no arguments" do
@@ -52,17 +52,16 @@ RSpec.describe(Jekyll::Commands::Page) do
       FileUtils.touch path
     end
 
-    it "raises an error" do
-      expect(lambda {
-        capture_stdout { described_class.process(args) }
-      }).to raise_error("A page already exists at #{filename}")
+    it "displays a warning and returns" do
+      output = capture_stdout { described_class.process(args) }
+      expect(output).to include("A page already exists at #{filename}")
+      expect(File.read(path)).to_not match("layout: page")
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
-      expect(File.read(path)).to match(%r!layout: page!)
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A page already exists at #{filename}")
+      expect(File.read(path)).to match("layout: page")
     end
   end
 

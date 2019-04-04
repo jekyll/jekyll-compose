@@ -11,20 +11,31 @@ module Jekyll
       end
 
       def create!
-        validate_should_write!
+        return unless create?
+
         ensure_directory_exists
         write_file
       end
 
+      def file_path
+        return file.path if root.nil? || root.empty?
+
+        File.join(root, file.path)
+      end
+
       private
 
-      def validate_should_write!
-        raise ArgumentError, "A #{file.resource_type} already exists at #{file_path}" if File.exist?(file_path) && !force
+      def create?
+        return true if force
+        return true unless File.exist?(file_path)
+
+        Jekyll.logger.warn "A #{file.resource_type} already exists at #{file_path}"
+        false
       end
 
       def ensure_directory_exists
         dir = File.dirname file_path
-        Dir.mkdir(dir) unless Dir.exist?(dir)
+        FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
       end
 
       def write_file
@@ -32,12 +43,7 @@ module Jekyll
           f.puts(file.content)
         end
 
-        puts "New #{file.resource_type} created at #{file_path}."
-      end
-
-      def file_path
-        return file.path if root.nil? || root.empty?
-        return File.join(root, file.path)
+        Jekyll.logger.info "New #{file.resource_type} created at #{file_path.cyan}"
       end
     end
   end

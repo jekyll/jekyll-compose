@@ -26,12 +26,17 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = PostArgParser.new args, options
+        config = configuration_from_options(options)
+        params = PostArgParser.new args, options, config
         params.validate!
 
         post = PostFileInfo.new params
 
-        Compose::FileCreator.new(post, params.force?, params.source).create!
+        file_creator = Compose::FileCreator.new(post, params.force?, params.source)
+        file_creator.create!
+
+        Compose::FileEditor.bootstrap(config)
+        Compose::FileEditor.open_editor(file_creator.file_path)
       end
 
       class PostArgParser < Compose::ArgParser
@@ -54,14 +59,17 @@ module Jekyll
         end
 
         def _date_stamp
-          @params.date.strftime "%Y-%m-%d"
+          @params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
         end
 
         def _time_stamp
-          @params.date.strftime("%Y-%m-%d %H:%M %z")
+          @params.date.strftime Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
         end
 
         def content(custom_front_matter = {})
+          default_front_matter = params.config.dig("jekyll_compose", "post_default_front_matter")
+          custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
+
           super({ "date" => _time_stamp }.merge(custom_front_matter))
         end
       end

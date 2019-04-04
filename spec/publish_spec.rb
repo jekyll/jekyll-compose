@@ -4,7 +4,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   let(:drafts_dir) { Pathname.new source_dir("_drafts") }
   let(:posts_dir)  { Pathname.new source_dir("_posts") }
   let(:draft_to_publish) { "a-test-post.md" }
-  let(:datestamp) { Time.now.strftime("%Y-%m-%d") }
+  let(:datestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
   let(:post_filename) { "#{datestamp}-#{draft_to_publish}" }
   let(:args) { ["_drafts/#{draft_to_publish}"] }
 
@@ -39,19 +39,19 @@ RSpec.describe(Jekyll::Commands::Publish) do
   it "publishes with a specified date" do
     path = posts_dir.join "2012-03-04-#{draft_to_publish}"
     expect(path).not_to exist
-    capture_stdout { described_class.process(args, { "date"=>"2012-3-4" }) }
+    capture_stdout { described_class.process(args, "date"=>"2012-3-4") }
     expect(path).to exist
   end
 
   it "writes a helpful message on success" do
     expect(draft_path).to exist
     output = capture_stdout { described_class.process(args) }
-    expect(output).to eql("Draft _drafts/#{draft_to_publish} was moved to _posts/#{post_filename}\n")
+    expect(output).to include("Draft _drafts/#{draft_to_publish} was moved to _posts/#{post_filename}")
   end
 
   it "publishes a draft on the specified date" do
     path = posts_dir.join "2012-03-04-a-test-post.md"
-    capture_stdout { described_class.process(args, { "date" => "2012-3-4" }) }
+    capture_stdout { described_class.process(args, "date" => "2012-3-4") }
     expect(path).to exist
   end
 
@@ -67,11 +67,12 @@ RSpec.describe(Jekyll::Commands::Publish) do
     }).to raise_error("You must specify a draft path.")
   end
 
-  it "errors if no file exists at given path" do
+  it "outputs a warning and returns if no file exists at given path" do
     weird_path = "_drafts/i-do-not-exist.markdown"
-    expect(lambda {
-      capture_stdout { described_class.process [weird_path] }
-    }).to raise_error("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
+    output = capture_stdout { described_class.process [weird_path] }
+    expect(output).to include("There was no draft found at '_drafts/i-do-not-exist.markdown'.")
+    expect(draft_path).to exist
+    expect(post_path).to_not exist
   end
 
   context "when the post already exists" do
@@ -81,18 +82,16 @@ RSpec.describe(Jekyll::Commands::Publish) do
       FileUtils.touch post_path
     end
 
-    it "raises an error" do
-      expect(lambda {
-        capture_stdout { described_class.process(args) }
-      }).to raise_error("A post already exists at _posts/#{post_filename}")
+    it "outputs a warning and returns" do
+      output = capture_stdout { described_class.process(args) }
+      expect(output).to include("A post already exists at _posts/#{post_filename}")
       expect(draft_path).to exist
       expect(post_path).to exist
     end
 
     it "overwrites if --force is given" do
-      expect(lambda {
-        capture_stdout { described_class.process(args, "force" => true) }
-      }).not_to raise_error
+      output = capture_stdout { described_class.process(args, "force" => true) }
+      expect(output).to_not include("A post already exists at _posts/#{post_filename}")
       expect(draft_path).not_to exist
       expect(post_path).to exist
     end
@@ -102,14 +101,15 @@ RSpec.describe(Jekyll::Commands::Publish) do
     let(:config) { source_dir("_config.yml") }
     let(:drafts_dir) { Pathname.new source_dir("site", "_drafts") }
     let(:posts_dir)  { Pathname.new source_dir("site", "_posts") }
-
-    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
+    let(:config_data) do
+      %(
+    source: site
+    )
+    end
 
     before(:each) do
       File.open(config, "w") do |f|
-        f.write(%(
-source: site
-))
+        f.write(config_data)
       end
     end
 
@@ -128,8 +128,6 @@ source: site
   context "when source option is set" do
     let(:drafts_dir) { Pathname.new source_dir("site", "_drafts") }
     let(:posts_dir)  { Pathname.new source_dir("site", "_posts") }
-
-    let(:args) { ["site/_drafts/#{draft_to_publish}"] }
 
     it "should use source directory set by command line option" do
       expect(post_path).not_to exist

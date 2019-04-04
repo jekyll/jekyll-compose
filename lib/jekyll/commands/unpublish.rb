@@ -19,7 +19,8 @@ module Jekyll
       end
 
       def self.process(args = [], options = {})
-        params = UnpublishArgParser.new args, options
+        config = configuration_from_options(options)
+        params = UnpublishArgParser.new args, options, config
         params.validate!
 
         movement = PostMovementInfo.new params
@@ -62,6 +63,7 @@ module Jekyll
       def resource_type_from
         "post"
       end
+
       def resource_type_to
         "draft"
       end
