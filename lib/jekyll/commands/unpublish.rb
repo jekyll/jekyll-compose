@@ -55,7 +55,7 @@ module Jekyll
       end
 
       def front_matter(data)
-        data.reject { |x| x == "date" }
+        data.reject { |key, _value| key == "date" }
       end
     end
 

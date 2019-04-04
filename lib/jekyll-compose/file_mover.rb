@@ -46,16 +46,16 @@ module Jekyll
 
       def update_front_matter
         content = File.read(from)
-        if content =~ %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m
+        if content =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
           content = $POSTMATCH
           match = Regexp.last_match[1] if Regexp.last_match
           data = movement.front_matter(Psych.safe_load(match))
           File.write(from, "#{Psych.dump(data)}---\n#{content}")
         end
-      rescue SyntaxError => e
-        Jekyll.logger e
+      rescue Psych::SyntaxError => e
+        Jekyll.logger.warn e
       rescue StandardError => e
-        Jekyll.logger e
+        Jekyll.logger.warn e
       end
 
       private
