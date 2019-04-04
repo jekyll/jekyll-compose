@@ -61,7 +61,7 @@ module Jekyll
       end
 
       def front_matter(data)
-        data.merge({ "date" => params.date.strftime("%Y-%m-%d %H:%M %z") })
+        data.merge("date" => params.date.strftime("%Y-%m-%d %H:%M %z"))
       end
     end
 

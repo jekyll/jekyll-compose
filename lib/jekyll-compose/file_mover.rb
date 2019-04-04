@@ -45,21 +45,17 @@ module Jekyll
       end
 
       def update_front_matter
-        # from Jekyll::Convertible.read_yaml
-        begin
-          content = File.read(from)
-          data = Psych.safe_load(content)
-          if content =~ /\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)/m
-            content = $POSTMATCH
-            data = Psych.safe_load($1)
-            data = movement.front_matter(data)
-            File.write(from, "#{Psych.dump(data)}---\n#{content}")
-          end
-        rescue SyntaxError => e
-          puts e
-        rescue Exception => e
-          puts e
+        content = File.read(from)
+        if content =~ %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m
+          content = $POSTMATCH
+          match = Regexp.last_match[1] if Regexp.last_match
+          data = movement.front_matter(Psych.safe_load(match))
+          File.write(from, "#{Psych.dump(data)}---\n#{content}")
         end
+      rescue SyntaxError => e
+        Jekyll.logger e
+      rescue StandardError => e
+        Jekyll.logger e
       end
 
       private
