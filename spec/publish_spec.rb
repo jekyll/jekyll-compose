@@ -4,6 +4,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   let(:drafts_dir) { Pathname.new source_dir("_drafts") }
   let(:posts_dir)  { Pathname.new source_dir("_posts") }
   let(:draft_to_publish) { "a-test-post.md" }
+  let(:timestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT) }
   let(:datestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
   let(:post_filename) { "#{datestamp}-#{draft_to_publish}" }
   let(:args) { ["_drafts/#{draft_to_publish}"] }
@@ -19,7 +20,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
   before(:each) do
     FileUtils.mkdir_p drafts_dir unless File.directory? drafts_dir
     FileUtils.mkdir_p posts_dir unless File.directory? posts_dir
-    FileUtils.touch draft_path
+    File.write(draft_path, "---\nlayout: post\n---\n")
   end
 
   after(:each) do
@@ -34,6 +35,8 @@ RSpec.describe(Jekyll::Commands::Publish) do
     expect(draft_path).to exist
     capture_stdout { described_class.process(args) }
     expect(post_path).to exist
+    expect(draft_path).not_to exist
+    expect(File.read(post_path)).to include("date: #{timestamp}")
   end
 
   it "publishes with a specified date" do
@@ -41,6 +44,8 @@ RSpec.describe(Jekyll::Commands::Publish) do
     expect(path).not_to exist
     capture_stdout { described_class.process(args, "date"=>"2012-3-4") }
     expect(path).to exist
+    expect(draft_path).not_to exist
+    expect(File.read(path)).to include("date: 2012-03-04")
   end
 
   it "writes a helpful message on success" do
@@ -53,6 +58,8 @@ RSpec.describe(Jekyll::Commands::Publish) do
     path = posts_dir.join "2012-03-04-a-test-post.md"
     capture_stdout { described_class.process(args, "date" => "2012-3-4") }
     expect(path).to exist
+    expect(draft_path).not_to exist
+    expect(File.read(path)).to include("date: 2012-03-04")
   end
 
   it "creates the posts folder if necessary" do
@@ -94,6 +101,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
       expect(output).to_not include("A post already exists at _posts/#{post_filename}")
       expect(draft_path).not_to exist
       expect(post_path).to exist
+      expect(File.read(post_path)).to include("date: #{timestamp}")
     end
   end
 

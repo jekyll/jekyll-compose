@@ -4,7 +4,9 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
   let(:drafts_dir) { Pathname.new(source_dir("_drafts")) }
   let(:posts_dir)  { Pathname.new(source_dir("_posts")) }
   let(:post_name) { "a-test-post.md" }
-  let(:post_filename) { "2012-03-04-#{post_name}" }
+  let(:timestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT) }
+  let(:datestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
+  let(:post_filename) { "#{datestamp}-#{post_name}" }
   let(:post_path) { posts_dir.join post_filename }
   let(:draft_path) { drafts_dir.join post_name }
 
@@ -18,7 +20,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
   before(:each) do
     FileUtils.mkdir_p drafts_dir unless File.directory? drafts_dir
     FileUtils.mkdir_p posts_dir unless File.directory? posts_dir
-    FileUtils.touch post_path
+    File.write(post_path, "---\nlayout: post\ndate: #{timestamp}\n---\n")
   end
 
   after(:each) do
@@ -32,6 +34,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
     capture_stdout { described_class.process(args) }
     expect(post_path).not_to exist
     expect(draft_path).to exist
+    expect(File.read(draft_path)).not_to include("date: #{timestamp}")
   end
 
   it "writes a helpful message on success" do
@@ -77,6 +80,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
       expect(output).to_not include("A draft already exists at _drafts/#{post_name}")
       expect(draft_path).to exist
       expect(post_path).not_to exist
+      expect(File.read(draft_path)).not_to include("date: #{timestamp}")
     end
   end
 
