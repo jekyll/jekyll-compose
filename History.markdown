@@ -1,3 +1,9 @@
+## HEAD
+
+### Minor Enhancements
+
+  * Add/Remove Dates When Publishing/Unpublishing (#92)
+
 ## 0.10.1 / 2019-03-23
 
 ### Bug Fixes
