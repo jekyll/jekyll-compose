@@ -28,6 +28,7 @@ module Jekyll
         end
 
         def run_editor(editor_name, filepath)
+          ENV["JEKYLL_NO_BUNDLER_REQUIRE"] = nil
           system("#{editor_name} #{filepath}")
         end
 
