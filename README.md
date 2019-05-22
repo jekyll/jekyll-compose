@@ -78,7 +78,7 @@ The latter one will override default `EDITOR` value.
 If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `draft_default_front_matter` and `post_default_front_matter`config keys, for instance:
 
 ```yaml
-  jekyll_compose:
+jekyll_compose:
   draft_default_front_matter:
     description:
     image:
