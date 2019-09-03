@@ -32,6 +32,10 @@ module Jekyll
         !!options["force"]
       end
 
+      def timestamp_format
+        options["timestamp_format"] || Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
+      end
+
       def source
         File.join(config["source"], config["collections_dir"])
           .gsub(%r!^#{Regexp.quote(Dir.pwd)}/*!, "")

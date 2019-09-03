@@ -4,8 +4,10 @@ RSpec.describe(Jekyll::Commands::Publish) do
   let(:drafts_dir) { Pathname.new source_dir("_drafts") }
   let(:posts_dir)  { Pathname.new source_dir("_posts") }
   let(:draft_to_publish) { "a-test-post.md" }
-  let(:timestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT) }
-  let(:datestamp) { Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
+  let(:timestamp_format) { Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT }
+  let(:date) { Time.now }
+  let(:timestamp) { date.strftime(timestamp_format) }
+  let(:datestamp) { date.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT) }
   let(:post_filename) { "#{datestamp}-#{draft_to_publish}" }
   let(:args) { ["_drafts/#{draft_to_publish}"] }
 
@@ -39,13 +41,30 @@ RSpec.describe(Jekyll::Commands::Publish) do
     expect(File.read(post_path)).to include("date: #{timestamp}")
   end
 
-  it "publishes with a specified date" do
-    path = posts_dir.join "2012-03-04-#{draft_to_publish}"
-    expect(path).not_to exist
-    capture_stdout { described_class.process(args, "date"=>"2012-3-4") }
-    expect(path).to exist
-    expect(draft_path).not_to exist
-    expect(File.read(path)).to include("date: 2012-03-04")
+  context "when date option is set" do
+    let(:date) { Date.parse("2012-3-4") }
+
+    it "publishes with a specified date" do
+      expect(post_path).not_to exist
+      expect(draft_path).to exist
+      capture_stdout { described_class.process(args, "date"=>"2012-3-4") }
+      expect(post_path).to exist
+      expect(draft_path).not_to exist
+      expect(File.read(post_path)).to include("date: 2012-03-04")
+    end
+
+    context "and timestamp format is set" do
+      let(:timestamp_format) { "%Y-%m-%d %H:%M:%S" }
+
+      it "published with a specified date in a given format" do
+        expect(post_path).not_to exist
+        expect(draft_path).to exist
+        capture_stdout { described_class.process(args, "date" => "2012-3-4", "timestamp_format" => timestamp_format) }
+        expect(post_path).to exist
+        expect(draft_path).not_to exist
+        expect(File.read(post_path)).to include("date: '2012-03-04 00:00:00'")
+      end
+    end
   end
 
   it "writes a helpful message on success" do
@@ -130,6 +149,7 @@ RSpec.describe(Jekyll::Commands::Publish) do
       expect(draft_path).to exist
       capture_stdout { described_class.process(args) }
       expect(post_path).to exist
+      expect(draft_path).not_to exist
     end
   end
 
@@ -142,6 +162,34 @@ RSpec.describe(Jekyll::Commands::Publish) do
       expect(draft_path).to exist
       capture_stdout { described_class.process(args, "source" => "site") }
       expect(post_path).to exist
+      expect(draft_path).not_to exist
+    end
+  end
+
+  context "when timestamp format option is set" do
+    context "to a custom value" do
+      let(:timestamp_format) { "%Y-%m-%d %H:%M:%S" }
+
+      it "should use timestamp format set by command line option" do
+        expect(post_path).not_to exist
+        expect(draft_path).to exist
+        capture_stdout { described_class.process(args, "timestamp_format" => timestamp_format) }
+        expect(post_path).to exist
+        expect(draft_path).not_to exist
+        expect(File.read(post_path)).to include("date: '#{timestamp}'")
+      end
+    end
+    context "to the default value" do
+      let(:timestamp_format) { Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT }
+
+      it "should use timestamp format set by command line option" do
+        expect(post_path).not_to exist
+        expect(draft_path).to exist
+        capture_stdout { described_class.process(args, "timestamp_format" => timestamp_format) }
+        expect(post_path).to exist
+        expect(draft_path).not_to exist
+        expect(File.read(post_path)).to include("date: #{timestamp}")
+      end
     end
   end
 end

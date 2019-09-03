@@ -12,6 +12,7 @@ module Jekyll
           c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
           c.option "force", "-f", "--force", "Overwrite a post if it already exists"
           c.option "source", "-s", "--source SOURCE", "Custom source directory"
+          c.option "timestamp_format", "--timestamp-format FORMAT", "Custom timestamp format"
 
           c.action do |args, options|
             Jekyll::Commands::Publish.process(args, options)
@@ -61,7 +62,7 @@ module Jekyll
       end
 
       def front_matter(data)
-        data["date"] ||= params.date.strftime("%Y-%m-%d %H:%M %z")
+        data["date"] ||= params.date.strftime(params.timestamp_format)
         data
       end
     end
