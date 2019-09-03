@@ -1,3 +1,13 @@
+## HEAD
+
+### Development Fixes
+
+  * Update CI for 4.0.0 release of Jekyll (#99)
+
+### Bug Fixes
+
+  * Removing source option for commands as it is appearing twice. (#100)
+
 ## 0.11.0 / 2019-04-05
 
 ### Minor Enhancements

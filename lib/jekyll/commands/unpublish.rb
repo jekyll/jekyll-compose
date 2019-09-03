@@ -10,7 +10,6 @@ module Jekyll
 
           c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
           c.option "force", "-f", "--force", "Overwrite a draft if it already exists"
-          c.option "source", "-s", "--source SOURCE", "Custom source directory"
 
           c.action do |args, options|
             process(args, options)

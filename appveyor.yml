@@ -12,7 +12,7 @@ environment:
     - RUBY_FOLDER_VER: "26"
       JEKYLL_VERSION : "~> 3.7.4"
     - RUBY_FOLDER_VER: "26"
-      JEKYLL_VERSION : ">= 4.0.0.pre.alpha1"
+      JEKYLL_VERSION : ">= 4.0.0"
     - RUBY_FOLDER_VER: "26"
     - RUBY_FOLDER_VER: "24"
     - RUBY_FOLDER_VER: "23"
