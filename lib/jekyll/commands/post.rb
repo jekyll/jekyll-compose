@@ -21,7 +21,6 @@ module Jekyll
           ["force", "-f", "--force", "Overwrite a post if it already exists"],
           ["date", "-d DATE", "--date DATE", "Specify the post date"],
           ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
-          ["source", "-s", "--source SOURCE", "Custom source directory"],
         ]
       end
 
