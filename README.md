@@ -39,6 +39,8 @@ Create your new page using:
 Create your new post using:
 
     $ bundle exec jekyll post "My New Post"
+    # or specify a custom format for the date attribute in the yaml front matter
+    $ bundle exec jekyll post "My New Post" --timestamp-format "%Y-%m-%d %H:%M:%S %z"
 
 Create your new draft using:
 
@@ -49,6 +51,8 @@ Publish your draft using:
     $ bundle exec jekyll publish _drafts/my-new-draft.md
     # or specify a specific date on which to publish it
     $ bundle exec jekyll publish _drafts/my-new-draft.md --date 2014-01-24
+    # or specify a custom format for the date attribute in the yaml front matter
+    $ bundle exec jekyll publish _drafts/my-new-draft.md --timestamp-format "%Y-%m-%d %H:%M:%S %z"
 
 Unpublish your post using:
 
@@ -94,7 +98,7 @@ jekyll_compose:
 ```
 
 This will also auto add:
- - The creation timestamp under the `date` attribure.
+ - The creation timestamp under the `date` attribute.
  - The title attribute under the `title` attribute
 
 ## Contributing
