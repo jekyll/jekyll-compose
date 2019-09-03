@@ -20,7 +20,6 @@ module Jekyll
           ["layout", "-l LAYOUT", "--layout LAYOUT", "Specify the draft layout"],
           ["force", "-f", "--force", "Overwrite a draft if it already exists"],
           ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
-          ["source", "-s", "--source SOURCE", "Custom source directory"],
         ]
       end
 
