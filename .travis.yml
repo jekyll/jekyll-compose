@@ -22,7 +22,7 @@ matrix:
     - rvm: *latest_ruby
       env: JEKYLL_VERSION="~> 3.7.4"
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=">= 4.0.0.pre.alpha1"
+      env: JEKYLL_VERSION=">= 4.0.0"
 
 notifications:
   email: false
