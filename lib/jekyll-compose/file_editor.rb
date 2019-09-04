@@ -9,7 +9,7 @@
 #    auto_open: true
 # ```
 #
-# And make sure, that you have JEKYLL_EDITOR or EDITOR environment variables set up.
+# And make sure, that you have JEKYLL_EDITOR, VISUAL, or EDITOR environment variables set up.
 # This will allow to open the file in your default editor automatically.
 
 module Jekyll
@@ -34,7 +34,7 @@ module Jekyll
         def post_editor
           return unless auto_open?
 
-          ENV["JEKYLL_EDITOR"] || ENV["EDITOR"]
+          ENV["JEKYLL_EDITOR"] || ENV["VISUAL"] || ENV["EDITOR"]
         end
 
         def auto_open?
