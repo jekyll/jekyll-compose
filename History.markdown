@@ -8,6 +8,10 @@
 
   * Removing source option for commands as it is appearing twice. (#100)
 
+### Minor Enhancements
+
+  * Include VISUAL as an editor option (#102)
+
 ## 0.11.0 / 2019-04-05
 
 ### Minor Enhancements
