@@ -139,12 +139,21 @@ RSpec.describe(Jekyll::Commands::Post) do
           capture_stdout { described_class.process(args) }
         end
 
-        context "env variable JEKYLL_EDITOR is set up" do
-          before { ENV["JEKYLL_EDITOR"] = "nano" }
+        context "env variable VISUAL is set up" do
+          before { ENV["VISUAL"] = "nano" }
 
           it "opens post in jekyll editor" do
             expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
             capture_stdout { described_class.process(args) }
+          end
+
+          context "env variable JEKYLL_EDITOR is set up" do
+            before { ENV["JEKYLL_EDITOR"] = "nano" }
+
+            it "opens post in jekyll editor" do
+              expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
+              capture_stdout { described_class.process(args) }
+            end
           end
         end
       end
