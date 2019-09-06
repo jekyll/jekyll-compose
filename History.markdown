@@ -11,6 +11,7 @@
 ### Minor Enhancements
 
   * Include VISUAL as an editor option (#102)
+  * Prepare for collections support with default front matter configuration (#104)
 
 ## 0.11.0 / 2019-04-05
 
