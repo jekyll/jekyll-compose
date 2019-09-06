@@ -3,6 +3,7 @@
 ### Development Fixes
 
   * Update CI for 4.0.0 release of Jekyll (#99)
+  * Extract logic for computing default front matter (#105)
 
 ### Bug Fixes
 
