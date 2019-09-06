@@ -13,12 +13,14 @@ Lint/AmbiguousOperator:
     - 'lib/jekyll/commands/page.rb'
     - 'lib/jekyll/commands/post.rb'
 
-# Offense count: 6
+# Offense count: 8
 # Configuration parameters: Max, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
   Exclude:
     - 'lib/jekyll-compose/file_mover.rb'
+    - 'lib/jekyll/commands/draft.rb'
+    - 'lib/jekyll/commands/post.rb'
     - 'lib/jekyll/commands/publish.rb'
     - 'lib/jekyll/commands/unpublish.rb'
     - 'spec/post_spec.rb'
