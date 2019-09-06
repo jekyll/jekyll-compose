@@ -8,9 +8,9 @@ module Jekyll
           c.syntax "compose NAME"
           c.description "Creates a new document with the given NAME"
 
-          options.each { |opt| c.option *opt }
+          options.each { |opt| c.option(*opt) }
 
-          c.action { |args, options| process args, options }
+          c.action { |args, options| process(args, options) }
         end
       end
 
@@ -29,10 +29,10 @@ module Jekyll
 
       def self.process(args = [], options = {})
         config = configuration_from_options(options)
-        params = ComposeCommandArgParser.new args, options, config
+        params = ComposeCommandArgParser.new(args, options, config)
         params.validate!
 
-        document = ComposeCommandFileInfo.new params
+        document = ComposeCommandFileInfo.new(params)
 
         file_creator = Compose::FileCreator.new(document, params.force?, params.source)
         file_creator.create!
@@ -51,14 +51,12 @@ module Jekyll
         end
 
         def date
-          options["date"] ? Date.parse(options["date"]) : Time.now
+          @date ||= options["date"] ? Date.parse(options["date"]) : Time.now
         end
 
         def collection
-          if options["collection"]
-            options["collection"]
-          elsif options["post"]
-            "posts"
+          if (coll = options["collection"])
+            coll
           elsif options["draft"]
             "drafts"
           else
@@ -68,9 +66,14 @@ module Jekyll
       end
 
       class ComposeCommandFileInfo < Compose::FileInfo
+        def initialize(params)
+          @params = params
+          @collection = params.collection
+        end
+
         def resource_type
-          case @params.collection
-          when "posts" then "post"
+          case @collection
+          when "posts"  then "post"
           when "drafts" then "draft"
           else
             "file"
@@ -78,37 +81,35 @@ module Jekyll
         end
 
         def path
-          "#{_collection}/#{file_name}"
+          File.join("_#{@collection}", file_name)
         end
 
         def file_name
-          @params.collection == "posts" ? "#{_date_stamp}-#{super}" : super
-        end
-
-        def _date_stamp
-          @params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
-        end
-
-        def _time_stamp
-          @params.date.strftime Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
-        end
-
-        def _collection
-          "_#{@params.collection}"
+          @collection == "posts" ? "#{date_stamp}-#{super}" : super
         end
 
         def content(custom_front_matter = {})
-          default_front_matter =
-            case @params.collection
-            when "posts" then params.config.dig("jekyll_compose", "post_default_front_matter")
-            when "drafts"then params.config.dig("jekyll_compose", "draft_default_front_matter")
+          default_front_matter = \
+            case @collection
+            when "posts"  then params.config.dig("jekyll_compose", "post_default_front_matter")
+            when "drafts" then params.config.dig("jekyll_compose", "draft_default_front_matter")
             else
-              params.config.dig("jekyll_compose", "default_front_matter", @params.collection)
+              params.config.dig("jekyll_compose", "default_front_matter", @collection)
             end
 
           custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
 
-          super({ "date" => _time_stamp }.merge!(custom_front_matter))
+          super({ "date" => time_stamp }.merge!(custom_front_matter))
+        end
+
+        private
+
+        def date_stamp
+          @params.date.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT)
+        end
+
+        def time_stamp
+          @params.date.strftime(Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT)
         end
       end
     end
