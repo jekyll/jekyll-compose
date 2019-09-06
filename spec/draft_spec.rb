@@ -107,9 +107,10 @@ RSpec.describe(Jekyll::Commands::Draft) do
         %(
       jekyll_compose:
         auto_open: true
-        draft_default_front_matter:
-          description: my description
-          category:
+        default_front_matter:
+          drafts:
+            description: my description
+            category:
       )
       end
 

@@ -76,22 +76,23 @@ export JEKYLL_EDITOR=atom
 
 ### Set default front matter for drafts and posts
 
-If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `draft_default_front_matter` and `post_default_front_matter`config keys, for instance:
+If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `default_front_matter` config keys, for instance:
 
 ```yaml
 jekyll_compose:
-  draft_default_front_matter:
-    description:
-    image:
-    category:
-    tags:
-  post_default_front_matter:
-    description:
-    image:
-    category:
-    tags:
-    published: false
-    sitemap: false
+  default_front_matter:
+    drafts:
+      description:
+      image:
+      category:
+      tags:
+    posts:
+      description:
+      image:
+      category:
+      tags:
+      published: false
+      sitemap: false
 ```
 
 This will also auto add:
