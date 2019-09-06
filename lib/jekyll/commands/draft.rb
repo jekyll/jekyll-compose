@@ -47,7 +47,7 @@ module Jekyll
         end
 
         def content(custom_front_matter = {})
-          default_front_matter = params.config.dig("jekyll_compose", "default_front_matter", "drafts")
+          default_front_matter = front_matter_defaults_for("drafts")
           custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
 
           super(custom_front_matter)
