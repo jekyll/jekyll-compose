@@ -21,6 +21,12 @@ module Jekyll
 
         front_matter + "---\n"
       end
+
+      private
+
+      def front_matter_defaults_for(key)
+        params.config.dig("jekyll_compose", "default_front_matter", key)
+      end
     end
   end
 end

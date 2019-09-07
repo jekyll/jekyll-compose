@@ -69,32 +69,34 @@ To customize the default plugin configuration edit the `jekyll_compose` section 
     auto_open: true
 ```
 
-and make sure that you have `EDITOR` or `JEKYLL_EDITOR` environment variable set.
+and make sure that you have `EDITOR`, `VISUAL` or `JEKYLL_EDITOR` environment variable set.
 For instance if you wish to open newly created Jekyll posts and drafts in Atom editor you can add the following line in your shell configuration:
 ```
 export JEKYLL_EDITOR=atom
 ```
 
-The latter one will override default `EDITOR` value.
+`JEKYLL_EDITOR` will override default `EDITOR` or `VISUAL` value.
+`VISUAL` will override default `EDITOR` value.
 
 ### Set default front matter for drafts and posts
 
-If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `draft_default_front_matter` and `post_default_front_matter`config keys, for instance:
+If you wish to add default front matter to newly created posts or drafts, you can specify as many as you want under `default_front_matter` config keys, for instance:
 
 ```yaml
 jekyll_compose:
-  draft_default_front_matter:
-    description:
-    image:
-    category:
-    tags:
-  post_default_front_matter:
-    description:
-    image:
-    category:
-    tags:
-    published: false
-    sitemap: false
+  default_front_matter:
+    drafts:
+      description:
+      image:
+      category:
+      tags:
+    posts:
+      description:
+      image:
+      category:
+      tags:
+      published: false
+      sitemap: false
 ```
 
 This will also auto add:

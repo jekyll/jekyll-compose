@@ -68,7 +68,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   context "when the post already exists" do
     let(:name) { "An existing post" }
-    let(:filename) { "#{Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT)}-an-existing-post.md" }
+    let(:filename) { "#{datestamp}-an-existing-post.md" }
 
     before(:each) do
       FileUtils.touch path
@@ -118,9 +118,10 @@ RSpec.describe(Jekyll::Commands::Post) do
         %(
       jekyll_compose:
         auto_open: true
-        post_default_front_matter:
-          description: my description
-          category:
+        default_front_matter:
+          posts:
+            description: my description
+            category:
       )
       end
 
@@ -139,12 +140,21 @@ RSpec.describe(Jekyll::Commands::Post) do
           capture_stdout { described_class.process(args) }
         end
 
-        context "env variable JEKYLL_EDITOR is set up" do
-          before { ENV["JEKYLL_EDITOR"] = "nano" }
+        context "env variable VISUAL is set up" do
+          before { ENV["VISUAL"] = "nano" }
 
           it "opens post in jekyll editor" do
             expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
             capture_stdout { described_class.process(args) }
+          end
+
+          context "env variable JEKYLL_EDITOR is set up" do
+            before { ENV["JEKYLL_EDITOR"] = "nano" }
+
+            it "opens post in jekyll editor" do
+              expect(Jekyll::Compose::FileEditor).to receive(:run_editor).with("nano", path.to_s)
+              capture_stdout { described_class.process(args) }
+            end
           end
         end
       end

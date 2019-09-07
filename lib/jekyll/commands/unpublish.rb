@@ -8,23 +8,27 @@ module Jekyll
           c.syntax "unpublish POST_PATH"
           c.description "Moves a post back into the _drafts directory"
 
-          c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
-          c.option "force", "-f", "--force", "Overwrite a draft if it already exists"
+          options.each { |opt| c.option(*opt) }
 
-          c.action do |args, options|
-            process(args, options)
-          end
+          c.action { |args, options| process(args, options) }
         end
+      end
+
+      def self.options
+        [
+          ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
+          ["force", "-f", "--force", "Overwrite a draft if it already exists"],
+        ]
       end
 
       def self.process(args = [], options = {})
         config = configuration_from_options(options)
-        params = UnpublishArgParser.new args, options, config
+        params = UnpublishArgParser.new(args, options, config)
         params.validate!
 
-        movement = PostMovementInfo.new params
+        movement = PostMovementInfo.new(params)
 
-        mover = PostMover.new movement, params.force?, params.source
+        mover = PostMover.new(movement, params.force?, params.source)
         mover.move
       end
     end

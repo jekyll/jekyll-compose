@@ -8,9 +8,9 @@ module Jekyll
           c.syntax "post NAME"
           c.description "Creates a new post with the given NAME"
 
-          options.each { |opt| c.option *opt }
+          options.each { |opt| c.option(*opt) }
 
-          c.action { |args, options| process args, options }
+          c.action { |args, options| process(args, options) }
         end
       end
 
@@ -27,10 +27,10 @@ module Jekyll
 
       def self.process(args = [], options = {})
         config = configuration_from_options(options)
-        params = PostArgParser.new args, options, config
+        params = PostArgParser.new(args, options, config)
         params.validate!
 
-        post = PostFileInfo.new params
+        post = PostFileInfo.new(params)
 
         file_creator = Compose::FileCreator.new(post, params.force?, params.source)
         file_creator.create!
@@ -41,7 +41,7 @@ module Jekyll
 
       class PostArgParser < Compose::ArgParser
         def date
-          options["date"].nil? ? Time.now : Date.parse(options["date"])
+          @date ||= options["date"] ? Date.parse(options["date"]) : Time.now
         end
       end
 
@@ -67,7 +67,7 @@ module Jekyll
         end
 
         def content(custom_front_matter = {})
-          default_front_matter = params.config.dig("jekyll_compose", "post_default_front_matter")
+          default_front_matter = front_matter_defaults_for("posts")
           custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
 
           super({ "date" => _time_stamp }.merge(custom_front_matter))

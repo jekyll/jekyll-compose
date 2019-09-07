@@ -3,10 +3,17 @@
 ### Development Fixes
 
   * Update CI for 4.0.0 release of Jekyll (#99)
+  * Extract logic for computing default front matter (#105)
+  * Refactoring to remove some rubocop warnings and for consistency (#106)
 
 ### Bug Fixes
 
   * Removing source option for commands as it is appearing twice. (#100)
+
+### Minor Enhancements
+
+  * Include VISUAL as an editor option (#102)
+  * Prepare for collections support with default front matter configuration (#104)
 
 ## 0.11.0 / 2019-04-05
 
