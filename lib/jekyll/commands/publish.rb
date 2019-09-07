@@ -8,14 +8,18 @@ module Jekyll
           c.syntax "publish DRAFT_PATH"
           c.description "Moves a draft into the _posts directory and sets the date"
 
-          c.option "date", "-d DATE", "--date DATE", "Specify the post date"
-          c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"
-          c.option "force", "-f", "--force", "Overwrite a post if it already exists"
+          options.each { |opt| c.option(*opt) }
 
-          c.action do |args, options|
-            Jekyll::Commands::Publish.process(args, options)
-          end
+          c.action { |args, options| process(args, options) }
         end
+      end
+
+      def self.options
+        [
+          ["date", "-d DATE", "--date DATE", "Specify the post date"],
+          ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
+          ["force", "-f", "--force", "Overwrite a post if it already exists"],
+        ]
       end
 
       def self.process(args = [], options = {})
@@ -36,7 +40,7 @@ module Jekyll
       end
 
       def date
-        options["date"].nil? ? Time.now : Date.parse(options["date"])
+        @date ||= options["date"] ? Date.parse(options["date"]) : Time.now
       end
 
       def name

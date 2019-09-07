@@ -68,7 +68,7 @@ RSpec.describe(Jekyll::Commands::Post) do
 
   context "when the post already exists" do
     let(:name) { "An existing post" }
-    let(:filename) { "#{Time.now.strftime(Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT)}-an-existing-post.md" }
+    let(:filename) { "#{datestamp}-an-existing-post.md" }
 
     before(:each) do
       FileUtils.touch path

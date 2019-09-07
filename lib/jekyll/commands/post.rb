@@ -8,9 +8,9 @@ module Jekyll
           c.syntax "post NAME"
           c.description "Creates a new post with the given NAME"
 
-          options.each { |opt| c.option *opt }
+          options.each { |opt| c.option(*opt) }
 
-          c.action { |args, options| process args, options }
+          c.action { |args, options| process(args, options) }
         end
       end
 
@@ -26,10 +26,10 @@ module Jekyll
 
       def self.process(args = [], options = {})
         config = configuration_from_options(options)
-        params = PostArgParser.new args, options, config
+        params = PostArgParser.new(args, options, config)
         params.validate!
 
-        post = PostFileInfo.new params
+        post = PostFileInfo.new(params)
 
         file_creator = Compose::FileCreator.new(post, params.force?, params.source)
         file_creator.create!
@@ -40,7 +40,7 @@ module Jekyll
 
       class PostArgParser < Compose::ArgParser
         def date
-          options["date"].nil? ? Time.now : Date.parse(options["date"])
+          @date ||= options["date"] ? Date.parse(options["date"]) : Time.now
         end
       end
 
