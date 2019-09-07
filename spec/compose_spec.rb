@@ -134,9 +134,10 @@ RSpec.describe(Jekyll::Commands::ComposeCommand) do
           %(
         jekyll_compose:
           auto_open: true
-          post_default_front_matter:
-            description: my description
-            category:
+          default_front_matter:
+            posts:
+              description: my description
+              category:
         )
         end
 
@@ -320,9 +321,10 @@ RSpec.describe(Jekyll::Commands::ComposeCommand) do
           %(
         jekyll_compose:
           auto_open: true
-          draft_default_front_matter:
-            description: my description
-            category:
+          default_front_matter:
+            drafts:
+              description: my description
+              category:
         )
         end
 

@@ -89,14 +89,7 @@ module Jekyll
         end
 
         def content(custom_front_matter = {})
-          default_front_matter = \
-            case @collection
-            when "posts"  then params.config.dig("jekyll_compose", "post_default_front_matter")
-            when "drafts" then params.config.dig("jekyll_compose", "draft_default_front_matter")
-            else
-              params.config.dig("jekyll_compose", "default_front_matter", @collection)
-            end
-
+          default_front_matter = front_matter_defaults_for(@collection)
           custom_front_matter.merge!(default_front_matter) if default_front_matter.is_a?(Hash)
 
           super({ "date" => time_stamp }.merge!(custom_front_matter))
