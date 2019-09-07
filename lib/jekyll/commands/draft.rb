@@ -8,9 +8,9 @@ module Jekyll
           c.syntax "draft NAME"
           c.description "Creates a new draft post with the given NAME"
 
-          options.each { |opt| c.option *opt }
+          options.each { |opt| c.option(*opt) }
 
-          c.action { |args, options| process args, options }
+          c.action { |args, options| process(args, options) }
         end
       end
 
@@ -25,10 +25,10 @@ module Jekyll
 
       def self.process(args = [], options = {})
         config = configuration_from_options(options)
-        params = Compose::ArgParser.new args, options, config
+        params = Compose::ArgParser.new(args, options, config)
         params.validate!
 
-        draft = DraftFileInfo.new params
+        draft = DraftFileInfo.new(params)
 
         file_creator = Compose::FileCreator.new(draft, params.force?, params.source)
         file_creator.create!
