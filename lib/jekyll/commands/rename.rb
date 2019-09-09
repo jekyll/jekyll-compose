@@ -111,13 +111,21 @@ module Jekyll
 
       def to
         if @params.post?
-          File.join(@params.dirname, "#{_date_stamp}-#{file_name}")
+          File.join(@params.dirname, "#{date_stamp}-#{file_name}")
         else
           File.join(@params.dirname, file_name)
         end
       end
 
-      def _date_stamp
+      def front_matter(data)
+        data["title"] = params.title
+        data["date"] = time_stamp if @params.touch?
+        data
+      end
+
+      private
+
+      def date_stamp
         if @params.touch?
           @params.date.strftime Jekyll::Compose::DEFAULT_DATESTAMP_FORMAT
         else
@@ -125,14 +133,8 @@ module Jekyll
         end
       end
 
-      def _time_stamp
+      def time_stamp
         @params.date.strftime Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
-      end
-
-      def front_matter(data)
-        data["title"] = params.title
-        data["date"] = _time_stamp if @params.touch?
-        data
       end
     end
 
