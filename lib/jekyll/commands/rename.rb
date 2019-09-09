@@ -47,15 +47,15 @@ module Jekyll
       end
 
       def path
-        File.join(source, args[0]).sub(%r!\A/!, "") if args[0]
+        File.join(source, args[0]).sub(%r!\A/!, "")
       end
 
       def dirname
-        File.dirname(args[0]) if args[0]
+        @dirname ||= File.dirname(args[0])
       end
 
       def basename
-        File.basename(args[0]) if args[0]
+        @basename ||= File.basename(args[0])
       end
 
       def title
@@ -91,11 +91,11 @@ module Jekyll
       end
 
       def post?
-        dirname == "_posts" if dirname
+        dirname == "_posts"
       end
 
       def draft?
-        dirname == "_drafts" if dirname
+        dirname == "_drafts"
       end
     end
 
