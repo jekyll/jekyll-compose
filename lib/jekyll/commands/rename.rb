@@ -146,10 +146,7 @@ module Jekyll
       def resource_type_from
         @movement.resource_type
       end
-
-      def resource_type_to
-        @movement.resource_type
-      end
+      alias_method :resource_type_to, :resource_type_from
     end
   end
 end
