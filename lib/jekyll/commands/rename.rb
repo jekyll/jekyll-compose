@@ -37,9 +37,7 @@ module Jekyll
 
     class RenameArgParser < Compose::ArgParser
       def validate!
-        if args.length < 2
-          raise ArgumentError, "You must specify current path and the new title."
-        end
+        raise ArgumentError, "You must specify current path and the new title." if args.length < 2
 
         if options.values_at("date", "now").compact.length > 1
           raise ArgumentError, "You can only specify one of --date DATE or --now."
@@ -79,9 +77,7 @@ module Jekyll
       end
 
       def date_from_filename
-        if basename =~ Jekyll::Document::DATE_FILENAME_MATCHER
-          Date.parse(Regexp.last_match(1))
-        end
+        Date.parse(Regexp.last_match(1)) if basename =~ Jekyll::Document::DATE_FILENAME_MATCHER
       end
 
       def post?
