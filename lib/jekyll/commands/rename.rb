@@ -46,20 +46,24 @@ module Jekyll
         end
       end
 
+      def current_path
+        @current_path ||= args[0]
+      end
+
       def path
-        File.join(source, args[0]).sub(%r!\A/!, "")
+        File.join(source, current_path).sub(%r!\A/!, "")
       end
 
       def dirname
-        @dirname ||= File.dirname(args[0])
+        @dirname ||= File.dirname(current_path)
       end
 
       def basename
-        @basename ||= File.basename(args[0])
+        @basename ||= File.basename(current_path)
       end
 
       def title
-        args.drop(1).join(" ")
+        @title ||= args.drop(1).join(" ")
       end
 
       def touch?
