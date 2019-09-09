@@ -62,15 +62,6 @@ module Jekyll
         args.drop(1).join(" ")
       end
 
-      def name
-        if basename =~ Jekyll::Document::DATE_FILENAME_MATCHER
-          _, filename, fileext = Regexp.last_match.captures
-          "#{filename}#{fileext}"
-        else
-          basename
-        end
-      end
-
       def touch?
         !!options["date"] || options["now"]
       end
@@ -85,8 +76,7 @@ module Jekyll
 
       def date_from_filename
         if basename =~ Jekyll::Document::DATE_FILENAME_MATCHER
-          filedate, = Regexp.last_match.captures
-          Date.parse(filedate)
+          Date.parse(Regexp.last_match(1))
         end
       end
 
