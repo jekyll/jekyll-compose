@@ -76,11 +76,11 @@ module Jekyll
       end
 
       def date
-        if options["now"]
-          @date = Time.now
-        else
-          @date ||= options["date"] ? Date.parse(options["date"]) : nil
-        end
+        @date ||= if options["now"]
+                    Time.now
+                  elsif options["date"]
+                    Date.parse(options["date"])
+                  end
       end
 
       def date_from_filename
