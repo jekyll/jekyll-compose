@@ -58,13 +58,13 @@ RSpec.describe(Jekyll::Commands::Rename) do
     it "errors with no arguments" do
       expect(lambda {
         capture_stdout { described_class.process }
-      }).to raise_error("You must specify a path.")
+      }).to raise_error("You must specify current path and the new title.")
     end
 
     it "errors with only one argument" do
       expect(lambda {
         capture_stdout { described_class.process([old_path]) }
-      }).to raise_error("You must specify a title.")
+      }).to raise_error("You must specify current path and the new title.")
     end
 
     context "when the draft with the new filename already exists" do
@@ -209,13 +209,13 @@ RSpec.describe(Jekyll::Commands::Rename) do
     it "errors with no arguments" do
       expect(lambda {
         capture_stdout { described_class.process }
-      }).to raise_error("You must specify a path.")
+      }).to raise_error("You must specify current path and the new title.")
     end
 
     it "errors with only one argument" do
       expect(lambda {
         capture_stdout { described_class.process([old_path]) }
-      }).to raise_error("You must specify a title.")
+      }).to raise_error("You must specify current path and the new title.")
     end
 
     context "with a date argument" do

@@ -37,8 +37,10 @@ module Jekyll
 
     class RenameArgParser < Compose::ArgParser
       def validate!
-        raise ArgumentError, "You must specify a path." if args.empty?
-        raise ArgumentError, "You must specify a title." if args.length < 2
+        if args.length < 2
+          raise ArgumentError, "You must specify current path and the new title."
+        end
+
         if options.values_at("date", "now").compact.length > 1
           raise ArgumentError, "You can only specify one of --date DATE or --now."
         end
