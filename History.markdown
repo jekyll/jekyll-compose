@@ -16,6 +16,7 @@
   * Prepare for collections support with default front matter configuration (#104)
   * Compose command for collections (#103)
   * Support a custom timestamp format in yaml frontmatter on posts (#98)
+  * Add rename command to change titles and filenames (#101)
 
 ## 0.11.0 / 2019-04-05
 
