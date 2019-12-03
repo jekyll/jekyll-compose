@@ -18,6 +18,6 @@ module Jekyll
   end
 end
 
-%w(draft post publish unpublish page rename).each do |file|
+%w(draft post publish unpublish page rename compose).each do |file|
   require File.expand_path("jekyll/commands/#{file}.rb", __dir__)
 end
