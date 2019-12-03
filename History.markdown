@@ -15,6 +15,7 @@
   * Include VISUAL as an editor option (#102)
   * Prepare for collections support with default front matter configuration (#104)
   * Compose command for collections (#103)
+  * Support a custom timestamp format in yaml frontmatter on posts (#98)
 
 ## 0.11.0 / 2019-04-05
 
