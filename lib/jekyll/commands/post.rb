@@ -21,6 +21,7 @@ module Jekyll
           ["force", "-f", "--force", "Overwrite a post if it already exists"],
           ["date", "-d DATE", "--date DATE", "Specify the post date"],
           ["config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array, "Custom configuration file"],
+          ["timestamp_format", "--timestamp-format FORMAT", "Custom timestamp format"],
         ]
       end
 
@@ -62,7 +63,7 @@ module Jekyll
         end
 
         def _time_stamp
-          @params.date.strftime Jekyll::Compose::DEFAULT_TIMESTAMP_FORMAT
+          @params.date.strftime @params.timestamp_format
         end
 
         def content(custom_front_matter = {})
