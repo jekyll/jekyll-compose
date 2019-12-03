@@ -6,10 +6,11 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 3
+# Offense count: 5
 # Configuration parameters: Max, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
   Exclude:
     - 'lib/jekyll-compose/file_mover.rb'
+    - 'lib/jekyll/commands/compose.rb'
     - 'spec/publish_spec.rb'
