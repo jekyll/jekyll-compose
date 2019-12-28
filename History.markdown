@@ -1,22 +1,22 @@
-## HEAD
+## 0.12.0 / 2019-12-28
 
-### Development Fixes
+### Minor Enhancements
 
-  * Update CI for 4.0.0 release of Jekyll (#99)
-  * Extract logic for computing default front matter (#105)
-  * Refactoring to remove some rubocop warnings and for consistency (#106)
+  * `compose` command for collections (#103)
+  * Add `rename` command to change titles and filenames (#101)
+  * Support a custom timestamp format in YAML front matter on posts (#98)
+  * Include VISUAL as an editor option (#102)
+  * Prepare for collections support with default front matter configuration (#104)
 
 ### Bug Fixes
 
   * Removing source option for commands as it is appearing twice. (#100)
 
-### Minor Enhancements
+### Development Fixes
 
-  * Include VISUAL as an editor option (#102)
-  * Prepare for collections support with default front matter configuration (#104)
-  * Compose command for collections (#103)
-  * Support a custom timestamp format in yaml frontmatter on posts (#98)
-  * Add rename command to change titles and filenames (#101)
+  * ci: test with Jekyll 4.0 (#99)
+  * Extract logic for computing default front matter (#105)
+  * Refactoring to remove some rubocop warnings and for consistency (#106)
 
 ## 0.11.0 / 2019-04-05
 
