@@ -132,7 +132,7 @@ RSpec.describe(Jekyll::Commands::Unpublish) do
 
       it "should write a helpful message when successful" do
         output = capture_stdout { described_class.process(args) }
-        post_filepath  = File.join("site", collections_dir, "_posts", post_filename)
+        post_filepath = File.join("site", collections_dir, "_posts", post_filename)
         draft_filepath = File.join("site", collections_dir, "_drafts", post_name)
         expect(output).to include("Post #{post_filepath} was moved to #{draft_filepath}")
       end

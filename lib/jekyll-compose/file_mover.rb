@@ -27,7 +27,9 @@ module Jekyll
       end
 
       def validate_source
-        raise ArgumentError, "There was no #{resource_type_from} found at '#{from}'." unless File.exist? from
+        unless File.exist? from
+          raise ArgumentError, "There was no #{resource_type_from} found at '#{from}'."
+        end
       end
 
       def ensure_directory_exists
@@ -36,7 +38,9 @@ module Jekyll
       end
 
       def validate_should_write!
-        raise ArgumentError, "A #{resource_type_to} already exists at #{to}" if File.exist?(to) && !force
+        if File.exist?(to) && !force
+          raise ArgumentError, "A #{resource_type_to} already exists at #{to}"
+        end
       end
 
       def move_file
