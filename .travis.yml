@@ -12,16 +12,14 @@ before_script: bundle update
 script: script/cibuild
 
 env:
-  global:
-    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
   matrix:
-    - JEKYLL_VERSION="~> 3.8"
+    - JEKYLL_VERSION="~> 3.9"
 matrix:
   include:
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION="~> 3.8.5"
+      env: JEKYLL_VERSION="~> 3.9"
     - rvm: *latest_ruby
-      env: JEKYLL_VERSION=">= 4.0.0"
+      env: JEKYLL_VERSION="~> 4.2"
 
 notifications:
   email: false
