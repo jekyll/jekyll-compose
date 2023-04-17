@@ -129,7 +129,7 @@ RSpec.describe(Jekyll::Commands::Post) do
         capture_stdout { described_class.process(args) }
         post = File.read(path)
         expect(post).to match(%r!description: my description!)
-        expect(post).to match(%r!category: !)
+        expect(post).to match(%r!category:!)
       end
 
       context "env variable EDITOR is set up" do
