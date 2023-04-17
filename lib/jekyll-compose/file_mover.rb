@@ -53,7 +53,7 @@ module Jekyll
         if content =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
           content = $POSTMATCH
           match = Regexp.last_match[1] if Regexp.last_match
-          data = movement.front_matter(Psych.safe_load(match))
+          data = movement.front_matter(Psych.safe_load(match, permitted_classes: [Date, Time]))
           File.write(from, "#{Psych.dump(data)}---\n#{content}")
         end
       rescue Psych::SyntaxError => e
