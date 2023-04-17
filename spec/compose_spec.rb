@@ -145,7 +145,7 @@ RSpec.describe(Jekyll::Commands::ComposeCommand) do
           capture_stdout { described_class.process(args) }
           post = File.read(path)
           expect(post).to match(%r!description: my description!)
-          expect(post).to match(%r!category: !)
+          expect(post).to match(%r!category:!)
         end
 
         context "env variable EDITOR is set up" do
@@ -332,7 +332,7 @@ RSpec.describe(Jekyll::Commands::ComposeCommand) do
           capture_stdout { described_class.process(args, options) }
           post = File.read(path)
           expect(post).to match(%r!description: my description!)
-          expect(post).to match(%r!category: !)
+          expect(post).to match(%r!category:!)
         end
 
         context "env variable EDITOR is set up" do
@@ -513,7 +513,7 @@ RSpec.describe(Jekyll::Commands::ComposeCommand) do
           capture_stdout { described_class.process(args, options) }
           post = File.read(path)
           expect(post).to match(%r!description: my description!)
-          expect(post).to match(%r!category: !)
+          expect(post).to match(%r!category:!)
         end
 
         context "env variable EDITOR is set up" do
